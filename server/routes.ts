@@ -37,46 +37,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { username, password } = req.body;
 
-      if (username === "login@sistema.com") {
-        let user = await storage.getUserByUsername(username);
-
-        if (!user) {
-          const validation = insertUserSchema.safeParse({
-            username,
-            password,
-            name: "Administrador Sistema",
-          });
-
-          if (!validation.success) {
-            return res.status(400).json({
-              success: false,
-              message: fromZodError(validation.error).toString(),
-            });
-          }
-
-          user = await storage.createUser(validation.data);
-        } else if (user.password !== password) {
-          return res.status(401).json({
-            success: false,
-            message: "Senha incorreta",
-          });
-        }
-
-        req.session.userId = user.id;
-
-        return res.json({
-          success: true,
-          user: {
-            id: user.id,
-            username: user.username,
-            name: user.name,
-          },
+      if (username !== "login@sistema.com") {
+        return res.status(401).json({
+          success: false,
+          message: "Usuário não autorizado. Use login@sistema.com",
         });
       }
 
-      return res.status(401).json({
-        success: false,
-        message: "Credenciais inválidas",
+      const user = await storage.getUserByUsername(username);
+
+      if (!user) {
+        return res.status(401).json({
+          success: false,
+          message: "Usuário não encontrado. Reinicie a aplicação.",
+        });
+      }
+
+      if (user.password !== password) {
+        return res.status(401).json({
+          success: false,
+          message: "Senha incorreta. Use a senha padrão: admin",
+        });
+      }
+
+      req.session.userId = user.id;
+
+      return res.json({
+        success: true,
+        user: {
+          id: user.id,
+          username: user.username,
+          name: user.name,
+        },
       });
     } catch (error) {
       console.error("Login error:", error);

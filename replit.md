@@ -9,7 +9,7 @@ Aplicação web profissional para monitoramento de infraestrutura de backup atra
 ### Autenticação
 - Login seguro com sessão Express
 - Usuário padrão: `login@sistema.com`
-- Senha definida no primeiro acesso
+- Senha padrão: `admin`
 
 ### Dashboard Interativo
 - **Seletor de Cliente**: Dropdown no header para alternar entre empresas
