@@ -146,16 +146,20 @@ echo "  ✓ Certificado SSL criado"
 
 # [11] Configurar Nginx
 echo "[11/11] Configurando Nginx como reverse proxy..."
-cat > /etc/nginx/sites-available/veeam-dashboard << 'NGINX_EOF'
+
+# Detectar IP do servidor
+SERVER_IP=$(hostname -I | awk '{print $1}')
+
+cat > /etc/nginx/sites-available/veeam-dashboard << NGINX_EOF
 server {
-    listen 80;
-    server_name veeamdash.zerogroup.local;
-    return 301 https://$server_name$request_uri;
+    listen 80 default_server;
+    server_name veeamdash.zerogroup.local $SERVER_IP _;
+    return 301 https://\$host\$request_uri;
 }
 
 server {
-    listen 443 ssl http2;
-    server_name veeamdash.zerogroup.local;
+    listen 443 ssl http2 default_server;
+    server_name veeamdash.zerogroup.local $SERVER_IP _;
 
     ssl_certificate /etc/ssl/veeam-dashboard/cert.pem;
     ssl_certificate_key /etc/ssl/veeam-dashboard/key.pem;
@@ -171,13 +175,13 @@ server {
     location / {
         proxy_pass http://localhost:5000;
         proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_cache_bypass $http_upgrade;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_cache_bypass \$http_upgrade;
         proxy_read_timeout 300s;
         proxy_connect_timeout 75s;
     }
@@ -314,8 +318,9 @@ echo "✅ Instalação Concluída com Sucesso!"
 echo "==========================================="
 echo ""
 echo "📊 ACESSO À APLICAÇÃO:"
-echo "  URL Principal: https://$DOMAIN"
-echo "  Alternativa:   http://localhost:5000"
+echo "  Domínio: https://$DOMAIN"
+echo "  Por IP:  https://$SERVER_IP"
+echo "  Direto:  http://localhost:5000"
 echo ""
 echo "🔐 CREDENCIAIS DE LOGIN:"
 echo "  E-mail: login@sistema.com"
