@@ -242,6 +242,13 @@ echo "Executando migração do banco de dados..."
 npm run db:push
 
 # ============================================
+# POPULAR BANCO COM USUÁRIO PADRÃO
+# ============================================
+echo "Criando usuário padrão (login@sistema.com)..."
+# Compilar seed.ts separadamente
+npx tsx server/seed.ts
+
+# ============================================
 # CONFIGURAR PM2
 # ============================================
 echo "Configurando PM2 para inicialização automática..."
