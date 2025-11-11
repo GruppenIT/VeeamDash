@@ -34,7 +34,9 @@ export default function Login() {
   const onSubmit = async (data: LoginForm) => {
     setIsLoading(true);
     try {
-      const result = await apiRequest("POST", "/api/auth/login", data);
+      const response = await apiRequest("POST", "/api/auth/login", data);
+      const result = await response.json();
+      
       if (result.success) {
         toast({
           title: "Login realizado",
@@ -52,7 +54,7 @@ export default function Login() {
       toast({
         variant: "destructive",
         title: "Erro no login",
-        description: "Ocorreu um erro. Tente novamente.",
+        description: error instanceof Error ? error.message : "Ocorreu um erro. Tente novamente.",
       });
     } finally {
       setIsLoading(false);
