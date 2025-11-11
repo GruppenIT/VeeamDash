@@ -245,6 +245,28 @@ echo "Configurando PM2 para inicialização automática..."
 
 # Criar arquivo de configuração do PM2 que carrega o .env
 cat > $APP_DIR/ecosystem.config.cjs << 'PM2_EOF'
+const fs = require('fs');
+
+// Função para ler .env e converter em objeto
+function loadEnv(filePath) {
+  const env = {};
+  if (fs.existsSync(filePath)) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    content.split('\n').forEach(line => {
+      line = line.trim();
+      if (line && !line.startsWith('#')) {
+        const [key, ...valueParts] = line.split('=');
+        if (key && valueParts.length > 0) {
+          env[key.trim()] = valueParts.join('=').trim();
+        }
+      }
+    });
+  }
+  return env;
+}
+
+const envVars = loadEnv('/opt/veeam-dashboard/.env');
+
 module.exports = {
   apps: [{
     name: 'veeam-dashboard',
@@ -252,10 +274,10 @@ module.exports = {
     args: 'start',
     cwd: '/opt/veeam-dashboard',
     env: {
+      ...envVars,
       NODE_ENV: 'production',
       PORT: '5000'
     },
-    env_file: '/opt/veeam-dashboard/.env',
     instances: 1,
     exec_mode: 'fork',
     autorestart: true,
@@ -263,7 +285,6 @@ module.exports = {
     max_memory_restart: '1G',
     error_file: '/root/.pm2/logs/veeam-dashboard-error.log',
     out_file: '/root/.pm2/logs/veeam-dashboard-out.log',
-    log_file: '/root/.pm2/logs/veeam-dashboard-combined.log',
     time: true
   }]
 };
@@ -326,15 +347,24 @@ fi
 
 # Aguardar a aplicação iniciar
 echo ""
-echo "Aguardando aplicação iniciar (5s)..."
-sleep 5
+echo "Aguardando aplicação iniciar (10s)..."
+sleep 10
 
 # Testar conectividade local
 echo "Testando conectividade..."
-if curl -k -s -o /dev/null -w "%{http_code}" https://localhost:443 | grep -q "200\|301\|302"; then
-  echo "  ✓ HTTPS (443) respondendo"
+
+# Verificar porta 5000 (aplicação Node.js)
+if curl -s -o /dev/null -w "%{http_code}" http://localhost:5000 | grep -q "200\|301\|302"; then
+  echo "  ✓ Aplicação Node.js (porta 5000) respondendo"
 else
-  echo "  ⚠  HTTPS pode levar alguns segundos para responder"
+  echo "  ⚠  Aplicação pode levar alguns segundos extras"
+fi
+
+# Verificar porta 443 (Nginx HTTPS)
+if curl -k -s -o /dev/null -w "%{http_code}" https://localhost:443 | grep -q "200\|301\|302"; then
+  echo "  ✓ Nginx HTTPS (porta 443) respondendo"
+else
+  echo "  ⚠  Nginx pode levar alguns segundos extras"
 fi
 
 # ============================================
@@ -346,13 +376,16 @@ echo "✅ Instalação Concluída com Sucesso!"
 echo "==========================================="
 echo ""
 echo "📊 ACESSO À APLICAÇÃO:"
-echo "  Domínio: https://$DOMAIN"
-echo "  Por IP:  https://$SERVER_IP"
-echo "  Direto:  http://localhost:5000"
+echo "  🌐 Domínio: https://$DOMAIN"
+echo "  🌐 Por IP:  https://$SERVER_IP"
+echo "  🔧 Direto:  http://localhost:5000"
 echo ""
-echo "🔐 CREDENCIAIS DE LOGIN:"
-echo "  E-mail: login@sistema.com"
-echo "  Senha:  admin"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🔐 CREDENCIAIS DE ACESSO"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  📧 Usuário: login@sistema.com"
+echo "  🔑 Senha:   admin"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 echo "⚙️  CERTIFICADO SSL:"
 echo "  ⚠️  Certificado self-signed criado"
