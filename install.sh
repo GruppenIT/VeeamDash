@@ -242,7 +242,35 @@ npm run db:push
 # CONFIGURAR PM2
 # ============================================
 echo "Configurando PM2 para inicialização automática..."
-pm2 start npm --name "veeam-dashboard" -- start
+
+# Criar arquivo de configuração do PM2 que carrega o .env
+cat > $APP_DIR/ecosystem.config.cjs << 'PM2_EOF'
+module.exports = {
+  apps: [{
+    name: 'veeam-dashboard',
+    script: 'npm',
+    args: 'start',
+    cwd: '/opt/veeam-dashboard',
+    env: {
+      NODE_ENV: 'production',
+      PORT: '5000'
+    },
+    env_file: '/opt/veeam-dashboard/.env',
+    instances: 1,
+    exec_mode: 'fork',
+    autorestart: true,
+    watch: false,
+    max_memory_restart: '1G',
+    error_file: '/root/.pm2/logs/veeam-dashboard-error.log',
+    out_file: '/root/.pm2/logs/veeam-dashboard-out.log',
+    log_file: '/root/.pm2/logs/veeam-dashboard-combined.log',
+    time: true
+  }]
+};
+PM2_EOF
+
+# Iniciar aplicação com PM2
+pm2 start $APP_DIR/ecosystem.config.cjs
 pm2 save
 
 # Configurar PM2 para iniciar no boot
