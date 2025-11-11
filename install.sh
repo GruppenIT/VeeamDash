@@ -24,6 +24,9 @@ echo ""
 # ============================================
 echo "[RESET] Parando e removendo serviços existentes..."
 
+# Mudar para diretório seguro antes de limpar
+cd /root
+
 # Parar e remover PM2
 if command -v pm2 &> /dev/null; then
   pm2 delete veeam-dashboard 2>/dev/null || true

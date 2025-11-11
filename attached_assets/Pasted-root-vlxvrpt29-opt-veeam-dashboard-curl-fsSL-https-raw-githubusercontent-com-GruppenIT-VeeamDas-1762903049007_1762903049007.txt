@@ -1,0 +1,88 @@
+root@vlxvrpt29:/opt/veeam-dashboard# curl -fsSL https://raw.githubusercontent.com/GruppenIT/VeeamDash/refs/heads/main/install.sh | sudo bash
+===========================================
+Veeam VSPC Dashboard - Instalação Completa
+===========================================
+
+🔄 HARD RESET - Limpeza completa do sistema
+
+[RESET] Parando e removendo serviços existentes...
+[PM2] Applying action deleteProcessId on app [veeam-dashboard](ids: [ 0 ])
+[PM2] [veeam-dashboard](0) ✓
+┌────┬───────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name      │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+└────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[PM2] [v] All Applications Stopped
+[PM2] [v] PM2 Daemon Stopped
+Removendo diretório da aplicação...
+Removendo configuração do Nginx...
+Removendo certificados antigos...
+Limpando banco de dados...
+DROP DATABASE
+DROP ROLE
+✅ Limpeza concluída!
+
+[1/11] Atualizando sistema...
+[2/11] Instalando Node.js 20...
+  ✓ Node.js versão: v20.19.5
+/usr/lib/node_modules/npm/lib/cli/validate-engines.js:31
+    throw err
+    ^
+
+Error: ENOENT: no such file or directory, uv_cwd
+    at process.wrappedCwd (node:internal/bootstrap/switches/does_own_process_state:144:28)
+    at process.cwd (/usr/lib/node_modules/npm/node_modules/graceful-fs/polyfills.js:10:19)
+    at new Config (/usr/lib/node_modules/npm/node_modules/@npmcli/config/lib/index.js:71:19)
+    at new Npm (/usr/lib/node_modules/npm/lib/npm.js:67:19)
+    at module.exports (/usr/lib/node_modules/npm/lib/cli/entry.js:21:15)
+    at module.exports (/usr/lib/node_modules/npm/lib/cli/validate-engines.js:39:10)
+    at module.exports (/usr/lib/node_modules/npm/lib/cli.js:4:31)
+    at Object.<anonymous> (/usr/lib/node_modules/npm/bin/npm-cli.js:2:25)
+    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'uv_cwd'
+}
+
+Node.js v20.19.5
+  ✓ NPM versão:
+[3/11] Instalando PostgreSQL...
+  ✓ PostgreSQL instalado
+[4/11] Instalando Nginx...
+  ✓ Nginx instalado
+[5/11] Instalando Git e ferramentas...
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+git is already the newest version (1:2.43.0-1ubuntu7.3).
+openssl is already the newest version (3.0.13-0ubuntu3.6).
+0 upgraded, 0 newly installed, 0 to remove and 4 not upgraded.
+[6/11] Configurando banco de dados PostgreSQL...
+CREATE DATABASE
+CREATE ROLE
+GRANT
+ALTER DATABASE
+  ✓ Banco de dados configurado
+[7/11] Instalando PM2...
+/usr/lib/node_modules/npm/lib/cli/validate-engines.js:31
+    throw err
+    ^
+
+Error: ENOENT: no such file or directory, uv_cwd
+    at process.wrappedCwd (node:internal/bootstrap/switches/does_own_process_state:144:28)
+    at process.cwd (/usr/lib/node_modules/npm/node_modules/graceful-fs/polyfills.js:10:19)
+    at new Config (/usr/lib/node_modules/npm/node_modules/@npmcli/config/lib/index.js:71:19)
+    at new Npm (/usr/lib/node_modules/npm/lib/npm.js:67:19)
+    at module.exports (/usr/lib/node_modules/npm/lib/cli/entry.js:21:15)
+    at module.exports (/usr/lib/node_modules/npm/lib/cli/validate-engines.js:39:10)
+    at module.exports (/usr/lib/node_modules/npm/lib/cli.js:4:31)
+    at Object.<anonymous> (/usr/lib/node_modules/npm/bin/npm-cli.js:2:25)
+    at Module._compile (node:internal/modules/cjs/loader:1521:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1623:10) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'uv_cwd'
+}
+
+Node.js v20.19.5
+root@vlxvrpt29:/opt/veeam-dashboard#
