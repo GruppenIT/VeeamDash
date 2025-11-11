@@ -103,42 +103,68 @@ A aplicação estará disponível em `http://localhost:5000`
 
 ## Instalação em Produção (Ubuntu 24.04)
 
-### Instalação Automatizada
+### 🚀 Instalação Automatizada com Nginx + SSL
 
-1. Transfira os arquivos para o servidor
-2. Execute o script de instalação:
+Execute o script de instalação que configura automaticamente:
+
 ```bash
-sudo chmod +x install.sh
-sudo ./install.sh
+curl -fsSL https://raw.githubusercontent.com/GruppenIT/VeeamDash/refs/heads/main/install.sh | sudo bash
 ```
 
-3. Configure as credenciais do Veeam:
+**O script realiza:**
+- ✅ **Hard reset completo** (limpa instalações anteriores)
+- ✅ PostgreSQL + Node.js 20 + PM2 + Nginx
+- ✅ **Certificado SSL self-signed** para HTTPS
+- ✅ **Domínio local**: `veeamdash.zerogroup.local`
+- ✅ **Porta 443** (HTTPS) com redirect automático do HTTP
+- ✅ Build da aplicação e migração do banco
+- ✅ PM2 com auto-restart configurado
+
+### 🌐 Acesso Após Instalação
+
+**No próprio servidor:**
+```
+https://veeamdash.zerogroup.local
+```
+
+**De outro computador na rede:**
+
+Adicione ao arquivo hosts do cliente:
+- Linux/Mac: `/etc/hosts`
+- Windows: `C:\Windows\System32\drivers\etc\hosts`
+
+```
+<IP_DO_SERVIDOR> veeamdash.zerogroup.local
+```
+
+Depois acesse: `https://veeamdash.zerogroup.local`
+
+⚠️ **Certificado Self-Signed**: O navegador mostrará aviso de segurança (comportamento normal). Clique em "Avançado" → "Prosseguir para o site".
+
+### ⚙️ Configurar API do Veeam (Opcional)
+
+1. Edite o arquivo de configuração:
 ```bash
 sudo nano /opt/veeam-dashboard/.env
 ```
 
-Adicione:
+2. Descomente e configure:
 ```
 VEEAM_API_URL=https://seu-vspc-server:1280
 VEEAM_API_KEY=sua-chave-privada
 ```
 
-4. Reinicie a aplicação:
+3. Reinicie a aplicação:
 ```bash
 pm2 restart veeam-dashboard
 ```
 
-### O que o Script Faz
+### 📁 Diretórios Importantes
 
-- Atualiza o sistema Ubuntu
-- Instala Node.js 20 via NodeSource
-- Instala e configura PostgreSQL
-- Cria banco de dados e usuário dedicado
-- Instala PM2 para gerenciamento de processos
-- Configura a aplicação em `/opt/veeam-dashboard`
-- Executa migração do banco de dados
-- Inicia a aplicação com PM2 (auto-restart)
-- Configura firewall (se UFW estiver ativo)
+- **Aplicação**: `/opt/veeam-dashboard`
+- **Logs Nginx**: `/var/log/nginx/veeam-dashboard-*.log`
+- **Certificados SSL**: `/etc/ssl/veeam-dashboard/`
+- **Config Nginx**: `/etc/nginx/sites-available/veeam-dashboard`
 
 ## Gerenciamento com PM2
 

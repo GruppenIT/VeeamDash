@@ -240,7 +240,8 @@ npm run db:push
 echo "Configurando PM2 para inicialização automática..."
 pm2 start npm --name "veeam-dashboard" -- start
 pm2 save
-pm2 startup systemd -u root --hp /root | tail -1 | bash
+pm2 startup systemd -u root --hp /root > /dev/null 2>&1 || true
+systemctl enable pm2-root 2>/dev/null || true
 
 # ============================================
 # CONFIGURAR FIREWALL
