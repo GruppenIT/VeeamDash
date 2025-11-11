@@ -1,0 +1,154 @@
+root@vlxvrpt29:~# # Limpar instalação parcial (opcional)
+sudo pm2 delete veeam-dashboard 2>/dev/null || true
+sudo rm -rf /opt/veeam-dashboard
+sudo -u postgres psql -c "DROP DATABASE IF EXISTS veeam_dashboard;"
+sudo -u postgres psql -c "DROP USER IF EXISTS veeam_user;"
+
+# Executar instalação completa
+curl -fsSL https://raw.githubusercontent.com/GruppenIT/VeeamDash/refs/heads/main/install.sh | sudo bash
+
+                        -------------
+
+__/\\\\\\\\\\\\\____/\\\\____________/\\\\____/\\\\\\\\\_____
+ _\/\\\/////////\\\_\/\\\\\\________/\\\\\\__/\\\///////\\\___
+  _\/\\\_______\/\\\_\/\\\//\\\____/\\\//\\\_\///______\//\\\__
+   _\/\\\\\\\\\\\\\/__\/\\\\///\\\/\\\/_\/\\\___________/\\\/___
+    _\/\\\/////////____\/\\\__\///\\\/___\/\\\________/\\\//_____
+     _\/\\\_____________\/\\\____\///_____\/\\\_____/\\\//________
+      _\/\\\_____________\/\\\_____________\/\\\___/\\\/___________
+       _\/\\\_____________\/\\\_____________\/\\\__/\\\\\\\\\\\\\\\_
+        _\///______________\///______________\///__\///////////////__
+
+
+                          Runtime Edition
+
+        PM2 is a Production Process Manager for Node.js applications
+                     with a built-in Load Balancer.
+
+                Start and Daemonize any application:
+                $ pm2 start app.js
+
+                Load Balance 4 instances of api.js:
+                $ pm2 start api.js -i 4
+
+                Monitor in production:
+                $ pm2 monitor
+
+                Make pm2 auto-boot at server restart:
+                $ pm2 startup
+
+                To go further checkout:
+                http://pm2.io/
+
+
+                        -------------
+
+[PM2] Spawning PM2 daemon with pm2_home=/root/.pm2
+[PM2] PM2 Successfully daemonized
+DROP DATABASE
+DROP ROLE
+==================================
+Veeam VSPC Dashboard - Instalação
+==================================
+
+[1/9] Atualizando sistema...
+[2/9] Instalando Node.js 20...
+Node.js versão: v20.19.5
+NPM versão: 10.8.2
+[3/9] Instalando PostgreSQL...
+[4/9] Configurando banco de dados...
+CREATE DATABASE
+CREATE ROLE
+GRANT
+ALTER DATABASE
+[5/9] Instalando Git...
+[6/9] Instalando PM2...
+
+changed 133 packages in 6s
+
+13 packages are looking for funding
+  run `npm fund` for details
+[7/9] Baixando código-fonte...
+Clonando repositório do GitHub...
+Cloning into '/opt/veeam-dashboard'...
+remote: Enumerating objects: 144, done.
+remote: Counting objects: 100% (144/144), done.
+remote: Compressing objects: 100% (104/104), done.
+remote: Total 144 (delta 38), reused 140 (delta 34), pack-reused 0 (from 0)
+Receiving objects: 100% (144/144), 147.57 KiB | 3.35 MiB/s, done.
+Resolving deltas: 100% (38/38), done.
+[8/9] Instalando dependências...
+npm warn config production Use `--omit=dev` instead.
+
+added 371 packages, and audited 372 packages in 8s
+
+52 packages are looking for funding
+  run `npm fund` for details
+
+3 low severity vulnerabilities
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+[9/9] Configurando variáveis de ambiente...
+Executando migração do banco de dados...
+
+> rest-express@1.0.0 db:push
+> drizzle-kit push
+
+sh: 1: drizzle-kit: not found
+root@vlxvrpt29:~# curl -fsSL https://raw.githubusercontent.com/GruppenIT/VeeamDash/refs/heads/main/install.sh | sudo bash
+==================================
+Veeam VSPC Dashboard - Instalação
+==================================
+
+[1/9] Atualizando sistema...
+[2/9] Instalando Node.js 20...
+Node.js versão: v20.19.5
+NPM versão: 10.8.2
+[3/9] Instalando PostgreSQL...
+[4/9] Configurando banco de dados...
+Banco de dados já existe
+Usuário já existe
+GRANT
+ALTER DATABASE
+[5/9] Instalando Git...
+[6/9] Instalando PM2...
+
+changed 133 packages in 3s
+
+13 packages are looking for funding
+  run `npm fund` for details
+[7/9] Baixando código-fonte...
+Removendo instalação anterior...
+Clonando repositório do GitHub...
+Cloning into '/opt/veeam-dashboard'...
+remote: Enumerating objects: 151, done.
+remote: Counting objects: 100% (151/151), done.
+remote: Compressing objects: 100% (108/108), done.
+remote: Total 151 (delta 43), reused 145 (delta 37), pack-reused 0 (from 0)
+Receiving objects: 100% (151/151), 152.41 KiB | 3.05 MiB/s, done.
+Resolving deltas: 100% (43/43), done.
+[8/9] Instalando dependências...
+npm warn config production Use `--omit=dev` instead.
+
+added 371 packages, and audited 372 packages in 5s
+
+52 packages are looking for funding
+  run `npm fund` for details
+
+3 low severity vulnerabilities
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+[9/9] Configurando variáveis de ambiente...
+Executando migração do banco de dados...
+
+> rest-express@1.0.0 db:push
+> drizzle-kit push
+
+sh: 1: drizzle-kit: not found
+root@vlxvrpt29:~#
