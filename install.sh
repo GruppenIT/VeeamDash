@@ -240,8 +240,13 @@ npm run db:push
 echo "Configurando PM2 para inicialização automática..."
 pm2 start npm --name "veeam-dashboard" -- start
 pm2 save
-pm2 startup systemd -u root --hp /root > /dev/null 2>&1 || true
-systemctl enable pm2-root 2>/dev/null || true
+
+# Configurar PM2 para iniciar no boot
+PM2_STARTUP_CMD=$(pm2 startup systemd -u root --hp /root | grep 'sudo env')
+if [ -n "$PM2_STARTUP_CMD" ]; then
+  eval "$PM2_STARTUP_CMD" 2>/dev/null || true
+fi
+echo "  ✓ PM2 configurado para auto-start"
 
 # ============================================
 # CONFIGURAR FIREWALL
@@ -258,6 +263,46 @@ fi
 if ! grep -q "$DOMAIN" /etc/hosts; then
   echo "Adicionando $DOMAIN ao /etc/hosts..."
   echo "127.0.0.1 $DOMAIN" >> /etc/hosts
+fi
+
+# ============================================
+# VERIFICAÇÃO FINAL
+# ============================================
+echo ""
+echo "Verificando status dos serviços..."
+
+# Verificar Nginx
+if systemctl is-active --quiet nginx; then
+  echo "  ✓ Nginx rodando"
+else
+  echo "  ✗ Nginx não está rodando"
+fi
+
+# Verificar PM2
+if pm2 list | grep -q "veeam-dashboard.*online"; then
+  echo "  ✓ Aplicação PM2 rodando"
+else
+  echo "  ✗ Aplicação PM2 não está rodando"
+fi
+
+# Verificar PostgreSQL
+if systemctl is-active --quiet postgresql; then
+  echo "  ✓ PostgreSQL rodando"
+else
+  echo "  ✗ PostgreSQL não está rodando"
+fi
+
+# Aguardar a aplicação iniciar
+echo ""
+echo "Aguardando aplicação iniciar (5s)..."
+sleep 5
+
+# Testar conectividade local
+echo "Testando conectividade..."
+if curl -k -s -o /dev/null -w "%{http_code}" https://localhost:443 | grep -q "200\|301\|302"; then
+  echo "  ✓ HTTPS (443) respondendo"
+else
+  echo "  ⚠  HTTPS pode levar alguns segundos para responder"
 fi
 
 # ============================================
