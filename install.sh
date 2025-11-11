@@ -246,41 +246,24 @@ npm run db:push
 # ============================================
 echo "Configurando PM2 para inicialização automática..."
 
-# Criar arquivo de configuração do PM2 que carrega o .env
+# Criar script wrapper que carrega .env antes de iniciar
+cat > $APP_DIR/start.sh << 'START_EOF'
+#!/bin/bash
+set -a
+source /opt/veeam-dashboard/.env
+set +a
+exec node /opt/veeam-dashboard/dist/index.js
+START_EOF
+
+chmod +x $APP_DIR/start.sh
+
+# Criar arquivo de configuração do PM2 simplificado
 cat > $APP_DIR/ecosystem.config.cjs << 'PM2_EOF'
-const fs = require('fs');
-
-// Função para ler .env e converter em objeto
-function loadEnv(filePath) {
-  const env = {};
-  if (fs.existsSync(filePath)) {
-    const content = fs.readFileSync(filePath, 'utf8');
-    content.split('\n').forEach(line => {
-      line = line.trim();
-      if (line && !line.startsWith('#')) {
-        const [key, ...valueParts] = line.split('=');
-        if (key && valueParts.length > 0) {
-          env[key.trim()] = valueParts.join('=').trim();
-        }
-      }
-    });
-  }
-  return env;
-}
-
-const envVars = loadEnv('/opt/veeam-dashboard/.env');
-
 module.exports = {
   apps: [{
     name: 'veeam-dashboard',
-    script: 'npm',
-    args: 'start',
+    script: '/opt/veeam-dashboard/start.sh',
     cwd: '/opt/veeam-dashboard',
-    env: {
-      ...envVars,
-      NODE_ENV: 'production',
-      PORT: '5000'
-    },
     instances: 1,
     exec_mode: 'fork',
     autorestart: true,
