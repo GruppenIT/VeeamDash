@@ -1,0 +1,105 @@
+root@vlxvrpt29:/opt/veeam-dashboard# # Ver logs detalhados
+pm2 logs veeam-dashboard --lines 30
+
+# Verificar se a porta está ouvindo
+ss -tlnp | grep 5000
+
+# Ver se tem erro no log de erro
+cat /root/.pm2/logs/veeam-dashboard-error.log | tail -30
+[TAILING] Tailing last 30 lines for [veeam-dashboard] process (change the value with --lines option)
+/root/.pm2/logs/veeam-dashboard-out-0.log last 30 lines:
+0|veeam-da | 2025-11-11T22:56:27: > NODE_ENV=production node dist/index.js
+0|veeam-da | 2025-11-11T22:56:27:
+0|veeam-da | 2025-11-11T22:56:28:
+0|veeam-da | 2025-11-11T22:56:28: > rest-express@1.0.0 start
+0|veeam-da | 2025-11-11T22:56:28: > NODE_ENV=production node dist/index.js
+0|veeam-da | 2025-11-11T22:56:28:
+0|veeam-da | 2025-11-11T22:56:28:
+0|veeam-da | 2025-11-11T22:56:28: > rest-express@1.0.0 start
+0|veeam-da | 2025-11-11T22:56:28: > NODE_ENV=production node dist/index.js
+0|veeam-da | 2025-11-11T22:56:28:
+0|veeam-da | 2025-11-11T22:56:29:
+0|veeam-da | 2025-11-11T22:56:29: > rest-express@1.0.0 start
+0|veeam-da | 2025-11-11T22:56:29: > NODE_ENV=production node dist/index.js
+0|veeam-da | 2025-11-11T22:56:29:
+0|veeam-da | 2025-11-11T22:56:30:
+0|veeam-da | 2025-11-11T22:56:30: > rest-express@1.0.0 start
+0|veeam-da | 2025-11-11T22:56:30: > NODE_ENV=production node dist/index.js
+0|veeam-da | 2025-11-11T22:56:30:
+0|veeam-da | 2025-11-11T22:56:30:
+0|veeam-da | 2025-11-11T22:56:30: > rest-express@1.0.0 start
+0|veeam-da | 2025-11-11T22:56:30: > NODE_ENV=production node dist/index.js
+0|veeam-da | 2025-11-11T22:56:30:
+0|veeam-da | 2025-11-11T22:56:31:
+0|veeam-da | 2025-11-11T22:56:31: > rest-express@1.0.0 start
+0|veeam-da | 2025-11-11T22:56:31: > NODE_ENV=production node dist/index.js
+0|veeam-da | 2025-11-11T22:56:31:
+0|veeam-da | 2025-11-11T22:56:32:
+0|veeam-da | 2025-11-11T22:56:32: > rest-express@1.0.0 start
+0|veeam-da | 2025-11-11T22:56:32: > NODE_ENV=production node dist/index.js
+0|veeam-da | 2025-11-11T22:56:32:
+
+/root/.pm2/logs/veeam-dashboard-error-0.log last 30 lines:
+0|veeam-da | 2025-11-11T22:56:31:
+0|veeam-da | 2025-11-11T22:56:31: Error: DATABASE_URL must be set. Did you forget to provision a database?
+0|veeam-da | 2025-11-11T22:56:31:     at file:///opt/veeam-dashboard/dist/index.js:60:9
+0|veeam-da | 2025-11-11T22:56:31:     at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+0|veeam-da | 2025-11-11T22:56:31:     at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+0|veeam-da | 2025-11-11T22:56:31:     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+0|veeam-da | 2025-11-11T22:56:31:
+0|veeam-da | 2025-11-11T22:56:31: Node.js v20.19.5
+0|veeam-da | 2025-11-11T22:56:31: file:///opt/veeam-dashboard/dist/index.js:60
+0|veeam-da | 2025-11-11T22:56:31:   throw new Error(
+0|veeam-da | 2025-11-11T22:56:31:         ^
+0|veeam-da | 2025-11-11T22:56:31:
+0|veeam-da | 2025-11-11T22:56:31: Error: DATABASE_URL must be set. Did you forget to provision a database?
+0|veeam-da | 2025-11-11T22:56:31:     at file:///opt/veeam-dashboard/dist/index.js:60:9
+0|veeam-da | 2025-11-11T22:56:31:     at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+0|veeam-da | 2025-11-11T22:56:31:     at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+0|veeam-da | 2025-11-11T22:56:31:     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+0|veeam-da | 2025-11-11T22:56:31:
+0|veeam-da | 2025-11-11T22:56:31: Node.js v20.19.5
+0|veeam-da | 2025-11-11T22:56:32: file:///opt/veeam-dashboard/dist/index.js:60
+0|veeam-da | 2025-11-11T22:56:32:   throw new Error(
+0|veeam-da | 2025-11-11T22:56:32:         ^
+0|veeam-da | 2025-11-11T22:56:32:
+0|veeam-da | 2025-11-11T22:56:32: Error: DATABASE_URL must be set. Did you forget to provision a database?
+0|veeam-da | 2025-11-11T22:56:32:     at file:///opt/veeam-dashboard/dist/index.js:60:9
+0|veeam-da | 2025-11-11T22:56:32:     at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+0|veeam-da | 2025-11-11T22:56:32:     at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+0|veeam-da | 2025-11-11T22:56:32:     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+0|veeam-da | 2025-11-11T22:56:32:
+0|veeam-da | 2025-11-11T22:56:32: Node.js v20.19.5
+
+^C
+
+Error: DATABASE_URL must be set. Did you forget to provision a database?
+    at file:///opt/veeam-dashboard/dist/index.js:60:9
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v20.19.5
+file:///opt/veeam-dashboard/dist/index.js:60
+  throw new Error(
+        ^
+
+Error: DATABASE_URL must be set. Did you forget to provision a database?
+    at file:///opt/veeam-dashboard/dist/index.js:60:9
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v20.19.5
+file:///opt/veeam-dashboard/dist/index.js:60
+  throw new Error(
+        ^
+
+Error: DATABASE_URL must be set. Did you forget to provision a database?
+    at file:///opt/veeam-dashboard/dist/index.js:60:9
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v20.19.5
+root@vlxvrpt29:/opt/veeam-dashboard#
