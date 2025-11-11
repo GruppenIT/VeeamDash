@@ -1,0 +1,60 @@
+root@vlxvrpt29:~# pm2 delete veeam-dashboard
+
+# 2. Criar arquivo de configuração do PM2
+cat > /opt/veeam-dashboard/ecosystem.config.cjs << 'EOF'
+module.exports = {
+  apps: [{
+    name: 'veeam-dashboard',
+    script: 'npm',
+    args: 'start',
+    cwd: '/opt/veeam-dashboard',
+    env: {
+      NODE_ENV: 'production',
+      PORT: '5000'
+    },
+    env_file: '/opt/veeam-dashboard/.env',
+    instances: 1,
+    exec_mode: 'fork',
+    autorestart: true,
+    watch: false,
+    max_memory_restart: '1G',
+    error_file: '/root/.pm2/logs/veeam-dashboard-error.log',
+    out_file: '/root/.pm2/logs/veeam-dashboard-out.log',
+    log_file: '/root/.pm2/logs/veeam-dashboard-combined.log',
+    time: true
+  }]
+};
+EOF
+
+# 3. Iniciar com o arquivo de configuração
+cd /opt/veeam-dashboard
+pm2 start ecosystem.config.cjs
+
+# 4. Salvar configuração
+pm2 save
+
+# 5. Verificar se está funcionando
+pm2 status
+sleep 3
+curl http://localhost:5000
+[PM2] Applying action deleteProcessId on app [veeam-dashboard](ids: [ 0 ])
+[PM2] [veeam-dashboard](0) ✓
+┌────┬───────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name      │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+└────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[PM2][WARN] Applications veeam-dashboard not running, starting...
+[PM2] App [veeam-dashboard] launched (1 instances)
+┌────┬────────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name               │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ veeam-dashboard    │ default     │ N/A     │ fork    │ 39760    │ 0s     │ 0    │ online    │ 0%       │ 14.3mb   │ root     │ disabled │
+└────┴────────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[PM2] Saving current process list...
+[PM2] Successfully saved in /root/.pm2/dump.pm2
+┌────┬────────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name               │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ veeam-dashboard    │ default     │ N/A     │ fork    │ 39760    │ 0s     │ 0    │ online    │ 0%       │ 60.5mb   │ root     │ disabled │
+└────┴────────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+curl: (7) Failed to connect to localhost port 5000 after 0 ms: Couldn't connect to server
+root@vlxvrpt29:/opt/veeam-dashboard#
