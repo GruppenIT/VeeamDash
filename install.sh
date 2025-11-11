@@ -17,12 +17,12 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # Atualizar sistema
-echo "[1/8] Atualizando sistema..."
+echo "[1/9] Atualizando sistema..."
 apt-get update -qq
 apt-get upgrade -y -qq
 
 # Instalar Node.js 20
-echo "[2/8] Instalando Node.js 20..."
+echo "[2/9] Instalando Node.js 20..."
 if ! command -v node &> /dev/null; then
   curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
   apt-get install -y nodejs
@@ -32,7 +32,7 @@ echo "Node.js versão: $(node --version)"
 echo "NPM versão: $(npm --version)"
 
 # Instalar PostgreSQL
-echo "[3/8] Instalando PostgreSQL..."
+echo "[3/9] Instalando PostgreSQL..."
 if ! command -v psql &> /dev/null; then
   apt-get install -y postgresql postgresql-contrib
   systemctl start postgresql
@@ -40,32 +40,43 @@ if ! command -v psql &> /dev/null; then
 fi
 
 # Criar banco de dados
-echo "[4/8] Configurando banco de dados..."
+echo "[4/9] Configurando banco de dados..."
 sudo -u postgres psql -c "CREATE DATABASE veeam_dashboard;" 2>/dev/null || echo "Banco de dados já existe"
 sudo -u postgres psql -c "CREATE USER veeam_user WITH PASSWORD 'veeam_password';" 2>/dev/null || echo "Usuário já existe"
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE veeam_dashboard TO veeam_user;"
 sudo -u postgres psql -c "ALTER DATABASE veeam_dashboard OWNER TO veeam_user;"
 
+# Instalar Git
+echo "[5/9] Instalando Git..."
+if ! command -v git &> /dev/null; then
+  apt-get install -y git
+fi
+
 # Instalar PM2 globalmente
-echo "[5/8] Instalando PM2..."
+echo "[6/9] Instalando PM2..."
 npm install -g pm2
 
 # Criar diretório da aplicação
-echo "[6/8] Configurando aplicação..."
+echo "[7/9] Baixando código-fonte..."
 APP_DIR="/opt/veeam-dashboard"
-mkdir -p $APP_DIR
 
-# Copiar arquivos (assumindo que o script está no diretório do projeto)
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cp -r $SCRIPT_DIR/* $APP_DIR/
+# Remover diretório antigo se existir
+if [ -d "$APP_DIR" ]; then
+  echo "Removendo instalação anterior..."
+  rm -rf $APP_DIR
+fi
+
+# Clonar repositório do GitHub
+echo "Clonando repositório do GitHub..."
+git clone https://github.com/GruppenIT/VeeamDash.git $APP_DIR
 cd $APP_DIR
 
 # Instalar dependências
-echo "[7/8] Instalando dependências..."
+echo "[8/9] Instalando dependências..."
 npm install --production
 
 # Criar arquivo .env
-echo "[8/8] Configurando variáveis de ambiente..."
+echo "[9/9] Configurando variáveis de ambiente..."
 cat > $APP_DIR/.env << EOF
 # Database
 DATABASE_URL=postgresql://veeam_user:veeam_password@localhost:5432/veeam_dashboard
