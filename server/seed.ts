@@ -11,8 +11,24 @@ export async function seedDatabase() {
         name: "Administrador Sistema",
       });
       console.log("✓ Usuário padrão criado: login@sistema.com / admin");
+    } else {
+      console.log("ℹ Usuário já existe: login@sistema.com");
     }
   } catch (error) {
     console.error("Erro ao criar usuário padrão:", error);
+    throw error;
   }
+}
+
+// Executar seed quando rodado diretamente
+if (import.meta.url === `file://${process.argv[1]}`) {
+  seedDatabase()
+    .then(() => {
+      console.log("✅ Seed concluído com sucesso!");
+      process.exit(0);
+    })
+    .catch((error) => {
+      console.error("❌ Erro no seed:", error);
+      process.exit(1);
+    });
 }
