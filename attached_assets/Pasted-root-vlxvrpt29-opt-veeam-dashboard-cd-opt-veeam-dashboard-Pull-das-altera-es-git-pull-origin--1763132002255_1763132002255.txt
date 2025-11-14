@@ -1,0 +1,139 @@
+root@vlxvrpt29:/opt/veeam-dashboard# cd /opt/veeam-dashboard
+
+# Pull das alterações
+git pull origin main
+
+# Recompilar a aplicação
+npm run build
+remote: Enumerating objects: 14, done.
+remote: Counting objects: 100% (14/14), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 8 (delta 6), reused 8 (delta 6), pack-reused 0 (from 0)
+Unpacking objects: 100% (8/8), 3.75 KiB | 274.00 KiB/s, done.
+From https://github.com/GruppenIT/VeeamDash
+ * branch            main       -> FETCH_HEAD
+   760fc15..490b744  main       -> origin/main
+Updating 760fc15..490b744
+Fast-forward
+ .../Pasted-root-vlxvrpt29-opt-veeam-dashboard-cd-opt-veeam-dashboard-Executar-o-seed-export-cat-env--1763131774247_1763131774247.txt  | 125 ++++++++++++++++++++++++++++++++++++++++
+ package-lock.json                                                                                                                     | 217 +++++++++++++++++++++++++++++++++++++---------------------------------
+ package.json                                                                                                                          |   2 +
+ server/db.ts                                                                                                                          |  17 +++---
+ 4 files changed, 251 insertions(+), 110 deletions(-)
+ create mode 100644 attached_assets/Pasted-root-vlxvrpt29-opt-veeam-dashboard-cd-opt-veeam-dashboard-Executar-o-seed-export-cat-env--1763131774247_1763131774247.txt
+
+> rest-express@1.0.0 build
+> vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+
+vite v5.4.20 building for production...
+
+A PostCSS plugin did not pass the `from` option to `postcss.parse`. This may cause imported assets to be incorrectly transformed. If you've recently added a PostCSS plugin that raised this warning, please contact the package author to fix the issue.
+✓ 3357 modules transformed.
+../dist/public/index.html                   0.96 kB │ gzip:   0.52 kB
+../dist/public/assets/index-F0jzQYlp.css   71.24 kB │ gzip:  11.57 kB
+../dist/public/assets/index-C3FipKU6.js   880.06 kB │ gzip: 258.11 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 11.10s
+
+  dist/index.js  18.6kb
+
+⚡ Done in 7ms
+root@vlxvrpt29:/opt/veeam-dashboard# export $(cat .env | grep -v '^#' | xargs)
+npx tsx server/seed.ts
+/opt/veeam-dashboard/server/db.ts:2
+import { Pool } from 'pg';
+         ^
+
+SyntaxError: The requested module 'pg' does not provide an export named 'Pool'
+    at ModuleJob._instantiate (node:internal/modules/esm/module_job:213:21)
+    at async ModuleJob.run (node:internal/modules/esm/module_job:320:5)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v20.19.5
+root@vlxvrpt29:/opt/veeam-dashboard# psql -U veeam_user -d veeam_dashboard -c "SELECT id, username, name FROM users;"
+ id | username | name
+----+----------+------
+(0 rows)
+
+root@vlxvrpt29:/opt/veeam-dashboard# cd /opt/veeam-dashboard
+
+# Pull das mudanças
+git pull origin main
+
+# IMPORTANTE: Instalar o pacote pg que foi adicionado
+npm install
+
+# Recompilar
+npm run build
+remote: Enumerating objects: 10, done.
+remote: Counting objects: 100% (10/10), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 6 (delta 4), reused 6 (delta 4), pack-reused 0 (from 0)
+Unpacking objects: 100% (6/6), 2.24 KiB | 573.00 KiB/s, done.
+From https://github.com/GruppenIT/VeeamDash
+ * branch            main       -> FETCH_HEAD
+   490b744..52ab317  main       -> origin/main
+Updating 490b744..52ab317
+Fast-forward
+ .../Pasted-root-vlxvrpt29-opt-veeam-dashboard-cd-opt-veeam-dashboard-Pull-das-altera-es-git-pull-origin--1763131886662_1763131886662.txt      | 63 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ server/db.ts                                                                                                                                  |  4 +++-
+ 2 files changed, 66 insertions(+), 1 deletion(-)
+ create mode 100644 attached_assets/Pasted-root-vlxvrpt29-opt-veeam-dashboard-cd-opt-veeam-dashboard-Pull-das-altera-es-git-pull-origin--1763131886662_1763131886662.txt
+
+added 6 packages, removed 5 packages, changed 11 packages, and audited 373 packages in 2s
+
+52 packages are looking for funding
+  run `npm fund` for details
+
+3 low severity vulnerabilities
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+
+> rest-express@1.0.0 build
+> vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+
+sh: 1: vite: not found
+root@vlxvrpt29:/opt/veeam-dashboard# export $(cat .env | grep -v '^#' | xargs)
+npx tsx server/seed.ts
+Need to install the following packages:
+tsx@4.20.6
+Ok to proceed? (y) y
+
+✓ Usuário padrão criado: login@sistema.com / admin
+✅ Seed concluído com sucesso!
+root@vlxvrpt29:/opt/veeam-dashboard# psql -U veeam_user -d veeam_dashboard -c "SELECT id, username, name FROM users;"
+                  id                  |     username      |         name
+--------------------------------------+-------------------+-----------------------
+ 645fd3aa-b44a-43bc-9986-33850aba587a | login@sistema.com | Administrador Sistema
+(1 row)
+
+root@vlxvrpt29:/opt/veeam-dashboard# pm2 restart veeam-dashboard
+
+# Testar login
+curl -k -X POST https://localhost/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"login@sistema.com","password":"admin"}'
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [veeam-dashboard](ids: [ 0 ])
+[PM2] [veeam-dashboard](0) ✓
+┌────┬────────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name               │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ veeam-dashboard    │ default     │ 1.0.0   │ fork    │ 147756   │ 0s     │ 1    │ online    │ 0%       │ 11.5mb   │ root     │ disabled │
+└────┴────────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+<html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.24.0 (Ubuntu)</center>
+</body>
+</html>
+root@vlxvrpt29:/opt/veeam-dashboard#
