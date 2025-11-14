@@ -1,0 +1,48 @@
+0|veeam-da | 2025-11-11T23:32:10: 11:32:10 PM [express] POST /api/auth/login 500                                                                                                                                     in 11ms :: {"success":false,"message":"Erro no servido…
+0|veeam-da | 2025-11-11T23:32:31: 11:32:31 PM [express] POST /api/auth/login 500                                                                                                                                     in 15ms :: {"success":false,"message":"Erro no servido…
+0|veeam-da | 2025-11-14T14:45:13: 2:45:13 PM [express] POST /api/auth/login 500                                                                                                                                     in 9ms :: {"success":false,"message":"Erro no servidor…
+
+0|veeam-dashboard  | 2025-11-14T14:46:53: Login error: ErrorEvent {
+0|veeam-dashboard  | 2025-11-14T14:46:53:   [Symbol(kTarget)]: WebSocket {
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _events: [Object: null prototype]                                                                                                                                     {
+0|veeam-dashboard  | 2025-11-14T14:46:53:       error: [Function],
+0|veeam-dashboard  | 2025-11-14T14:46:53:       message: [Function],
+0|veeam-dashboard  | 2025-11-14T14:46:53:       close: [Function],
+0|veeam-dashboard  | 2025-11-14T14:46:53:       open: [Function]
+0|veeam-dashboard  | 2025-11-14T14:46:53:     },
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _eventsCount: 4,
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _maxListeners: undefined,
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _binaryType: 'arraybuffer',
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _closeCode: 1006,
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _closeFrameReceived: false,
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _closeFrameSent: false,
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _closeMessage: <Buffer >,
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _closeTimer: null,
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _errorEmitted: true,
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _extensions: {},
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _paused: false,
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _protocol: '',
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _readyState: 3,
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _receiver: null,
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _sender: null,
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _socket: null,
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _bufferedAmount: 0,
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _isServer: false,
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _redirects: 0,
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _autoPong: true,
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _url: 'wss://localhost/v2',
+0|veeam-dashboard  | 2025-11-14T14:46:53:     _req: null,
+0|veeam-dashboard  | 2025-11-14T14:46:53:     [Symbol(shapeMode)]: false,
+0|veeam-dashboard  | 2025-11-14T14:46:53:     [Symbol(kCapture)]: false
+0|veeam-dashboard  | 2025-11-14T14:46:53:   },
+0|veeam-dashboard  | 2025-11-14T14:46:53:   [Symbol(kType)]: 'error',
+0|veeam-dashboard  | 2025-11-14T14:46:53:   [Symbol(kError)]: Error: self-signed                                                                                                                                     certificate
+0|veeam-dashboard  | 2025-11-14T14:46:53:       at TLSSocket.onConnectSecure (no                                                                                                                                    de:_tls_wrap:1677:34)
+0|veeam-dashboard  | 2025-11-14T14:46:53:       at TLSSocket.emit (node:events:5                                                                                                                                    24:28)
+0|veeam-dashboard  | 2025-11-14T14:46:53:       at TLSSocket._finishInit (node:_                                                                                                                                    tls_wrap:1076:8)
+0|veeam-dashboard  | 2025-11-14T14:46:53:       at ssl.onhandshakedone (node:_tl                                                                                                                                    s_wrap:862:12) {
+0|veeam-dashboard  | 2025-11-14T14:46:53:     code: 'DEPTH_ZERO_SELF_SIGNED_CERT                                                                                                                                    '
+0|veeam-dashboard  | 2025-11-14T14:46:53:   },
+0|veeam-dashboard  | 2025-11-14T14:46:53:   [Symbol(kMessage)]: 'self-signed cer                                                                                                                                    tificate'
+0|veeam-dashboard  | 2025-11-14T14:46:53: }
+0|veeam-dashboard  | 2025-11-14T14:46:53: 2:46:53 PM [express] POST /api/auth/lo                                                                                                                                    gin 500 in 9ms :: {"success":false,"message":"Erro no servidor…
