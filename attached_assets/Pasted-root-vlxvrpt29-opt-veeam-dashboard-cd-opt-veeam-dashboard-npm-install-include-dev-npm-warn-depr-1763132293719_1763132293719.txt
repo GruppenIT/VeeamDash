@@ -1,0 +1,91 @@
+root@vlxvrpt29:/opt/veeam-dashboard# cd /opt/veeam-dashboard
+npm install --include=dev
+npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.is
+npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.is
+
+added 99 packages, and audited 497 packages in 5s
+
+65 packages are looking for funding
+  run `npm fund` for details
+
+5 moderate severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+root@vlxvrpt29:/opt/veeam-dashboard# cd /opt/veeam-dashboard
+
+# Verificar NODE_ENV
+echo "NODE_ENV atual: $NODE_ENV"
+
+# Desativar NODE_ENV temporariamente e instalar COM devDependencies
+unset NODE_ENV
+npm install
+
+# Verificar se vite foi instalado agora
+ls node_modules/.bin/vite && echo "✅ Vite instalado!"
+
+# Rebuild
+npm run build
+
+# Reiniciar PM2
+pm2 restart veeam-dashboard
+
+# Aguardar e testar
+sleep 5
+curl -k -X POST https://localhost/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"login@sistema.com","password":"admin"}'
+NODE_ENV atual: production
+
+up to date, audited 497 packages in 2s
+
+65 packages are looking for funding
+  run `npm fund` for details
+
+5 moderate severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+node_modules/.bin/vite
+✅ Vite instalado!
+
+> rest-express@1.0.0 build
+> vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+
+vite v5.4.21 building for production...
+transforming (4) src/App.tsx
+A PostCSS plugin did not pass the `from` option to `postcss.parse`. This may cause imported assets to be incorrectly transformed. If you've recently added a PostCSS plugin that raised this warning, please contact the package author to fix the issue.
+✓ 3381 modules transformed.
+../dist/public/index.html                   0.96 kB │ gzip:   0.52 kB
+../dist/public/assets/index-F0jzQYlp.css   71.24 kB │ gzip:  11.57 kB
+../dist/public/assets/index-BAnxr3Lc.js   888.15 kB │ gzip: 260.64 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 10.37s
+
+  dist/index.js  18.6kb
+
+⚡ Done in 8ms
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [veeam-dashboard](ids: [ 0 ])
+[PM2] [veeam-dashboard](0) ✓
+┌────┬────────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name               │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ veeam-dashboard    │ default     │ 1.0.0   │ fork    │ 148570   │ 0s     │ 46   │ online    │ 0%       │ 640.0kb  │ root     │ disabled │
+└────┴────────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+<html>
+<head><title>502 Bad Gateway</title></head>
+<body>
+<center><h1>502 Bad Gateway</h1></center>
+<hr><center>nginx/1.24.0 (Ubuntu)</center>
+</body>
+</html>
+root@vlxvrpt29:/opt/veeam-dashboard#

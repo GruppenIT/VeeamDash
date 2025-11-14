@@ -131,10 +131,11 @@ echo "[8/11] Baixando código-fonte do GitHub..."
 git clone https://github.com/GruppenIT/VeeamDash.git $APP_DIR
 cd $APP_DIR
 
-# [9] Instalar dependências (SEM --production para incluir drizzle-kit)
+# [9] Instalar dependências (incluindo devDependencies para build)
 echo "[9/11] Instalando dependências..."
-npm install --silent
-echo "  ✓ Dependências instaladas"
+# Forçar instalação de devDependencies mesmo em produção (necessário para vite/esbuild)
+npm install --include=dev --silent
+echo "  ✓ Dependências instaladas (com devDependencies para build)"
 
 # [10] Criar certificado SSL self-signed
 echo "[10/11] Criando certificado SSL self-signed..."
