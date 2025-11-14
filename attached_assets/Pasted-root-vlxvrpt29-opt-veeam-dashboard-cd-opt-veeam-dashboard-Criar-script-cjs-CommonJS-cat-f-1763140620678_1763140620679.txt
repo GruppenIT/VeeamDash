@@ -1,0 +1,88 @@
+root@vlxvrpt29:/opt/veeam-dashboard# cd /opt/veeam-dashboard
+
+# Criar script .cjs (CommonJS)
+cat > fix-password.cjs << 'EOF'
+const bcrypt = require('bcrypt');
+const { Pool } = require('pg');
+const fs = require('fs');
+
+// Ler DATABASE_URL do arquivo .env
+const envContent = fs.readFileSync('.env', 'utf8');
+envContent.split('\n').forEach(line => {
+  const [key, ...values] = line.split('=');
+  if (key && values.length > 0) {
+    process.env[key.trim()] = values.join('=').trim().replace(/['"]/g, '');
+  }
+});
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+
+async function resetUser() {
+  try {
+    const hashedPassword = await bcrypt.hash('admin', 10);
+
+    console.log('🔑 Hash gerado:', hashedPassword.substring(0, 20) + '...');
+
+    await pool.query('DELETE FROM users WHERE username = $1', ['login@sistema.com']);
+    console.log('✅ Usuário antigo deletado');
+
+    await pool.query(
+      'INSERT INTO users (id, username, password, name) VALUES (gen_random_uuid(), $1, $2, $3)',
+      ['login@sistema.com', hashedPassword, 'Administrador Sistema']
+    );
+    console.log('✅ Novo usuário criado com senha hasheada!');
+
+    await pool.end();
+    process.exit(0);
+  } catch (err) {
+    console.error('❌ Erro:', err.message);
+    console.error(err);
+    process.exit(1);
+  }
+}
+
+resetUser();
+EOF
+
+# Executar
+sudo node fix-password.cjs
+
+# Limpar
+rm fix-password.cjs
+🔑 Hash gerado: $2b$10$fzaEd.YCljHHD...
+❌ Erro: update or delete on table "users" violates foreign key constraint "email_schedules_user_id_users_id_fk" on table "email_schedules"
+error: update or delete on table "users" violates foreign key constraint "email_schedules_user_id_users_id_fk" on table "email_schedules"
+    at /opt/veeam-dashboard/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async resetUser (/opt/veeam-dashboard/fix-password.cjs:22:5) {
+  length: 360,
+  severity: 'ERROR',
+  code: '23503',
+  detail: 'Key (id)=(645fd3aa-b44a-43bc-9986-33850aba587a) is still referenced from table "email_schedules".',
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: 'public',
+  table: 'email_schedules',
+  column: undefined,
+  dataType: undefined,
+  constraint: 'email_schedules_user_id_users_id_fk',
+  file: 'ri_triggers.c',
+  line: '2621',
+  routine: 'ri_ReportViolation'
+}
+root@vlxvrpt29:/opt/veeam-dashboard# # 1. Ver hash no banco (deve começar com $2b$10$)
+sudo -u postgres psql -d veeam_dashboard -c "SELECT username, LEFT(password, 15) as hash FROM users WHERE username = 'login@sistema.com';"
+
+# 2. Testar login (deve retornar success:true)
+curl -k -X POST https://localhost/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"login@sistema.com","password":"admin"}'
+     username      |     hash
+-------------------+--------------
+ login@sistema.com | sJQ48=h^8L30
+(1 row)
+
+{"success":false,"message":"Senha incorreta. Use a senha padrão: admin"}root@vlxvrpt29:/opt/veeam-dashboard#
