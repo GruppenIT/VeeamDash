@@ -1,0 +1,69 @@
+root@vlxvrpt29:/opt/veeam-dashboard# cd /opt/veeam-dashboard
+
+# Criar script dentro do projeto
+cat > fix-password.js << 'EOF'
+const bcrypt = require('bcrypt');
+const { Pool } = require('pg');
+const fs = require('fs');
+
+// Ler DATABASE_URL do arquivo .env
+const envContent = fs.readFileSync('.env', 'utf8');
+envContent.split('\n').forEach(line => {
+  const [key, ...values] = line.split('=');
+  if (key && values.length > 0) {
+    process.env[key.trim()] = values.join('=').trim().replace(/['"]/g, '');
+  }
+});
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+
+async function resetUser() {
+  try {
+    const hashedPassword = await bcrypt.hash('admin', 10);
+
+    console.log('🔑 Hash gerado:', hashedPassword.substring(0, 20) + '...');
+
+    await pool.query('DELETE FROM users WHERE username = $1', ['login@sistema.com']);
+    console.log('✅ Usuário antigo deletado');
+
+    await pool.query(
+      'INSERT INTO users (id, username, password, name) VALUES (gen_random_uuid(), $1, $2, $3)',
+      ['login@sistema.com', hashedPassword, 'Administrador Sistema']
+    );
+    console.log('✅ Novo usuário criado com senha hasheada!');
+
+    await pool.end();
+    process.exit(0);
+  } catch (err) {
+    console.error('❌ Erro:', err.message);
+    process.exit(1);
+  }
+}
+
+resetUser();
+EOF
+
+# Executar
+sudo node fix-password.js
+
+# Limpar
+rm fix-password.js
+file:///opt/veeam-dashboard/fix-password.js:1
+const bcrypt = require('bcrypt');
+               ^
+
+ReferenceError: require is not defined in ES module scope, you can use import instead
+This file is being treated as an ES module because it has a '.js' file extension and '/opt/veeam-dashboard/package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension.
+    at file:///opt/veeam-dashboard/fix-password.js:1:16
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v20.19.5
+root@vlxvrpt29:/opt/veeam-dashboard# sudo -u postgres psql -d veeam_dashboard -c "SELECT username, LEFT(password, 15) as hash FROM users WHERE username = 'login@sistema.com';"
+     username      |     hash
+-------------------+--------------
+ login@sistema.com | sJQ48=h^8L30
+(1 row)
+
+root@vlxvrpt29:/opt/veeam-dashboard#
