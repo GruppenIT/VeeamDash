@@ -1,0 +1,343 @@
+root@vlxvrpt29:/opt/veeam-dashboard# cd /opt/veeam-dashboard
+
+# Reinstalar TODAS as dependências (incluindo dev dependencies)
+npm install
+
+# Rebuild completo
+npm run build
+
+# Reiniciar PM2
+pm2 restart veeam-dashboard
+
+# Ver os logs em tempo real
+pm2 logs veeam-dashboard --lines 30
+
+up to date, audited 373 packages in 2s
+
+52 packages are looking for funding
+  run `npm fund` for details
+
+3 low severity vulnerabilities
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+
+> rest-express@1.0.0 build
+> vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+
+sh: 1: vite: not found
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [veeam-dashboard](ids: [ 0 ])
+[PM2] [veeam-dashboard](0) ✓
+┌────┬────────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name               │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ veeam-dashboard    │ default     │ 1.0.0   │ fork    │ 147982   │ 0s     │ 16   │ online    │ 0%       │ 384.0kb  │ root     │ disabled │
+└────┴────────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[TAILING] Tailing last 30 lines for [veeam-dashboard] process (change the value with --lines option)
+/root/.pm2/logs/veeam-dashboard-out-0.log last 30 lines:
+0|veeam-da | 2025-11-11T22:56:30:
+0|veeam-da | 2025-11-11T22:56:31:
+0|veeam-da | 2025-11-11T22:56:31: > rest-express@1.0.0 start
+0|veeam-da | 2025-11-11T22:56:31: > NODE_ENV=production node dist/index.js
+0|veeam-da | 2025-11-11T22:56:31:
+0|veeam-da | 2025-11-11T22:56:32:
+0|veeam-da | 2025-11-11T22:56:32: > rest-express@1.0.0 start
+0|veeam-da | 2025-11-11T22:56:32: > NODE_ENV=production node dist/index.js
+0|veeam-da | 2025-11-11T22:56:32:
+0|veeam-da | 2025-11-11T23:06:31:
+0|veeam-da | 2025-11-11T23:06:31: > rest-express@1.0.0 start
+0|veeam-da | 2025-11-11T23:06:31: > NODE_ENV=production node dist/index.js
+0|veeam-da | 2025-11-11T23:06:31:
+0|veeam-da | 2025-11-11T23:06:32: 11:06:32 PM [express] serving on port 5000
+0|veeam-da | 2025-11-11T23:06:50: 11:06:50 PM [express] POST /api/auth/login 500 in 11ms :: {"success":false,"message":"Erro no servido…
+0|veeam-da | 2025-11-11T23:21:35:
+0|veeam-da | 2025-11-11T23:21:35: > rest-express@1.0.0 start
+0|veeam-da | 2025-11-11T23:21:35: > NODE_ENV=production node dist/index.js
+0|veeam-da | 2025-11-11T23:21:35:
+0|veeam-da | 2025-11-11T23:21:36: 11:21:36 PM [express] serving on port 5000
+0|veeam-da | 2025-11-11T23:23:49: 11:23:49 PM [express] POST /api/auth/login 500 in 16ms :: {"success":false,"message":"Erro no servido…
+0|veeam-da | 2025-11-11T23:24:18: 11:24:18 PM [express] POST /api/auth/login 500 in 14ms :: {"success":false,"message":"Erro no servido…
+0|veeam-da | 2025-11-11T23:28:43: 11:28:43 PM [express] serving on port 5000
+0|veeam-da | 2025-11-11T23:29:09: 11:29:09 PM [express] POST /api/auth/login 500 in 11ms :: {"success":false,"message":"Erro no servido…
+0|veeam-da | 2025-11-11T23:29:28: 11:29:28 PM [express] POST /api/auth/login 401 in 1ms :: {"success":false,"message":"Usuário não auto…
+0|veeam-da | 2025-11-11T23:32:01: 11:32:01 PM [express] serving on port 5000
+0|veeam-da | 2025-11-11T23:32:10: 11:32:10 PM [express] POST /api/auth/login 500 in 11ms :: {"success":false,"message":"Erro no servido…
+0|veeam-da | 2025-11-11T23:32:31: 11:32:31 PM [express] POST /api/auth/login 500 in 15ms :: {"success":false,"message":"Erro no servido…
+0|veeam-da | 2025-11-14T14:45:13: 2:45:13 PM [express] POST /api/auth/login 500 in 9ms :: {"success":false,"message":"Erro no servidor…
+0|veeam-da | 2025-11-14T14:46:53: 2:46:53 PM [express] POST /api/auth/login 500 in 9ms :: {"success":false,"message":"Erro no servidor…
+
+/root/.pm2/logs/veeam-dashboard-error-0.log last 30 lines:
+0|veeam-da | 2025-11-14T14:54:25: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/veeam-dashboard/dist/index.js
+0|veeam-da | 2025-11-14T14:54:25:     at packageResolve (node:internal/modules/esm/resolve:873:9)
+0|veeam-da | 2025-11-14T14:54:25:     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+0|veeam-da | 2025-11-14T14:54:25:     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+0|veeam-da | 2025-11-14T14:54:25:     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+0|veeam-da | 2025-11-14T14:54:25:     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+0|veeam-da | 2025-11-14T14:54:25:     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+0|veeam-da | 2025-11-14T14:54:25:     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+0|veeam-da | 2025-11-14T14:54:25:     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+0|veeam-da | 2025-11-14T14:54:25:   code: 'ERR_MODULE_NOT_FOUND'
+0|veeam-da | 2025-11-14T14:54:25: }
+0|veeam-da | 2025-11-14T14:54:25:
+0|veeam-da | 2025-11-14T14:54:25: Node.js v20.19.5
+0|veeam-da | 2025-11-14T14:54:25: node:internal/modules/esm/resolve:873
+0|veeam-da | 2025-11-14T14:54:25:   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+0|veeam-da | 2025-11-14T14:54:25:         ^
+0|veeam-da | 2025-11-14T14:54:25:
+0|veeam-da | 2025-11-14T14:54:25: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/veeam-dashboard/dist/index.js
+0|veeam-da | 2025-11-14T14:54:25:     at packageResolve (node:internal/modules/esm/resolve:873:9)
+0|veeam-da | 2025-11-14T14:54:25:     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+0|veeam-da | 2025-11-14T14:54:25:     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+0|veeam-da | 2025-11-14T14:54:25:     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+0|veeam-da | 2025-11-14T14:54:25:     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+0|veeam-da | 2025-11-14T14:54:25:     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+0|veeam-da | 2025-11-14T14:54:25:     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+0|veeam-da | 2025-11-14T14:54:25:     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+0|veeam-da | 2025-11-14T14:54:25:   code: 'ERR_MODULE_NOT_FOUND'
+0|veeam-da | 2025-11-14T14:54:25: }
+0|veeam-da | 2025-11-14T14:54:25:
+0|veeam-da | 2025-11-14T14:54:25: Node.js v20.19.5
+
+0|veeam-dashboard  | 2025-11-14T14:54:25: node:internal/modules/esm/resolve:873
+0|veeam-dashboard  | 2025-11-14T14:54:25:   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+0|veeam-dashboard  | 2025-11-14T14:54:25:         ^
+0|veeam-dashboard  | 2025-11-14T14:54:25:
+0|veeam-dashboard  | 2025-11-14T14:54:25: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/veeam-dashboard/dist/index.js
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at packageResolve (node:internal/modules/esm/resolve:873:9)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+0|veeam-dashboard  | 2025-11-14T14:54:25:   code: 'ERR_MODULE_NOT_FOUND'
+0|veeam-dashboard  | 2025-11-14T14:54:25: }
+0|veeam-dashboard  | 2025-11-14T14:54:25:
+0|veeam-dashboard  | 2025-11-14T14:54:25: Node.js v20.19.5
+0|veeam-dashboard  | 2025-11-14T14:54:25: node:internal/modules/esm/resolve:873
+0|veeam-dashboard  | 2025-11-14T14:54:25:   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+0|veeam-dashboard  | 2025-11-14T14:54:25:         ^
+0|veeam-dashboard  | 2025-11-14T14:54:25:
+0|veeam-dashboard  | 2025-11-14T14:54:25: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/veeam-dashboard/dist/index.js
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at packageResolve (node:internal/modules/esm/resolve:873:9)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+0|veeam-dashboard  | 2025-11-14T14:54:25:   code: 'ERR_MODULE_NOT_FOUND'
+0|veeam-dashboard  | 2025-11-14T14:54:25: }
+0|veeam-dashboard  | 2025-11-14T14:54:25:
+0|veeam-dashboard  | 2025-11-14T14:54:25: Node.js v20.19.5
+0|veeam-dashboard  | 2025-11-14T14:54:25: node:internal/modules/esm/resolve:873
+0|veeam-dashboard  | 2025-11-14T14:54:25:   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+0|veeam-dashboard  | 2025-11-14T14:54:25:         ^
+0|veeam-dashboard  | 2025-11-14T14:54:25:
+0|veeam-dashboard  | 2025-11-14T14:54:25: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/veeam-dashboard/dist/index.js
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at packageResolve (node:internal/modules/esm/resolve:873:9)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+0|veeam-dashboard  | 2025-11-14T14:54:25:   code: 'ERR_MODULE_NOT_FOUND'
+0|veeam-dashboard  | 2025-11-14T14:54:25: }
+0|veeam-dashboard  | 2025-11-14T14:54:25:
+0|veeam-dashboard  | 2025-11-14T14:54:25: Node.js v20.19.5
+0|veeam-dashboard  | 2025-11-14T14:54:25: node:internal/modules/esm/resolve:873
+0|veeam-dashboard  | 2025-11-14T14:54:25:   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+0|veeam-dashboard  | 2025-11-14T14:54:25:         ^
+0|veeam-dashboard  | 2025-11-14T14:54:25:
+0|veeam-dashboard  | 2025-11-14T14:54:25: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/veeam-dashboard/dist/index.js
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at packageResolve (node:internal/modules/esm/resolve:873:9)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+0|veeam-dashboard  | 2025-11-14T14:54:25:   code: 'ERR_MODULE_NOT_FOUND'
+0|veeam-dashboard  | 2025-11-14T14:54:25: }
+0|veeam-dashboard  | 2025-11-14T14:54:25:
+0|veeam-dashboard  | 2025-11-14T14:54:25: Node.js v20.19.5
+0|veeam-dashboard  | 2025-11-14T14:54:25: node:internal/modules/esm/resolve:873
+0|veeam-dashboard  | 2025-11-14T14:54:25:   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+0|veeam-dashboard  | 2025-11-14T14:54:25:         ^
+0|veeam-dashboard  | 2025-11-14T14:54:25:
+0|veeam-dashboard  | 2025-11-14T14:54:25: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/veeam-dashboard/dist/index.js
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at packageResolve (node:internal/modules/esm/resolve:873:9)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+0|veeam-dashboard  | 2025-11-14T14:54:25:   code: 'ERR_MODULE_NOT_FOUND'
+0|veeam-dashboard  | 2025-11-14T14:54:25: }
+0|veeam-dashboard  | 2025-11-14T14:54:25:
+0|veeam-dashboard  | 2025-11-14T14:54:25: Node.js v20.19.5
+0|veeam-dashboard  | 2025-11-14T14:54:25: node:internal/modules/esm/resolve:873
+0|veeam-dashboard  | 2025-11-14T14:54:25:   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+0|veeam-dashboard  | 2025-11-14T14:54:25:         ^
+0|veeam-dashboard  | 2025-11-14T14:54:25:
+0|veeam-dashboard  | 2025-11-14T14:54:25: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/veeam-dashboard/dist/index.js
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at packageResolve (node:internal/modules/esm/resolve:873:9)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+0|veeam-dashboard  | 2025-11-14T14:54:25:   code: 'ERR_MODULE_NOT_FOUND'
+0|veeam-dashboard  | 2025-11-14T14:54:25: }
+0|veeam-dashboard  | 2025-11-14T14:54:25:
+0|veeam-dashboard  | 2025-11-14T14:54:25: Node.js v20.19.5
+0|veeam-dashboard  | 2025-11-14T14:54:25: node:internal/modules/esm/resolve:873
+0|veeam-dashboard  | 2025-11-14T14:54:25:   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+0|veeam-dashboard  | 2025-11-14T14:54:25:         ^
+0|veeam-dashboard  | 2025-11-14T14:54:25:
+0|veeam-dashboard  | 2025-11-14T14:54:25: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/veeam-dashboard/dist/index.js
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at packageResolve (node:internal/modules/esm/resolve:873:9)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+0|veeam-dashboard  | 2025-11-14T14:54:25:   code: 'ERR_MODULE_NOT_FOUND'
+0|veeam-dashboard  | 2025-11-14T14:54:25: }
+0|veeam-dashboard  | 2025-11-14T14:54:25:
+0|veeam-dashboard  | 2025-11-14T14:54:25: Node.js v20.19.5
+0|veeam-dashboard  | 2025-11-14T14:54:25: node:internal/modules/esm/resolve:873
+0|veeam-dashboard  | 2025-11-14T14:54:25:   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+0|veeam-dashboard  | 2025-11-14T14:54:25:         ^
+0|veeam-dashboard  | 2025-11-14T14:54:25:
+0|veeam-dashboard  | 2025-11-14T14:54:25: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/veeam-dashboard/dist/index.js
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at packageResolve (node:internal/modules/esm/resolve:873:9)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+0|veeam-dashboard  | 2025-11-14T14:54:25:     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+0|veeam-dashboard  | 2025-11-14T14:54:25:   code: 'ERR_MODULE_NOT_FOUND'
+0|veeam-dashboard  | 2025-11-14T14:54:25: }
+0|veeam-dashboard  | 2025-11-14T14:54:25:
+0|veeam-dashboard  | 2025-11-14T14:54:25: Node.js v20.19.5
+0|veeam-dashboard  | 2025-11-14T14:54:26: node:internal/modules/esm/resolve:873
+0|veeam-dashboard  | 2025-11-14T14:54:26:   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+0|veeam-dashboard  | 2025-11-14T14:54:26:         ^
+0|veeam-dashboard  | 2025-11-14T14:54:26:
+0|veeam-dashboard  | 2025-11-14T14:54:26: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/veeam-dashboard/dist/index.js
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at packageResolve (node:internal/modules/esm/resolve:873:9)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+0|veeam-dashboard  | 2025-11-14T14:54:26:   code: 'ERR_MODULE_NOT_FOUND'
+0|veeam-dashboard  | 2025-11-14T14:54:26: }
+0|veeam-dashboard  | 2025-11-14T14:54:26:
+0|veeam-dashboard  | 2025-11-14T14:54:26: Node.js v20.19.5
+0|veeam-dashboard  | 2025-11-14T14:54:26: node:internal/modules/esm/resolve:873
+0|veeam-dashboard  | 2025-11-14T14:54:26:   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+0|veeam-dashboard  | 2025-11-14T14:54:26:         ^
+0|veeam-dashboard  | 2025-11-14T14:54:26:
+0|veeam-dashboard  | 2025-11-14T14:54:26: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/veeam-dashboard/dist/index.js
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at packageResolve (node:internal/modules/esm/resolve:873:9)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+0|veeam-dashboard  | 2025-11-14T14:54:26:   code: 'ERR_MODULE_NOT_FOUND'
+0|veeam-dashboard  | 2025-11-14T14:54:26: }
+0|veeam-dashboard  | 2025-11-14T14:54:26:
+0|veeam-dashboard  | 2025-11-14T14:54:26: Node.js v20.19.5
+0|veeam-dashboard  | 2025-11-14T14:54:26: node:internal/modules/esm/resolve:873
+0|veeam-dashboard  | 2025-11-14T14:54:26:   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+0|veeam-dashboard  | 2025-11-14T14:54:26:         ^
+0|veeam-dashboard  | 2025-11-14T14:54:26:
+0|veeam-dashboard  | 2025-11-14T14:54:26: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/veeam-dashboard/dist/index.js
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at packageResolve (node:internal/modules/esm/resolve:873:9)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+0|veeam-dashboard  | 2025-11-14T14:54:26:   code: 'ERR_MODULE_NOT_FOUND'
+0|veeam-dashboard  | 2025-11-14T14:54:26: }
+0|veeam-dashboard  | 2025-11-14T14:54:26:
+0|veeam-dashboard  | 2025-11-14T14:54:26: Node.js v20.19.5
+0|veeam-dashboard  | 2025-11-14T14:54:26: node:internal/modules/esm/resolve:873
+0|veeam-dashboard  | 2025-11-14T14:54:26:   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+0|veeam-dashboard  | 2025-11-14T14:54:26:         ^
+0|veeam-dashboard  | 2025-11-14T14:54:26:
+0|veeam-dashboard  | 2025-11-14T14:54:26: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/veeam-dashboard/dist/index.js
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at packageResolve (node:internal/modules/esm/resolve:873:9)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+0|veeam-dashboard  | 2025-11-14T14:54:26:   code: 'ERR_MODULE_NOT_FOUND'
+0|veeam-dashboard  | 2025-11-14T14:54:26: }
+0|veeam-dashboard  | 2025-11-14T14:54:26:
+0|veeam-dashboard  | 2025-11-14T14:54:26: Node.js v20.19.5
+0|veeam-dashboard  | 2025-11-14T14:54:26: node:internal/modules/esm/resolve:873
+0|veeam-dashboard  | 2025-11-14T14:54:26:   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+0|veeam-dashboard  | 2025-11-14T14:54:26:         ^
+0|veeam-dashboard  | 2025-11-14T14:54:26:
+0|veeam-dashboard  | 2025-11-14T14:54:26: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/veeam-dashboard/dist/index.js
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at packageResolve (node:internal/modules/esm/resolve:873:9)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+0|veeam-dashboard  | 2025-11-14T14:54:26:   code: 'ERR_MODULE_NOT_FOUND'
+0|veeam-dashboard  | 2025-11-14T14:54:26: }
+0|veeam-dashboard  | 2025-11-14T14:54:26:
+0|veeam-dashboard  | 2025-11-14T14:54:26: Node.js v20.19.5
+0|veeam-dashboard  | 2025-11-14T14:54:26: node:internal/modules/esm/resolve:873
+0|veeam-dashboard  | 2025-11-14T14:54:26:   throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+0|veeam-dashboard  | 2025-11-14T14:54:26:         ^
+0|veeam-dashboard  | 2025-11-14T14:54:26:
+0|veeam-dashboard  | 2025-11-14T14:54:26: Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'vite' imported from /opt/veeam-dashboard/dist/index.js
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at packageResolve (node:internal/modules/esm/resolve:873:9)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at moduleResolve (node:internal/modules/esm/resolve:946:18)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:708:12)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at #cachedDefaultResolve (node:internal/modules/esm/loader:657:25)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleLoader.resolve (node:internal/modules/esm/loader:640:38)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:264:38)
+0|veeam-dashboard  | 2025-11-14T14:54:26:     at ModuleJob._link (node:internal/modules/esm/module_job:168:49) {
+0|veeam-dashboard  | 2025-11-14T14:54:26:   code: 'ERR_MODULE_NOT_FOUND'
+0|veeam-dashboard  | 2025-11-14T14:54:26: }
+0|veeam-dashboard  | 2025-11-14T14:54:26:
+0|veeam-dashboard  | 2025-11-14T14:54:26: Node.js v20.19.5
+^C
+root@vlxvrpt29:/opt/veeam-dashboard#
