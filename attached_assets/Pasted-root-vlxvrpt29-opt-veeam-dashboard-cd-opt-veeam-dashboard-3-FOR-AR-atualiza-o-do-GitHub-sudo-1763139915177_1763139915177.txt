@@ -1,0 +1,187 @@
+root@vlxvrpt29:/opt/veeam-dashboard# cd /opt/veeam-dashboard
+
+# 3. FORÇAR atualização do GitHub
+sudo git fetch origin
+sudo git reset --hard origin/main
+
+# 4. Instalar dependências
+sudo npm install --include=dev
+
+# 5. Fazer build
+sudo npm run build
+
+# 6. Reiniciar aplicação
+sudo pm2 restart veeam-dashboard
+
+# 7. Ver logs (verificar se não tem erros)
+sudo pm2 logs veeam-dashboard --lines 50
+remote: Enumerating objects: 7, done.
+remote: Counting objects: 100% (7/7), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 5 (delta 2), reused 5 (delta 2), pack-reused 0 (from 0)
+Unpacking objects: 100% (5/5), 159.42 KiB | 1.48 MiB/s, done.
+From https://github.com/GruppenIT/VeeamDash
+   732a3e5..1bc087a  main       -> origin/main
+HEAD is now at 1bc087a Add comprehensive guide to update the server and troubleshoot issues
+
+added 16 packages, removed 30 packages, changed 156 packages, and audited 483 packages in 6s
+
+64 packages are looking for funding
+  run `npm fund` for details
+
+8 vulnerabilities (3 low, 5 moderate)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+> rest-express@1.0.0 build
+> vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+
+vite v5.4.20 building for production...
+
+A PostCSS plugin did not pass the `from` option to `postcss.parse`. This may cause imported assets to be incorrectly transformed. If you've recently added a PostCSS plugin that raised this warning, please contact the package author to fix the issue.
+✓ 3359 modules transformed.
+../dist/public/index.html                   0.96 kB │ gzip:   0.52 kB
+../dist/public/assets/index-lXBVuUf7.css   71.38 kB │ gzip:  11.59 kB
+../dist/public/assets/index-Ccgf00k0.js   915.95 kB │ gzip: 264.99 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 11.53s
+
+  dist/index.js  22.8kb
+
+⚡ Done in 8ms
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [veeam-dashboard](ids: [ 0 ])
+[PM2] [veeam-dashboard](0) ✓
+┌────┬────────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name               │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ veeam-dashboard    │ default     │ 1.0.0   │ fork    │ 153078   │ 0s     │ 7    │ online    │ 0%       │ 896.0kb  │ root     │ disabled │
+└────┴────────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[TAILING] Tailing last 50 lines for [veeam-dashboard] process (change the value with --lines option)
+/root/.pm2/logs/veeam-dashboard-error-0.log last 50 lines:
+0|veeam-da | 2025-11-14T14:58:14: designed for a production environment, as it will leak
+0|veeam-da | 2025-11-14T14:58:14: memory, and will not scale past a single process.
+0|veeam-da | 2025-11-14T14:58:15: Warning: connect.session() MemoryStore is not
+0|veeam-da | 2025-11-14T14:58:15: designed for a production environment, as it will leak
+0|veeam-da | 2025-11-14T14:58:15: memory, and will not scale past a single process.
+0|veeam-da | 2025-11-14T14:58:15: Warning: connect.session() MemoryStore is not
+0|veeam-da | 2025-11-14T14:58:15: designed for a production environment, as it will leak
+0|veeam-da | 2025-11-14T14:58:15: memory, and will not scale past a single process.
+0|veeam-da | 2025-11-14T14:58:16: Warning: connect.session() MemoryStore is not
+0|veeam-da | 2025-11-14T14:58:16: designed for a production environment, as it will leak
+0|veeam-da | 2025-11-14T14:58:16: memory, and will not scale past a single process.
+0|veeam-da | 2025-11-14T14:58:17: Warning: connect.session() MemoryStore is not
+0|veeam-da | 2025-11-14T14:58:17: designed for a production environment, as it will leak
+0|veeam-da | 2025-11-14T14:58:17: memory, and will not scale past a single process.
+0|veeam-da | 2025-11-14T14:58:17: Warning: connect.session() MemoryStore is not
+0|veeam-da | 2025-11-14T14:58:17: designed for a production environment, as it will leak
+0|veeam-da | 2025-11-14T14:58:17: memory, and will not scale past a single process.
+0|veeam-da | 2025-11-14T14:58:18: Warning: connect.session() MemoryStore is not
+0|veeam-da | 2025-11-14T14:58:18: designed for a production environment, as it will leak
+0|veeam-da | 2025-11-14T14:58:18: memory, and will not scale past a single process.
+0|veeam-da | 2025-11-14T14:58:18: Warning: connect.session() MemoryStore is not
+0|veeam-da | 2025-11-14T14:58:18: designed for a production environment, as it will leak
+0|veeam-da | 2025-11-14T14:58:18: memory, and will not scale past a single process.
+0|veeam-da | 2025-11-14T14:58:19: Warning: connect.session() MemoryStore is not
+0|veeam-da | 2025-11-14T14:58:19: designed for a production environment, as it will leak
+0|veeam-da | 2025-11-14T14:58:19: memory, and will not scale past a single process.
+0|veeam-da | 2025-11-14T15:02:25: Warning: connect.session() MemoryStore is not
+0|veeam-da | 2025-11-14T15:02:25: designed for a production environment, as it will leak
+0|veeam-da | 2025-11-14T15:02:25: memory, and will not scale past a single process.
+0|veeam-da | 2025-11-14T15:08:23: Warning: connect.session() MemoryStore is not
+0|veeam-da | 2025-11-14T15:08:23: designed for a production environment, as it will leak
+0|veeam-da | 2025-11-14T15:08:23: memory, and will not scale past a single process.
+0|veeam-da | 2025-11-14T15:09:52: Warning: connect.session() MemoryStore is not
+0|veeam-da | 2025-11-14T15:09:52: designed for a production environment, as it will leak
+0|veeam-da | 2025-11-14T15:09:52: memory, and will not scale past a single process.
+0|veeam-da | 2025-11-14T15:10:35: Warning: connect.session() MemoryStore is not
+0|veeam-da | 2025-11-14T15:10:35: designed for a production environment, as it will leak
+0|veeam-da | 2025-11-14T15:10:35: memory, and will not scale past a single process.
+0|veeam-da | 2025-11-14T15:13:04: Warning: connect.session() MemoryStore is not
+0|veeam-da | 2025-11-14T15:13:04: designed for a production environment, as it will leak
+0|veeam-da | 2025-11-14T15:13:04: memory, and will not scale past a single process.
+0|veeam-da | 2025-11-14T15:23:49: Warning: connect.session() MemoryStore is not
+0|veeam-da | 2025-11-14T15:23:49: designed for a production environment, as it will leak
+0|veeam-da | 2025-11-14T15:23:49: memory, and will not scale past a single process.
+0|veeam-da | 2025-11-14T15:26:37: Warning: connect.session() MemoryStore is not
+0|veeam-da | 2025-11-14T15:26:37: designed for a production environment, as it will leak
+0|veeam-da | 2025-11-14T15:26:37: memory, and will not scale past a single process.
+0|veeam-da | 2025-11-14T16:52:29: Warning: connect.session() MemoryStore is not
+0|veeam-da | 2025-11-14T16:52:29: designed for a production environment, as it will leak
+0|veeam-da | 2025-11-14T16:52:29: memory, and will not scale past a single process.
+
+/root/.pm2/logs/veeam-dashboard-out-0.log last 50 lines:
+0|veeam-da | 2025-11-14T15:14:31: 3:14:31 PM [express] POST /api/auth/logout 200 in 15ms :: {"success":true}
+0|veeam-da | 2025-11-14T15:14:34: 3:14:34 PM [express] POST /api/auth/login 200 in 45ms :: {"success":true,"user":{"id":"645fd3aa-b44a…
+0|veeam-da | 2025-11-14T15:14:34: 3:14:34 PM [express] GET /api/auth/me 200 in 5ms :: {"id":"645fd3aa-b44a-43bc-9986-33850aba587a","us…
+0|veeam-da | 2025-11-14T15:14:36: 3:14:36 PM [express] GET /api/companies 200 in 2395ms :: [{"instanceUid":"62b31994-6334-4518-8b61-ae…
+0|veeam-da | 2025-11-14T15:14:37: 3:14:37 PM [express] GET /api/dashboard/metrics/62b31994-6334-4518-8b61-ae286faedb6e 200 in 520ms ::…
+0|veeam-da | 2025-11-14T15:14:51: 3:14:51 PM [express] GET /api/dashboard/metrics/7bda87d7-7652-4a6e-99e6-351e3c6c08b1 200 in 2438ms :…
+0|veeam-da | 2025-11-14T15:15:42: 3:15:42 PM [express] GET /api/dashboard/metrics/3772a9a0-7a8e-4647-a6f1-47140d97351a 200 in 347ms ::…
+0|veeam-da | 2025-11-14T15:16:15: 3:16:15 PM [express] GET /api/dashboard/metrics/6fc04f78-66fb-4793-ab25-3bb471bcd48f 200 in 1015ms :…
+0|veeam-da | 2025-11-14T15:16:36: 3:16:36 PM [express] POST /api/auth/logout 200 in 2ms :: {"success":true}
+0|veeam-da | 2025-11-14T15:16:52: 3:16:52 PM [express] POST /api/auth/login 200 in 17ms :: {"success":true,"user":{"id":"645fd3aa-b44a…
+0|veeam-da | 2025-11-14T15:17:11: 3:17:11 PM [express] GET /api/dashboard/metrics/dd4d0261-abdf-4738-b395-fc1c30882bac 200 in 181ms ::…
+0|veeam-da | 2025-11-14T15:17:58: 3:17:58 PM [express] GET /api/dashboard/metrics/edbc45f9-12df-4f21-a245-83dc34c40676 200 in 143ms ::…
+0|veeam-da | 2025-11-14T15:18:18: 3:18:18 PM [express] GET /api/dashboard/metrics/faef8ef9-39c0-41e5-91d2-b4aeeed7440b 200 in 111ms ::…
+0|veeam-da | 2025-11-14T15:23:49: 3:23:49 PM [express] serving on port 5000
+0|veeam-da | 2025-11-14T15:24:22: 3:24:22 PM [express] GET /api/companies 401 in 6ms :: {"message":"Não autenticado"}
+0|veeam-da | 2025-11-14T15:24:22: 3:24:22 PM [express] GET /api/auth/me 401 in 2ms :: {"message":"Não autenticado"}
+0|veeam-da | 2025-11-14T15:24:24: 3:24:24 PM [express] GET /api/companies 401 in 1ms :: {"message":"Não autenticado"}
+0|veeam-da | 2025-11-14T15:24:24: 3:24:24 PM [express] GET /api/auth/me 401 in 1ms :: {"message":"Não autenticado"}
+0|veeam-da | 2025-11-14T15:24:26: 3:24:26 PM [express] POST /api/auth/logout 200 in 3ms :: {"success":true}
+0|veeam-da | 2025-11-14T15:24:30: 3:24:30 PM [express] POST /api/auth/login 200 in 41ms :: {"success":true,"user":{"id":"645fd3aa-b44a…
+0|veeam-da | 2025-11-14T15:24:30: 3:24:30 PM [express] GET /api/auth/me 200 in 4ms :: {"id":"645fd3aa-b44a-43bc-9986-33850aba587a","us…
+0|veeam-da | 2025-11-14T15:24:32: 3:24:32 PM [express] GET /api/companies 200 in 2165ms :: [{"instanceUid":"62b31994-6334-4518-8b61-ae…
+0|veeam-da | 2025-11-14T15:24:32: 3:24:32 PM [express] GET /api/dashboard/metrics/62b31994-6334-4518-8b61-ae286faedb6e 200 in 186ms ::…
+0|veeam-da | 2025-11-14T15:25:50: 3:25:50 PM [express] POST /api/schedules 200 in 27ms :: {"id":"9467d191-a2ae-4085-9e07-571b48218efe"…
+0|veeam-da | 2025-11-14T15:26:37: 3:26:37 PM [express] serving on port 5000
+0|veeam-da | 2025-11-14T15:26:53: 3:26:53 PM [express] POST /api/auth/logout 200 in 11ms :: {"success":true}
+0|veeam-da | 2025-11-14T15:26:56: 3:26:56 PM [express] POST /api/auth/login 200 in 48ms :: {"success":true,"user":{"id":"645fd3aa-b44a…
+0|veeam-da | 2025-11-14T15:27:13: 3:27:13 PM [express] GET /api/companies 200 in 112ms :: [{"instanceUid":"62b31994-6334-4518-8b61-ae2…
+0|veeam-da | 2025-11-14T15:27:13: 3:27:13 PM [express] GET /api/auth/me 200 in 24ms :: {"id":"645fd3aa-b44a-43bc-9986-33850aba587a","u…
+0|veeam-da | 2025-11-14T15:27:14: 3:27:14 PM [express] GET /api/dashboard/metrics/62b31994-6334-4518-8b61-ae286faedb6e 200 in 852ms ::…
+0|veeam-da | 2025-11-14T15:28:26: 3:28:26 PM [express] POST /api/auth/change-password 200 in 25ms :: {"success":true,"message":"Senha …
+0|veeam-da | 2025-11-14T15:28:32: 3:28:32 PM [express] POST /api/auth/logout 200 in 1ms :: {"success":true}
+0|veeam-da | 2025-11-14T15:28:35: 3:28:35 PM [express] POST /api/auth/login 200 in 3ms :: {"success":true,"user":{"id":"645fd3aa-b44a-…
+0|veeam-da | 2025-11-14T16:49:00: 4:49:00 PM [express] GET /api/auth/me 200 in 24ms :: {"id":"645fd3aa-b44a-43bc-9986-33850aba587a","u…
+0|veeam-da | 2025-11-14T16:49:05: 4:49:05 PM [express] GET /api/auth/me 200 in 4ms :: {"id":"645fd3aa-b44a-43bc-9986-33850aba587a","us…
+0|veeam-da | 2025-11-14T16:49:05: 4:49:05 PM [express] GET /api/companies 200 in 24ms :: [{"instanceUid":"62b31994-6334-4518-8b61-ae28…
+0|veeam-da | 2025-11-14T16:49:05: 4:49:05 PM [express] GET /api/dashboard/metrics/62b31994-6334-4518-8b61-ae286faedb6e 200 in 258ms ::…
+0|veeam-da | 2025-11-14T16:49:26: 4:49:26 PM [express] GET /api/auth/me 200 in 19ms :: {"id":"645fd3aa-b44a-43bc-9986-33850aba587a","u…
+0|veeam-da | 2025-11-14T16:49:26: 4:49:26 PM [express] GET /api/companies 200 in 30ms :: [{"instanceUid":"62b31994-6334-4518-8b61-ae28…
+0|veeam-da | 2025-11-14T16:49:26: 4:49:26 PM [express] GET /api/dashboard/metrics/62b31994-6334-4518-8b61-ae286faedb6e 200 in 193ms ::…
+0|veeam-da | 2025-11-14T16:49:27: 4:49:27 PM [express] GET /api/auth/me 200 in 4ms :: {"id":"645fd3aa-b44a-43bc-9986-33850aba587a","us…
+0|veeam-da | 2025-11-14T16:49:27: 4:49:27 PM [express] GET /api/companies 200 in 16ms :: [{"instanceUid":"62b31994-6334-4518-8b61-ae28…
+0|veeam-da | 2025-11-14T16:49:27: 4:49:27 PM [express] GET /api/dashboard/metrics/62b31994-6334-4518-8b61-ae286faedb6e 200 in 144ms ::…
+0|veeam-da | 2025-11-14T16:52:29: 4:52:29 PM [express] serving on port 5000
+0|veeam-da | 2025-11-14T16:52:39: 4:52:39 PM [express] POST /api/auth/logout 200 in 17ms :: {"success":true}
+0|veeam-da | 2025-11-14T16:52:49: 4:52:49 PM [express] POST /api/auth/login 200 in 50ms :: {"success":true,"user":{"id":"645fd3aa-b44a…
+0|veeam-da | 2025-11-14T16:52:53: 4:52:53 PM [express] GET /api/auth/me 200 in 5ms :: {"id":"645fd3aa-b44a-43bc-9986-33850aba587a","us…
+0|veeam-da | 2025-11-14T16:52:54: 4:52:54 PM [express] GET /api/companies 200 in 216ms :: [{"instanceUid":"62b31994-6334-4518-8b61-ae2…
+0|veeam-da | 2025-11-14T16:52:55: 4:52:55 PM [express] GET /api/dashboard/metrics/62b31994-6334-4518-8b61-ae286faedb6e 200 in 1443ms :…
+0|veeam-da | 2025-11-14T16:53:26: 4:53:26 PM [express] GET /api/dashboard/metrics/dd4d0261-abdf-4738-b395-fc1c30882bac 200 in 683ms ::…
+
+0|veeam-dashboard  | 2025-11-14T17:03:58: Warning: connect.session() MemoryStore is not
+0|veeam-dashboard  | 2025-11-14T17:03:58: designed for a production environment, as it will leak
+0|veeam-dashboard  | 2025-11-14T17:03:58: memory, and will not scale past a single process.
+0|veeam-dashboard  | 2025-11-14T17:03:58: 5:03:58 PM [express] serving on port 5000
+0|veeam-dashboard  | 2025-11-14T17:04:19: 5:04:19 PM [express] GET /api/companies 401 in 3ms :: {"message":"Não autenticado"}
+0|veeam-dashboard  | 2025-11-14T17:04:19: 5:04:19 PM [express] GET /api/auth/me 401 in 1ms :: {"message":"Não autenticado"}
+0|veeam-dashboard  | 2025-11-14T17:04:21: 5:04:21 PM [express] POST /api/auth/logout 200 in 2ms :: {"success":true}
+0|veeam-dashboard  | 2025-11-14T17:04:30: 5:04:30 PM [express] POST /api/auth/login 401 in 45ms :: {"success":false,"message":"Senha incorreta…
+0|veeam-dashboard  | 2025-11-14T17:04:35: 5:04:35 PM [express] POST /api/auth/login 401 in 5ms :: {"success":false,"message":"Senha incorreta.…
+0|veeam-dashboard  | 2025-11-14T17:04:43: 5:04:43 PM [express] POST /api/auth/login 401 in 4ms :: {"success":false,"message":"Senha incorreta.…
+0|veeam-dashboard  | 2025-11-14T17:04:57: 5:04:57 PM [express] POST /api/auth/login 401 in 20ms :: {"success":false,"message":"Senha incorreta…
+0|veeam-dashboard  | 2025-11-14T17:05:16: 5:05:16 PM [express] POST /api/auth/login 401 in 17ms :: {"success":false,"message":"Senha incorreta…
+0|veeam-dashboard  | 2025-11-14T17:05:18: 5:05:18 PM [express] POST /api/auth/login 401 in 3ms :: {"success":false,"message":"Senha incorreta.…
