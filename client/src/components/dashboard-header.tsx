@@ -1,4 +1,5 @@
-import { Shield, LogOut, Mail } from "lucide-react";
+import { Shield, LogOut, Mail, User } from "lucide-react";
+import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -35,6 +36,8 @@ export function DashboardHeader({
   onLogout,
   onScheduleClick,
 }: DashboardHeaderProps) {
+  const [, setLocation] = useLocation();
+  
   const initials = userName
     .split(" ")
     .map((n) => n[0])
@@ -103,6 +106,14 @@ export function DashboardHeader({
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
+                <DropdownMenuItem 
+                  onClick={() => setLocation("/profile")} 
+                  data-testid="button-profile"
+                  className="cursor-pointer"
+                >
+                  <User className="w-4 h-4 mr-2" />
+                  Perfil
+                </DropdownMenuItem>
                 <DropdownMenuItem 
                   onClick={onLogout} 
                   data-testid="button-logout"

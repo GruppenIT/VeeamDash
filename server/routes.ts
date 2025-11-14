@@ -108,6 +108,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
 
+  app.post("/api/auth/change-password", requireAuth, async (req, res) => {
+    try {
+      const { currentPassword, newPassword } = req.body;
+
+      if (!currentPassword || !newPassword) {
+        return res.status(400).json({
+          success: false,
+          message: "Senha atual e nova senha são obrigatórias",
+        });
+      }
+
+      const user = await storage.getUser(req.session.userId!);
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message: "Usuário não encontrado",
+        });
+      }
+
+      if (user.password !== currentPassword) {
+        return res.status(401).json({
+          success: false,
+          message: "Senha atual incorreta",
+        });
+      }
+
+      await storage.updateUserPassword(user.id, newPassword);
+
+      return res.json({
+        success: true,
+        message: "Senha alterada com sucesso",
+      });
+    } catch (error) {
+      console.error("Change password error:", error);
+      return res.status(500).json({
+        success: false,
+        message: "Erro no servidor",
+      });
+    }
+  });
+
   app.get("/api/companies", requireAuth, async (req, res) => {
     try {
       const companies = await veeamService.getCompanies();

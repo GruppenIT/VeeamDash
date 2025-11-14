@@ -7,6 +7,7 @@ export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  updateUserPassword(userId: string, newPassword: string): Promise<void>;
   createEmailSchedule(schedule: InsertEmailSchedule): Promise<EmailSchedule>;
   getEmailSchedulesByUser(userId: string): Promise<EmailSchedule[]>;
 }
@@ -28,6 +29,13 @@ export class DatabaseStorage implements IStorage {
       .values(insertUser)
       .returning();
     return user;
+  }
+
+  async updateUserPassword(userId: string, newPassword: string): Promise<void> {
+    await db
+      .update(users)
+      .set({ password: newPassword })
+      .where(eq(users.id, userId));
   }
 
   async createEmailSchedule(schedule: InsertEmailSchedule): Promise<EmailSchedule> {
