@@ -1,0 +1,59 @@
+root@vlxvrpt29:/opt/veeam-dashboard# curl -v -k -c /tmp/cookies.txt -X POST https://localhost/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"login@sistema.com","password":"admin"}'
+Note: Unnecessary use of -X or --request, POST is already inferred.
+* Host localhost:443 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:443...
+* connect to ::1 port 443 from ::1 port 56138 failed: Connection refused
+*   Trying 127.0.0.1:443...
+* Connected to localhost (127.0.0.1) port 443
+* ALPN: curl offers h2,http/1.1
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+* TLSv1.3 (IN), TLS handshake, Certificate (11):
+* TLSv1.3 (IN), TLS handshake, CERT verify (15):
+* TLSv1.3 (IN), TLS handshake, Finished (20):
+* TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
+* TLSv1.3 (OUT), TLS handshake, Finished (20):
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384 / X25519 / RSASSA-PSS
+* ALPN: server accepted h2
+* Server certificate:
+*  subject: C=BR; ST=SP; L=SaoPaulo; O=GruppenIT; CN=veeamdash.zerogroup.local
+*  start date: Nov 11 23:31:49 2025 GMT
+*  expire date: Nov 11 23:31:49 2026 GMT
+*  issuer: C=BR; ST=SP; L=SaoPaulo; O=GruppenIT; CN=veeamdash.zerogroup.local
+*  SSL certificate verify result: self-signed certificate (18), continuing anyway.
+*   Certificate level 0: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+* old SSL session ID is stale, removing
+* using HTTP/2
+* [HTTP/2] [1] OPENED stream for https://localhost/api/auth/login
+* [HTTP/2] [1] [:method: POST]
+* [HTTP/2] [1] [:scheme: https]
+* [HTTP/2] [1] [:authority: localhost]
+* [HTTP/2] [1] [:path: /api/auth/login]
+* [HTTP/2] [1] [user-agent: curl/8.5.0]
+* [HTTP/2] [1] [accept: */*]
+* [HTTP/2] [1] [content-type: application/json]
+* [HTTP/2] [1] [content-length: 51]
+> POST /api/auth/login HTTP/2
+> Host: localhost
+> User-Agent: curl/8.5.0
+> Accept: */*
+> Content-Type: application/json
+> Content-Length: 51
+>
+< HTTP/2 401
+< server: nginx/1.24.0 (Ubuntu)
+< date: Fri, 14 Nov 2025 17:07:07 GMT
+< content-type: application/json; charset=utf-8
+< content-length: 73
+< x-powered-by: Express
+< etag: W/"49-HIN/EhEV2cZokv3zKgEVQR6JtVg"
+<
+* Connection #0 to host localhost left intact
+{"success":false,"message":"Senha incorreta. Use a senha padrão: admin"}root@vlxvrpt29:/opt/veeam-dashboard#
