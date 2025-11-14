@@ -1,10 +1,7 @@
-// Based on javascript_database blueprint
-import { Pool, neonConfig } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-serverless';
-import ws from "ws";
+// Database configuration for production on-premise PostgreSQL
+import { Pool } from 'pg';
+import { drizzle } from 'drizzle-orm/node-postgres';
 import * as schema from "@shared/schema";
-
-neonConfig.webSocketConstructor = ws;
 
 if (!process.env.DATABASE_URL) {
   throw new Error(
@@ -12,5 +9,9 @@ if (!process.env.DATABASE_URL) {
   );
 }
 
-export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-export const db = drizzle({ client: pool, schema });
+export const pool = new Pool({ 
+  connectionString: process.env.DATABASE_URL,
+  ssl: false // Disable SSL for local PostgreSQL
+});
+
+export const db = drizzle(pool, { schema });

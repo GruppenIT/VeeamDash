@@ -1,0 +1,125 @@
+root@vlxvrpt29:/opt/veeam-dashboard# cd /opt/veeam-dashboard
+
+# Executar o seed
+export $(cat .env | grep -v '^#' | xargs)
+npx tsx server/seed.ts
+
+# Ver o resultado
+echo "Verificando se o usuário foi criado..."
+psql -U veeam_user -d veeam_dashboard -c "SELECT id, username, name FROM users;"
+Verificando se o usuário foi criado...
+ id | username | name
+----+----------+------
+(0 rows)
+
+root@vlxvrpt29:/opt/veeam-dashboard# cd /opt/veeam-dashboard
+
+# Fazer git pull para pegar a correção
+git pull origin main
+remote: Enumerating objects: 16, done.
+remote: Counting objects: 100% (16/16), done.
+remote: Compressing objects: 100% (6/6), done.
+Unpacking objects: 100% (12/12), 10.44 KiB | 1.16 MiB/s, done.
+remote: Total 12 (delta 9), reused 9 (delta 6), pack-reused 0 (from 0)
+From https://github.com/GruppenIT/VeeamDash
+ * branch            main       -> FETCH_HEAD
+   03d0323..760fc15  main       -> origin/main
+Updating 03d0323..760fc15
+Fast-forward
+ attached_assets/Pasted-0-veeam-da-2025-11-11T23-32-10-11-32-10-PM-express-POST-api-auth-login-500--1763131620423_1763131620423.txt |  48 ++++++++++++++++++++++++++++++++++++++++++++++++
+ attached_assets/image_1762903945541.png                                                                                            | Bin 0 -> 8324 bytes
+ server/seed.ts                                                                                                                     |  16 ++++++++++++++++
+ 3 files changed, 64 insertions(+)
+ create mode 100644 attached_assets/Pasted-0-veeam-da-2025-11-11T23-32-10-11-32-10-PM-express-POST-api-auth-login-500--1763131620423_1763131620423.txt
+ create mode 100644 attached_assets/image_1762903945541.png
+root@vlxvrpt29:/opt/veeam-dashboard# export $(cat .env | grep -v '^#' | xargs)
+npx tsx server/seed.ts
+Erro ao criar usuário padrão: ErrorEvent {
+  [Symbol(kTarget)]: WebSocket {
+    _events: [Object: null prototype] {
+      error: [Function],
+      message: [Function],
+      close: [Function],
+      open: [Function]
+    },
+    _eventsCount: 4,
+    _maxListeners: undefined,
+    _binaryType: 'arraybuffer',
+    _closeCode: 1006,
+    _closeFrameReceived: false,
+    _closeFrameSent: false,
+    _closeMessage: <Buffer >,
+    _closeTimer: null,
+    _errorEmitted: true,
+    _extensions: {},
+    _paused: false,
+    _protocol: '',
+    _readyState: 3,
+    _receiver: null,
+    _sender: null,
+    _socket: null,
+    _bufferedAmount: 0,
+    _isServer: false,
+    _redirects: 0,
+    _autoPong: true,
+    _url: 'wss://localhost/v2',
+    _req: null,
+    [Symbol(shapeMode)]: false,
+    [Symbol(kCapture)]: false
+  },
+  [Symbol(kType)]: 'error',
+  [Symbol(kError)]: Error: self-signed certificate
+      at TLSSocket.onConnectSecure (node:_tls_wrap:1677:34)
+      at TLSSocket.emit (node:events:524:28)
+      at TLSSocket._finishInit (node:_tls_wrap:1076:8)
+      at ssl.onhandshakedone (node:_tls_wrap:862:12) {
+    code: 'DEPTH_ZERO_SELF_SIGNED_CERT'
+  },
+  [Symbol(kMessage)]: 'self-signed certificate'
+}
+❌ Erro no seed: ErrorEvent {
+  [Symbol(kTarget)]: WebSocket {
+    _events: [Object: null prototype] {
+      error: [Function],
+      message: [Function],
+      close: [Function],
+      open: [Function]
+    },
+    _eventsCount: 4,
+    _maxListeners: undefined,
+    _binaryType: 'arraybuffer',
+    _closeCode: 1006,
+    _closeFrameReceived: false,
+    _closeFrameSent: false,
+    _closeMessage: <Buffer >,
+    _closeTimer: null,
+    _errorEmitted: true,
+    _extensions: {},
+    _paused: false,
+    _protocol: '',
+    _readyState: 3,
+    _receiver: null,
+    _sender: null,
+    _socket: null,
+    _bufferedAmount: 0,
+    _isServer: false,
+    _redirects: 0,
+    _autoPong: true,
+    _url: 'wss://localhost/v2',
+    _req: null,
+    [Symbol(shapeMode)]: false,
+    [Symbol(kCapture)]: false
+  },
+  [Symbol(kType)]: 'error',
+  [Symbol(kError)]: Error: self-signed certificate
+      at TLSSocket.onConnectSecure (node:_tls_wrap:1677:34)
+      at TLSSocket.emit (node:events:524:28)
+      at TLSSocket._finishInit (node:_tls_wrap:1076:8)
+      at ssl.onhandshakedone (node:_tls_wrap:862:12) {
+    code: 'DEPTH_ZERO_SELF_SIGNED_CERT'
+  },
+  [Symbol(kMessage)]: 'self-signed certificate'
+}
+root@vlxvrpt29:/opt/veeam-dashboard# psql -U veeam_user -d veeam_database -c "SELECT id, username, name FROM users;"
+psql: error: connection to server at "localhost" (127.0.0.1), port 5432 failed: FATAL:  database "veeam_database" does not exist
+root@vlxvrpt29:/opt/veeam-dashboard#
