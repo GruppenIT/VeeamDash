@@ -121,7 +121,17 @@ export class VeeamService {
   }
 
   private calculateMonthlySuccessRates(jobs: VeeamBackupJob[]): { month: string; rate: number }[] {
-    const months = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'];
+    // Generate last 6 months dynamically
+    const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+    const now = new Date();
+    const months: string[] = [];
+    
+    // Get last 6 months including current month
+    for (let i = 5; i >= 0; i--) {
+      const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      months.push(monthNames[date.getMonth()]);
+    }
+    
     return months.map((month, index) => ({
       month,
       rate: 95 + Math.random() * 5 - (index * 0.5),
