@@ -1,0 +1,69 @@
+root@vlxvrpt29:/opt/veeam-dashboard# cd /opt/veeam-dashboard
+
+# Criar script que apenas ATUALIZA a senha
+cat > fix-password.cjs << 'EOF'
+const bcrypt = require('bcrypt');
+const { Pool } = require('pg');
+const fs = require('fs');
+
+// Ler DATABASE_URL do arquivo .env
+const envContent = fs.readFileSync('.env', 'utf8');
+envContent.split('\n').forEach(line => {
+  const [key, ...values] = line.split('=');
+  if (key && values.length > 0) {
+    process.env[key.trim()] = values.join('=').trim().replace(/['"]/g, '');
+  }
+});
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+
+async function updatePassword() {
+  try {
+    const hashedPassword = await bcrypt.hash('admin', 10);
+
+    console.log('🔑 Hash gerado:', hashedPassword.substring(0, 20) + '...');
+
+    // APENAS UPDATE, sem deletar
+    const result = await pool.query(
+      'UPDATE users SET password = $1 WHERE username = $2 RETURNING username',
+      [hashedPassword, 'login@sistema.com']
+    );
+
+    if (result.rowCount > 0) {
+      console.log('✅ Senha atualizada com sucesso para:', result.rows[0].username);
+    } else {
+      console.log('⚠️  Usuário não encontrado!');
+    }
+
+    await pool.end();
+    process.exit(0);
+  } catch (err) {
+    console.error('❌ Erro:', err.message);
+    console.error(err);
+    process.exit(1);
+  }
+}
+
+updatePassword();
+EOF
+
+# Executar
+sudo node fix-password.cjs
+
+# Limpar
+rm fix-password.cjs
+🔑 Hash gerado: $2b$10$Ju7/M8smD2nn1...
+✅ Senha atualizada com sucesso para: login@sistema.com
+root@vlxvrpt29:/opt/veeam-dashboard# # 1. Ver hash no banco (DEVE começar com $2b$10$)
+sudo -u postgres psql -d veeam_dashboard -c "SELECT username, LEFT(password, 15) as hash FROM users WHERE username = 'login@sistema.com';"
+
+# 2. Testar login (DEVE retornar success:true)
+curl -k -X POST https://localhost/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"login@sistema.com","password":"admin"}'
+     username      |      hash
+-------------------+-----------------
+ login@sistema.com | $2b$10$Ju7/M8sm
+(1 row)
+
+{"success":true,"user":{"id":"645fd3aa-b44a-43bc-9986-33850aba587a","username":"login@sistema.com","name":"Administrador Sistema"}}root@vlxvrpt29:/opt/veeam-dashboar
