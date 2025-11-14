@@ -1,0 +1,79 @@
+root@vlxvrpt29:/opt/veeam-dashboard# cd /opt/veeam-dashboard
+
+# Pull das correções
+git pull origin main
+
+# Rebuild
+npm run build
+
+# Parar PM2 completamente para limpar os loops
+pm2 delete veeam-dashboard
+
+# Iniciar novamente
+pm2 start ecosystem.config.cjs
+pm2 save
+
+# Aguardar e testar
+sleep 3
+curl -k -X POST https://localhost/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"login@sistema.com","password":"admin"}'
+remote: Enumerating objects: 25, done.
+remote: Counting objects: 100% (25/25), done.
+remote: Compressing objects: 100% (13/13), done.
+remote: Total 20 (delta 13), reused 14 (delta 7), pack-reused 0 (from 0)
+Unpacking objects: 100% (20/20), 24.35 KiB | 1.06 MiB/s, done.
+From https://github.com/GruppenIT/VeeamDash
+ * branch            main       -> FETCH_HEAD
+   52ab317..9f0b74d  main       -> origin/main
+Updating 52ab317..9f0b74d
+Fast-forward
+ ...ed-root-vlxvrpt29-opt-veeam-dashboard-C-root-vlxvrpt29-opt-veeam-dashboard-pm2-logs-veeam-dashboar-1763132421359_1763132421359.txt | 164 +++++++++++++++++++++++++++++++++
+ ...sted-root-vlxvrpt29-opt-veeam-dashboard-cd-opt-veeam-dashboard-Pull-das-altera-es-git-pull-origin--1763132002255_1763132002255.txt | 139 ++++++++++++++++++++++++++++
+ ...sted-root-vlxvrpt29-opt-veeam-dashboard-cd-opt-veeam-dashboard-Reinstalar-TODAS-as-depend-ncias-in-1763132070511_1763132070511.txt | 343 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ ...ed-root-vlxvrpt29-opt-veeam-dashboard-cd-opt-veeam-dashboard-npm-install-include-dev-npm-warn-depr-1763132293719_1763132293719.txt |  91 +++++++++++++++++++
+ attached_assets/image_1763132010793.png                                                                                               | Bin 0 -> 17009 bytes
+ install.sh                                                                                                                            |   7 +-
+ server/index.ts                                                                                                                       |   3 -
+ 7 files changed, 741 insertions(+), 6 deletions(-)
+ create mode 100644 attached_assets/Pasted-root-vlxvrpt29-opt-veeam-dashboard-C-root-vlxvrpt29-opt-veeam-dashboard-pm2-logs-veeam-dashboar-1763132421359_1763132421359.txt
+ create mode 100644 attached_assets/Pasted-root-vlxvrpt29-opt-veeam-dashboard-cd-opt-veeam-dashboard-Pull-das-altera-es-git-pull-origin--1763132002255_1763132002255.txt
+ create mode 100644 attached_assets/Pasted-root-vlxvrpt29-opt-veeam-dashboard-cd-opt-veeam-dashboard-Reinstalar-TODAS-as-depend-ncias-in-1763132070511_1763132070511.txt
+ create mode 100644 attached_assets/Pasted-root-vlxvrpt29-opt-veeam-dashboard-cd-opt-veeam-dashboard-npm-install-include-dev-npm-warn-depr-1763132293719_1763132293719.txt
+ create mode 100644 attached_assets/image_1763132010793.png
+
+> rest-express@1.0.0 build
+> vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+
+vite v5.4.21 building for production...
+transforming (4) src/App.tsx
+A PostCSS plugin did not pass the `from` option to `postcss.parse`. This may cause imported assets to be incorrectly transformed. If you've recently added a PostCSS plugin that raised this warning, please contact the package author to fix the issue.
+✓ 3381 modules transformed.
+../dist/public/index.html                   0.96 kB │ gzip:   0.52 kB
+../dist/public/assets/index-F0jzQYlp.css   71.24 kB │ gzip:  11.57 kB
+../dist/public/assets/index-BAnxr3Lc.js   888.15 kB │ gzip: 260.64 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 10.65s
+
+  dist/index.js  17.7kb
+
+⚡ Done in 8ms
+[PM2] Applying action deleteProcessId on app [veeam-dashboard](ids: [ 0 ])
+[PM2] [veeam-dashboard](0) ✓
+┌────┬───────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name      │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+└────┴───────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[PM2][WARN] Applications veeam-dashboard not running, starting...
+[PM2] App [veeam-dashboard] launched (1 instances)
+┌────┬────────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name               │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ veeam-dashboard    │ default     │ 1.0.0   │ fork    │ 148948   │ 0s     │ 0    │ online    │ 0%       │ 3.8mb    │ root     │ disabled │
+└────┴────────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+[PM2] Saving current process list...
+[PM2] Successfully saved in /root/.pm2/dump.pm2
+{"success":false,"message":"Usuário não autorizado. Use login@sistema.com"}root@vlxvrpt29:/opt/veeam-dashboard#
