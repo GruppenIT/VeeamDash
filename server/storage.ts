@@ -2,6 +2,7 @@
 import { users, emailSchedules, type User, type InsertUser, type EmailSchedule, type InsertEmailSchedule } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
+import bcrypt from "bcrypt";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -24,17 +25,26 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
+    // Hash password before storing
+    const hashedPassword = await bcrypt.hash(insertUser.password, 10);
+    
     const [user] = await db
       .insert(users)
-      .values(insertUser)
+      .values({
+        ...insertUser,
+        password: hashedPassword,
+      })
       .returning();
     return user;
   }
 
   async updateUserPassword(userId: string, newPassword: string): Promise<void> {
+    // Hash password before updating
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    
     await db
       .update(users)
-      .set({ password: newPassword })
+      .set({ password: hashedPassword })
       .where(eq(users.id, userId));
   }
 

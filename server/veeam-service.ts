@@ -4,6 +4,7 @@ import type {
   VeeamRepository,
   BackupFailure,
   DashboardMetrics,
+  ProtectedWorkload,
 } from "@shared/schema";
 
 interface VeeamConfig {
@@ -84,6 +85,7 @@ export class VeeamService {
       const repositories = await this.getRepositories();
       const monthlySuccessRates = this.calculateMonthlySuccessRates(companyJobs);
       const recentFailures = this.getRecentFailures(companyJobs);
+      const protectedWorkloads = await this.getProtectedWorkloads(companyId);
 
       return {
         totalBackups,
@@ -94,11 +96,97 @@ export class VeeamService {
         repositories,
         monthlySuccessRates,
         recentFailures,
+        protectedWorkloads,
       };
     } catch (error) {
       console.error('Error fetching metrics from Veeam:', error);
       return this.getDemoMetrics(companyId);
     }
+  }
+
+  private async getProtectedWorkloads(companyId: string): Promise<ProtectedWorkload[]> {
+    if (!this.isConfigured()) {
+      return this.getDemoProtectedWorkloads();
+    }
+
+    try {
+      const [vmsResponse, computersResponse, vb365Response] = await Promise.allSettled([
+        this.fetchVeeamAPI<{ data: any[] }>('/api/v3/protectedWorkloads/virtualMachines'),
+        this.fetchVeeamAPI<{ data: any[] }>('/api/v3/protectedWorkloads/computers'),
+        this.fetchVeeamAPI<{ data: any[] }>('/api/v3/protectedWorkloads/vb365ProtectedObjects'),
+      ]);
+
+      const vms = vmsResponse.status === 'fulfilled' ? vmsResponse.value.data : [];
+      const computers = computersResponse.status === 'fulfilled' ? computersResponse.value.data : [];
+      const vb365Objects = vb365Response.status === 'fulfilled' ? vb365Response.value.data : [];
+
+      const companyVMs = vms.filter((vm: any) => vm.organizationUid === companyId);
+      const companyComputers = computers.filter((comp: any) => comp.organizationUid === companyId);
+      const companyVB365 = vb365Objects.filter((obj: any) => obj.organizationUid === companyId);
+
+      const vmTotalSizeGB = companyVMs.reduce((sum: number, vm: any) => sum + (vm.totalRestorePointSize || 0), 0) / (1024 ** 3);
+      const computerTotalSizeGB = companyComputers.reduce((sum: number, comp: any) => sum + (comp.totalRestorePointSize || 0), 0) / (1024 ** 3);
+      const vb365TotalSizeGB = companyVB365.reduce((sum: number, obj: any) => sum + (obj.totalRestorePointSize || 0), 0) / (1024 ** 3);
+
+      return [
+        {
+          name: 'Computers',
+          quantity: companyComputers.length,
+          sizeGB: computerTotalSizeGB,
+          color: '#00B4D8',
+        },
+        {
+          name: 'Virtual Machines',
+          quantity: companyVMs.length,
+          sizeGB: vmTotalSizeGB,
+          color: '#90E0EF',
+        },
+        {
+          name: 'Cloud Instances',
+          quantity: 0,
+          sizeGB: 0,
+          color: '#0077B6',
+        },
+        {
+          name: 'Microsoft 365 Objects',
+          quantity: companyVB365.length,
+          sizeGB: vb365TotalSizeGB,
+          color: '#C77DFF',
+        },
+      ];
+    } catch (error) {
+      console.error('Error fetching protected workloads:', error);
+      return this.getDemoProtectedWorkloads();
+    }
+  }
+
+  private getDemoProtectedWorkloads(): ProtectedWorkload[] {
+    return [
+      {
+        name: 'Computers',
+        quantity: 19,
+        sizeGB: 670 * 1024,
+        color: '#00B4D8',
+      },
+      {
+        name: 'Virtual Machines',
+        quantity: 655,
+        sizeGB: 2.8 * 1024 * 1024,
+        color: '#90E0EF',
+      },
+      {
+        name: 'Cloud Instances',
+        quantity: 12,
+        sizeGB: 946.5,
+        color: '#0077B6',
+      },
+      {
+        name: 'Microsoft 365 Objects',
+        quantity: 1544,
+        sizeGB: 22.9 * 1024 * 1024,
+        color: '#C77DFF',
+      },
+    ];
   }
 
   private async getRepositories(): Promise<VeeamRepository[]> {
@@ -188,6 +276,16 @@ export class VeeamService {
   private getDemoMetrics(companyId: string): DashboardMetrics {
     const successRate = 96.5;
     
+    // Generate dynamic monthly success rates for last 6 months
+    const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+    const now = new Date();
+    const months: string[] = [];
+    
+    for (let i = 5; i >= 0; i--) {
+      const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      months.push(monthNames[date.getMonth()]);
+    }
+    
     return {
       totalBackups: 247,
       successRate,
@@ -210,14 +308,10 @@ export class VeeamService {
           path: '/backup/secondary',
         },
       ],
-      monthlySuccessRates: [
-        { month: 'Janeiro', rate: 98.2 },
-        { month: 'Fevereiro', rate: 97.8 },
-        { month: 'Março', rate: 96.5 },
-        { month: 'Abril', rate: 97.1 },
-        { month: 'Maio', rate: 96.8 },
-        { month: 'Junho', rate: 96.5 },
-      ],
+      monthlySuccessRates: months.map((month, index) => ({
+        month,
+        rate: 95 + Math.random() * 5 - (index * 0.5),
+      })),
       recentFailures: [
         {
           id: 'f1',
@@ -244,6 +338,7 @@ export class VeeamService {
           vmName: 'SRV-DB-01',
         },
       ],
+      protectedWorkloads: this.getDemoProtectedWorkloads(),
     };
   }
 }

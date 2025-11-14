@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import session from "express-session";
+import bcrypt from "bcrypt";
 import { storage } from "./storage";
 import { veeamService } from "./veeam-service";
 import { insertUserSchema, insertEmailScheduleSchema } from "@shared/schema";
@@ -54,7 +55,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      if (user.password !== password) {
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) {
         return res.status(401).json({
           success: false,
           message: "Senha incorreta. Use a senha padrão: admin",
@@ -119,6 +121,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      if (newPassword.length < 4) {
+        return res.status(400).json({
+          success: false,
+          message: "A nova senha deve ter no mínimo 4 caracteres",
+        });
+      }
+
       const user = await storage.getUser(req.session.userId!);
       if (!user) {
         return res.status(404).json({
@@ -127,13 +136,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      if (user.password !== currentPassword) {
+      const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
+      if (!isCurrentPasswordValid) {
         return res.status(401).json({
           success: false,
           message: "Senha atual incorreta",
         });
       }
 
+      // Password will be hashed automatically by storage.updateUserPassword
       await storage.updateUserPassword(user.id, newPassword);
 
       return res.json({

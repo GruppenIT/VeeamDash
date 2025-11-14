@@ -5,6 +5,7 @@ export async function seedDatabase() {
     const existingUser = await storage.getUserByUsername("login@sistema.com");
     
     if (!existingUser) {
+      // Password will be hashed automatically by storage.createUser
       await storage.createUser({
         username: "login@sistema.com",
         password: "admin",

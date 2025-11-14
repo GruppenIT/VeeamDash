@@ -8,6 +8,7 @@ import { SuccessRateChart } from "@/components/success-rate-chart";
 import { RepositoryCards } from "@/components/repository-cards";
 import { FailuresTable } from "@/components/failures-table";
 import { ScheduleModal } from "@/components/schedule-modal";
+import { ProtectedDataOverview } from "@/components/protected-data-overview";
 import { Database, Server, HardDrive, TrendingUp } from "lucide-react";
 import type { VeeamCompany, DashboardMetrics } from "@shared/schema";
 
@@ -106,6 +107,8 @@ export default function Dashboard() {
                 iconColor="text-orange-600"
               />
             </div>
+
+            <ProtectedDataOverview workloads={metrics.protectedWorkloads} />
 
             <HealthStatusCard
               status={metrics.healthStatus}

@@ -8,16 +8,19 @@ Aplicação web profissional para monitoramento de infraestrutura de backup atra
 
 ### Autenticação
 - Login seguro com sessão Express
+- **Senhas hasheadas** com bcrypt (10 rounds)
 - Usuário padrão: `login@sistema.com`
 - Senha padrão: `admin`
+- Página de perfil com **troca de senha**
 
 ### Dashboard Interativo
 - **Seletor de Cliente**: Dropdown no header para alternar entre empresas
 - **Métricas Principais**: Cards com total de backups, taxa de sucesso, jobs ativos e armazenamento
+- **Protected Data Overview**: Painel com gráfico donut mostrando distribuição de workloads protegidos (Computers, VMs, Cloud Instances, M365 Objects)
 - **Status de Saúde**: Indicador visual (Healthy/Warning/Critical) baseado na taxa de sucesso
-- **Gráfico de Tendência**: Taxa de sucesso de backups nos últimos meses
+- **Gráfico de Tendência**: Taxa de sucesso de backups nos últimos 6 meses (dinâmico)
 - **Repositórios**: Visualização de uso de armazenamento com barras de progresso
-- **Tabela de Falhas**: Lista de jobs que falharam nos últimos 7 dias
+- **Tabela de Falhas**: Lista de jobs que falharam recentemente
 
 ### Agendamento de Relatórios
 - Modal para configurar envio automático de relatórios por e-mail
@@ -51,6 +54,8 @@ A aplicação se conecta à API REST do Veeam Service Provider Console v3:
 - `GET /api/v3/organizations/companies` - Lista de clientes
 - `GET /api/v3/infrastructure/backupServers/jobs/backupVmJobs` - Jobs de backup
 - `GET /api/v3/protectedWorkloads/virtualMachines` - VMs protegidas
+- `GET /api/v3/protectedWorkloads/computers` - Computadores protegidos (Veeam Agents)
+- `GET /api/v3/protectedWorkloads/vb365ProtectedObjects` - Microsoft 365 Objects
 
 **Modo Demo**: Quando as credenciais do VSPC não estão configuradas, a aplicação usa dados de demonstração para permitir testes da interface.
 
@@ -209,7 +214,7 @@ VEEAM_API_URL=https://vspc-server.exemplo.com:1280
 **Tabela: users**
 - `id` (varchar, PK): UUID gerado automaticamente
 - `username` (text): E-mail do usuário
-- `password` (text): Senha (em produção, usar hash)
+- `password` (text): Senha hasheada com bcrypt (10 rounds)
 - `name` (text): Nome completo
 
 **Tabela: email_schedules**
@@ -249,11 +254,13 @@ A aplicação segue as diretrizes definidas em `design_guidelines.md`:
 
 ## Segurança
 
-- Sessões HTTP-only cookies
-- Validação de dados com Zod
+- **Senhas hasheadas** com bcrypt (10 rounds)
+- Sessões HTTP-only cookies (24h de duração)
+- Validação de dados com Zod em todos os endpoints
 - Prepared statements (proteção contra SQL injection via Drizzle)
-- HTTPS recomendado em produção
+- HTTPS obrigatório em produção (Nginx com SSL self-signed)
 - Session secret forte (gerado automaticamente pelo install.sh)
+- **Troca de senha** segura com validação da senha atual
 
 ## Monitoramento
 
@@ -304,6 +311,15 @@ Aplicação desenvolvida para integração com Veeam Service Provider Console.
 Para suporte com a API do Veeam: https://helpcenter.veeam.com/docs/vac/rest/
 
 ## Changelog
+
+### v1.1.0 (2024-11-14)
+- **🔒 Segurança**: Implementado hash de senhas com bcrypt (10 rounds)
+- **✨ Novo**: Painel "Protected Data Overview" com gráfico donut e tabela de workloads
+- **✨ Novo**: Página de perfil com troca de senha
+- **🔧 Melhoria**: Gráfico de sucesso mensal agora mostra últimos 6 meses dinamicamente
+- **🔌 API**: Integração com endpoints v3 de protected workloads (VMs, computers, M365)
+- **🔧 Fix**: Correção de driver PostgreSQL para on-premise (pg ao invés de @neondatabase/serverless)
+- **🔧 Fix**: Session cookies configuradas para funcionar com Nginx proxy (secure=false)
 
 ### v1.0.0 (2024-11-11)
 - Lançamento inicial

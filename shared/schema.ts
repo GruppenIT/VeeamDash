@@ -84,6 +84,13 @@ export interface BackupFailure {
   vmName: string;
 }
 
+export interface ProtectedWorkload {
+  name: string;
+  quantity: number;
+  sizeGB: number;
+  color: string;
+}
+
 export interface DashboardMetrics {
   totalBackups: number;
   successRate: number;
@@ -93,4 +100,5 @@ export interface DashboardMetrics {
   repositories: VeeamRepository[];
   monthlySuccessRates: { month: string; rate: number }[];
   recentFailures: BackupFailure[];
+  protectedWorkloads: ProtectedWorkload[];
 }
