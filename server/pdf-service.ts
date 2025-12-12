@@ -48,6 +48,7 @@ export class PDFService {
       const doc = new PDFDocument({
         size: "A4",
         margin: 50,
+        bufferPages: true,
         info: {
           Title: `Relatório de Backup - ${data.companyName}`,
           Author: "Veeam VSPC Dashboard",
