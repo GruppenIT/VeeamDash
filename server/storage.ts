@@ -1,7 +1,7 @@
 // Based on javascript_database blueprint
-import { users, emailSchedules, type User, type InsertUser, type EmailSchedule, type InsertEmailSchedule } from "@shared/schema";
+import { users, emailSchedules, sessionSnapshots, type User, type InsertUser, type EmailSchedule, type InsertEmailSchedule, type SessionSnapshot, type InsertSessionSnapshot } from "@shared/schema";
 import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { eq, and, gte, lte } from "drizzle-orm";
 import bcrypt from "bcrypt";
 
 export interface IStorage {
@@ -11,6 +11,10 @@ export interface IStorage {
   updateUserPassword(userId: string, newPassword: string): Promise<void>;
   createEmailSchedule(schedule: InsertEmailSchedule): Promise<EmailSchedule>;
   getEmailSchedulesByUser(userId: string): Promise<EmailSchedule[]>;
+  createSessionSnapshot(snapshot: InsertSessionSnapshot): Promise<SessionSnapshot>;
+  getSessionSnapshots(companyId: string, startDate: Date, endDate: Date): Promise<SessionSnapshot[]>;
+  getSnapshotByDateAndCompany(companyId: string, date: Date): Promise<SessionSnapshot | undefined>;
+  upsertSessionSnapshot(snapshot: InsertSessionSnapshot): Promise<SessionSnapshot>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -61,6 +65,66 @@ export class DatabaseStorage implements IStorage {
       .select()
       .from(emailSchedules)
       .where(eq(emailSchedules.userId, userId));
+  }
+
+  async createSessionSnapshot(snapshot: InsertSessionSnapshot): Promise<SessionSnapshot> {
+    const [result] = await db
+      .insert(sessionSnapshots)
+      .values(snapshot)
+      .returning();
+    return result;
+  }
+
+  async getSessionSnapshots(companyId: string, startDate: Date, endDate: Date): Promise<SessionSnapshot[]> {
+    return await db
+      .select()
+      .from(sessionSnapshots)
+      .where(
+        and(
+          eq(sessionSnapshots.companyId, companyId),
+          gte(sessionSnapshots.date, startDate),
+          lte(sessionSnapshots.date, endDate)
+        )
+      );
+  }
+
+  async getSnapshotByDateAndCompany(companyId: string, date: Date): Promise<SessionSnapshot | undefined> {
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+    const endOfDay = new Date(date);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    const [snapshot] = await db
+      .select()
+      .from(sessionSnapshots)
+      .where(
+        and(
+          eq(sessionSnapshots.companyId, companyId),
+          gte(sessionSnapshots.date, startOfDay),
+          lte(sessionSnapshots.date, endOfDay)
+        )
+      );
+    return snapshot || undefined;
+  }
+
+  async upsertSessionSnapshot(snapshot: InsertSessionSnapshot): Promise<SessionSnapshot> {
+    const existing = await this.getSnapshotByDateAndCompany(snapshot.companyId, snapshot.date);
+    
+    if (existing) {
+      const [updated] = await db
+        .update(sessionSnapshots)
+        .set({
+          successCount: snapshot.successCount,
+          warningCount: snapshot.warningCount,
+          failedCount: snapshot.failedCount,
+          totalCount: snapshot.totalCount,
+        })
+        .where(eq(sessionSnapshots.id, existing.id))
+        .returning();
+      return updated;
+    }
+    
+    return this.createSessionSnapshot(snapshot);
   }
 }
 

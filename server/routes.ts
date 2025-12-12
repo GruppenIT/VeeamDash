@@ -223,6 +223,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Collect session snapshot for a company (called by cron or manually)
+  app.post("/api/session-snapshots/collect", requireAuth, async (req, res) => {
+    try {
+      const { companyId } = req.body;
+      
+      if (!companyId) {
+        return res.status(400).json({ message: "companyId is required" });
+      }
+
+      const result = await veeamService.collectSessionSnapshot(companyId);
+      return res.json(result);
+    } catch (error) {
+      console.error("Collect session snapshot error:", error);
+      return res.status(500).json({ message: "Erro ao coletar snapshot" });
+    }
+  });
+
+  // Collect session snapshots for all companies
+  app.post("/api/session-snapshots/collect-all", requireAuth, async (req, res) => {
+    try {
+      const companies = await veeamService.getCompanies();
+      const results = [];
+      
+      for (const company of companies) {
+        try {
+          const result = await veeamService.collectSessionSnapshot(company.instanceUid);
+          results.push({ company: company.name, success: true, result });
+        } catch (error) {
+          results.push({ company: company.name, success: false, error: String(error) });
+        }
+      }
+      
+      return res.json({ collected: results.length, results });
+    } catch (error) {
+      console.error("Collect all snapshots error:", error);
+      return res.status(500).json({ message: "Erro ao coletar snapshots" });
+    }
+  });
+
+  // Get session states for calendar (last 30 days)
+  app.get("/api/session-states/:companyId", requireAuth, async (req, res) => {
+    try {
+      const { companyId } = req.params;
+      const sessionStates = await veeamService.getSessionStates(companyId);
+      return res.json(sessionStates);
+    } catch (error) {
+      console.error("Get session states error:", error);
+      return res.status(500).json({ message: "Erro ao buscar estados de sessão" });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

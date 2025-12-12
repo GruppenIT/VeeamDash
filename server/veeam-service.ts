@@ -6,7 +6,10 @@ import type {
   DashboardMetrics,
   ProtectedWorkload,
   DataPlatformScorecard,
+  SessionStatesData,
+  DaySessionState,
 } from "@shared/schema";
+import { storage } from "./storage";
 
 interface VeeamConfig {
   apiUrl: string;
@@ -423,6 +426,127 @@ export class VeeamService {
         title: 'Platform Health State',
       },
     };
+  }
+
+  async collectSessionSnapshot(companyId: string): Promise<{ success: boolean; message: string }> {
+    try {
+      const companies = await this.getCompanies();
+      const company = companies.find(c => c.instanceUid === companyId);
+      
+      if (!company) {
+        return { success: false, message: 'Company not found' };
+      }
+
+      // Get current job statuses
+      const jobs = await this.fetchAllPages<any>('/api/v3/infrastructure/backupServers/jobs');
+      const companyJobs = jobs.filter((job: any) => job.organizationUid === companyId);
+
+      let successCount = 0;
+      let warningCount = 0;
+      let failedCount = 0;
+
+      for (const job of companyJobs) {
+        const status = job.status;
+        if (status === 'Success' || status === 'Running' || status === 'Idle') {
+          successCount++;
+        } else if (status === 'Warning') {
+          warningCount++;
+        } else {
+          failedCount++;
+        }
+      }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      await storage.upsertSessionSnapshot({
+        date: today,
+        companyId: companyId,
+        companyName: company.name,
+        successCount,
+        warningCount,
+        failedCount,
+        totalCount: companyJobs.length,
+      });
+
+      console.log(`[VeeamService] Collected snapshot for ${company.name}: ${successCount} success, ${warningCount} warning, ${failedCount} failed`);
+
+      return { success: true, message: `Snapshot collected for ${company.name}` };
+    } catch (error) {
+      console.error('Error collecting session snapshot:', error);
+      return { success: false, message: String(error) };
+    }
+  }
+
+  async getSessionStates(companyId: string): Promise<SessionStatesData> {
+    try {
+      const endDate = new Date();
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - 30);
+
+      const snapshots = await storage.getSessionSnapshots(companyId, startDate, endDate);
+
+      if (snapshots.length === 0) {
+        return {
+          days: [],
+          hasData: false,
+          message: 'Dados históricos estão sendo coletados. O calendário será preenchido automaticamente ao longo do tempo.',
+        };
+      }
+
+      const days: DaySessionState[] = [];
+
+      // Generate all 30 days
+      for (let i = 0; i < 30; i++) {
+        const date = new Date();
+        date.setDate(date.getDate() - (29 - i));
+        date.setHours(0, 0, 0, 0);
+
+        const dateStr = date.toISOString().split('T')[0];
+        const snapshot = snapshots.find(s => {
+          const snapshotDate = new Date(s.date);
+          snapshotDate.setHours(0, 0, 0, 0);
+          return snapshotDate.toISOString().split('T')[0] === dateStr;
+        });
+
+        if (snapshot && snapshot.totalCount > 0) {
+          days.push({
+            date: dateStr,
+            successPercent: Math.round((snapshot.successCount / snapshot.totalCount) * 100),
+            warningPercent: Math.round((snapshot.warningCount / snapshot.totalCount) * 100),
+            failedPercent: Math.round((snapshot.failedCount / snapshot.totalCount) * 100),
+            successCount: snapshot.successCount,
+            warningCount: snapshot.warningCount,
+            failedCount: snapshot.failedCount,
+            totalCount: snapshot.totalCount,
+          });
+        } else {
+          // No data for this day
+          days.push({
+            date: dateStr,
+            successPercent: 0,
+            warningPercent: 0,
+            failedPercent: 0,
+            successCount: 0,
+            warningCount: 0,
+            failedCount: 0,
+            totalCount: 0,
+          });
+        }
+      }
+
+      return {
+        days,
+        hasData: true,
+      };
+    } catch (error) {
+      console.error('Error getting session states:', error);
+      return {
+        days: [],
+        hasData: false,
+        message: 'Erro ao carregar dados históricos.',
+      };
+    }
   }
 }
 
