@@ -305,6 +305,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get monthly chart data (last 12 months)
+  app.get("/api/monthly-stats/:companyId", requireAuth, async (req, res) => {
+    try {
+      const { companyId } = req.params;
+      const monthlyStats = await veeamService.getMonthlyStats(companyId);
+      return res.json(monthlyStats);
+    } catch (error) {
+      console.error("Get monthly stats error:", error);
+      return res.status(500).json({ message: "Erro ao buscar estatísticas mensais" });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

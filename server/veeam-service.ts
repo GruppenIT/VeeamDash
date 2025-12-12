@@ -548,6 +548,59 @@ export class VeeamService {
       };
     }
   }
+
+  async getMonthlyStats(companyId: string): Promise<{ month: string; errors: number; warnings: number; successRate: number }[]> {
+    try {
+      const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+      const results: { month: string; errors: number; warnings: number; successRate: number }[] = [];
+      
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      
+      for (let monthIndex = 0; monthIndex < 12; monthIndex++) {
+        const startOfMonth = new Date(currentYear, monthIndex, 1);
+        const endOfMonth = new Date(currentYear, monthIndex + 1, 0, 23, 59, 59, 999);
+        
+        if (startOfMonth > now) {
+          results.push({
+            month: monthNames[monthIndex],
+            errors: 0,
+            warnings: 0,
+            successRate: 0,
+          });
+          continue;
+        }
+        
+        const snapshots = await storage.getSessionSnapshots(companyId, startOfMonth, endOfMonth);
+        
+        let totalErrors = 0;
+        let totalWarnings = 0;
+        let totalSuccess = 0;
+        let totalCount = 0;
+        
+        for (const snapshot of snapshots) {
+          totalErrors += snapshot.failedCount;
+          totalWarnings += snapshot.warningCount;
+          totalSuccess += snapshot.successCount;
+          totalCount += snapshot.totalCount;
+        }
+        
+        const successRate = totalCount > 0 ? Math.round((totalSuccess / totalCount) * 100) : 0;
+        
+        results.push({
+          month: monthNames[monthIndex],
+          errors: totalErrors,
+          warnings: totalWarnings,
+          successRate,
+        });
+      }
+      
+      return results;
+    } catch (error) {
+      console.error('Error getting monthly stats:', error);
+      return [];
+    }
+  }
 }
 
 export const veeamService = new VeeamService();

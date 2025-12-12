@@ -6,7 +6,8 @@ import { DashboardHeader } from "@/components/dashboard-header";
 import { ProtectedDataOverview } from "@/components/protected-data-overview";
 import { DataPlatformScorecard } from "@/components/data-platform-scorecard";
 import { SessionStatesCalendar } from "@/components/session-states-calendar";
-import type { VeeamCompany, DashboardMetrics, DataPlatformScorecard as ScorecardType, SessionStatesData } from "@shared/schema";
+import { MonthlyCharts } from "@/components/monthly-charts";
+import type { VeeamCompany, DashboardMetrics, DataPlatformScorecard as ScorecardType, SessionStatesData, MonthlyChartData } from "@shared/schema";
 
 export default function Dashboard() {
   const [, setLocation] = useLocation();
@@ -29,6 +30,11 @@ export default function Dashboard() {
 
   const { data: sessionStates, isLoading: sessionStatesLoading } = useQuery<SessionStatesData>({
     queryKey: ['/api/session-states', selectedCompany],
+    enabled: !!selectedCompany,
+  });
+
+  const { data: monthlyStats, isLoading: monthlyStatsLoading } = useQuery<MonthlyChartData[]>({
+    queryKey: ['/api/monthly-stats', selectedCompany],
     enabled: !!selectedCompany,
   });
 
@@ -87,6 +93,10 @@ export default function Dashboard() {
               platformHealth={scorecard.platformHealth}
             />
             <ProtectedDataOverview workloads={metrics.protectedWorkloads} />
+            <MonthlyCharts 
+              data={monthlyStats || []} 
+              isLoading={monthlyStatsLoading} 
+            />
             <SessionStatesCalendar 
               data={sessionStates || { days: [], hasData: false }} 
               isLoading={sessionStatesLoading} 

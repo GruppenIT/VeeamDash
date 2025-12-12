@@ -156,3 +156,11 @@ export interface SessionStatesData {
   hasData: boolean;
   message?: string;
 }
+
+// Monthly Charts Types
+export interface MonthlyChartData {
+  month: string;
+  errors: number;
+  warnings: number;
+  successRate: number;
+}
