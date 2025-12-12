@@ -1,0 +1,45 @@
+root@vlxvrpt29:/opt/veeam-dashboard# curl -k -s -H "Authorization: Bearer $(cat /opt/veeam-dashboard/.env | grep VEEAM_API_KEY | cut -d'=' -f2)" \
+  "https://vspc.gruppen.com.br:1280/api/v3/managementAgents?limit=50" | python3 -c "
+import sys, json
+try:
+    data = json.load(sys.stdin)
+    meta = data.get('meta', {}).get('pagingInfo', {})
+    items = data.get('data', [])
+    print(f'Total managementAgents: {meta.get(\"total\", len(items))}')
+    if items:
+        print('Campos:')
+        for key in list(items[0].keys())[:15]:
+            print(f'  - {key}: {items[0].get(key)}')
+except Exception as e:
+    print(f'Erro: {e}')
+"
+Erro: Expecting value: line 1 column 1 (char 0)
+root@vlxvrpt29:/opt/veeam-dashboard# curl -k -s -H "Authorization: Bearer $(cat /opt/veeam-dashboard/.env | grep VEEAM_API_KEY | cut -d'=' -f2)" \
+  "https://vspc.gruppen.com.br:1280/api/v3/discovery/computers?limit=50" | python3 -c "
+import sys, json
+try:
+    data = json.load(sys.stdin)
+    meta = data.get('meta', {}).get('pagingInfo', {})
+    items = data.get('data', [])
+    print(f'Total discovery/computers: {meta.get(\"total\", len(items))}')
+except Exception as e:
+    print(f'Erro: {e}')
+"
+Total discovery/computers: 24
+root@vlxvrpt29:/opt/veeam-dashboard# curl -k -s -H "Authorization: Bearer $(cat /opt/veeam-dashboard/.env | grep VEEAM_API_KEY | cut -d'=' -f2)" \
+  "https://vspc.gruppen.com.br:1280/api/v3/infrastructure/backupServers/jobs/agentBackupJobs?limit=50" | python3 -c "
+import sys, json
+try:
+    data = json.load(sys.stdin)
+    meta = data.get('meta', {}).get('pagingInfo', {})
+    items = data.get('data', [])
+    print(f'Total agentBackupJobs: {meta.get(\"total\", len(items))}')
+    if items:
+        gedore_uid = 'dd4d0261-abdf-4738-b395-fc1c30882bac'
+        gedore_jobs = [j for j in items if j.get('organizationUid') == gedore_uid]
+        print(f'Gedore agentBackupJobs: {len(gedore_jobs)}')
+except Exception as e:
+    print(f'Erro: {e}')
+"
+Total agentBackupJobs: 0
+root@vlxvrpt29:/opt/veeam-dashboard#
