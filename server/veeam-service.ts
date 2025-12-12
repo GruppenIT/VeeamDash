@@ -698,41 +698,49 @@ export class VeeamService {
       console.log(`[VeeamService] Total jobs fetched: ${jobs.length}, sessions: ${sessions.length}`);
       
       const companyJobs = jobs.filter((job: any) => job.organizationUid === companyId);
+      const jobMap = new Map(companyJobs.map((job: any) => [job.instanceUid, job]));
       
       console.log(`[VeeamService] Company jobs: ${companyJobs.length}`);
       
-      const failedJobs = companyJobs
-        .filter((job: any) => {
-          const status = job.status?.toLowerCase() || '';
-          return status === 'failed' || status === 'warning' || status === 'error';
-        })
-        .map((job: any): FailedJob => {
-          const jobSessions = sessions
-            .filter((s: any) => s.jobUid === job.instanceUid)
-            .sort((a: any, b: any) => new Date(b.endTime || 0).getTime() - new Date(a.endTime || 0).getTime());
-          
-          const lastSession = jobSessions[0];
-          const lastSessionMessage = lastSession?.message || lastSession?.bottleneck || '';
-          
-          return {
-            instanceUid: job.instanceUid || '',
-            name: job.name || '',
-            type: job.type || job.jobType || '',
-            status: job.status || '',
-            lastRun: job.lastRun || '',
-            lastResult: job.lastResult || job.status || '',
-            description: job.description || '',
-            lastSessionMessage,
-          };
-        });
+      const companyJobUids = new Set(companyJobs.map((job: any) => job.instanceUid));
+      const companySessions = sessions.filter((s: any) => companyJobUids.has(s.jobUid));
       
-      failedJobs.sort((a: FailedJob, b: FailedJob) => {
-        const dateA = new Date(a.lastRun || 0);
-        const dateB = new Date(b.lastRun || 0);
-        return dateB.getTime() - dateA.getTime();
+      console.log(`[VeeamService] Company sessions: ${companySessions.length}`);
+      
+      const failedSessions = companySessions.filter((s: any) => {
+        const result = (s.result || s.status || '').toLowerCase();
+        return result === 'failed' || result === 'warning' || result === 'error';
       });
       
-      console.log(`[VeeamService] Failed jobs: ${failedJobs.length}`);
+      console.log(`[VeeamService] Failed sessions: ${failedSessions.length}`);
+      
+      failedSessions.sort((a: any, b: any) => 
+        new Date(b.endTime || 0).getTime() - new Date(a.endTime || 0).getTime()
+      );
+      
+      const seenJobs = new Set<string>();
+      const failedJobs: FailedJob[] = [];
+      
+      for (const session of failedSessions) {
+        if (seenJobs.has(session.jobUid)) continue;
+        seenJobs.add(session.jobUid);
+        
+        const job = jobMap.get(session.jobUid);
+        if (!job) continue;
+        
+        failedJobs.push({
+          instanceUid: job.instanceUid || '',
+          name: job.name || '',
+          type: job.type || job.jobType || '',
+          status: session.result || session.status || '',
+          lastRun: session.endTime || job.lastRun || '',
+          lastResult: session.result || session.status || '',
+          description: job.description || '',
+          lastSessionMessage: session.message || session.bottleneck || '',
+        });
+      }
+      
+      console.log(`[VeeamService] Failed jobs (unique): ${failedJobs.length}`);
       
       return failedJobs;
     } catch (error) {
