@@ -40,7 +40,7 @@ export default function Dashboard() {
   });
 
   const { data: alarms, isLoading: alarmsLoading } = useQuery<VeeamAlarm[]>({
-    queryKey: ['/api/alarms', selectedCompany],
+    queryKey: [`/api/alarms/${selectedCompany}`],
     enabled: !!selectedCompany,
   });
 
