@@ -103,13 +103,13 @@ export default function Dashboard() {
               data={monthlyStats || []} 
               isLoading={monthlyStatsLoading} 
             />
-            <SessionStatesCalendar 
-              data={sessionStates || { days: [], hasData: false }} 
-              isLoading={sessionStatesLoading} 
-            />
             <AlarmsTable 
               alarms={alarms || []} 
               isLoading={alarmsLoading} 
+            />
+            <SessionStatesCalendar 
+              data={sessionStates || { days: [], hasData: false }} 
+              isLoading={sessionStatesLoading} 
             />
           </>
         ) : !selectedCompany ? (
