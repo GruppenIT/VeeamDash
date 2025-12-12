@@ -308,46 +308,53 @@ export class VeeamService {
     };
   }
 
-  async getDataPlatformScorecard(companyId: string): Promise<DataPlatformScorecard> {
+  async getDataPlatformScorecard(companyId: string, periodDays: number = 7): Promise<DataPlatformScorecard> {
     if (!this.isConfigured()) {
-      return this.getDemoScorecard();
+      return this.getDemoScorecard(periodDays);
     }
 
     try {
-      console.log(`[VeeamService] Fetching scorecard for company: ${companyId}`);
+      console.log(`[VeeamService] Fetching scorecard for company: ${companyId}, period: ${periodDays} days`);
 
-      const [vms, jobs, backupServers] = await Promise.all([
-        this.fetchAllPages<any>('/api/v3/protectedWorkloads/virtualMachines'),
+      const [jobs, backupServers] = await Promise.all([
         this.fetchAllPages<any>('/api/v3/infrastructure/backupServers/jobs'),
         this.fetchAllPages<any>('/api/v3/infrastructure/backupServers'),
       ]);
 
-      // Filter by company
-      const companyVMs = vms.filter((vm: any) => vm.organizationUid === companyId);
-      const companyJobs = jobs.filter((job: any) => job.organizationUid === companyId);
-
-      // Calculate RPO Overview (VMs with backup in last 24 hours)
+      // Filter by company and period
       const now = new Date();
-      let rpoOk = 0;
-      let rpoViolation = 0;
+      const periodStart = new Date(now.getTime() - (periodDays * 24 * 60 * 60 * 1000));
       
-      for (const vm of companyVMs) {
-        const lastBackup = vm.latestRestorePointDate;
-        if (lastBackup) {
-          const backupTime = new Date(lastBackup);
-          const ageHours = (now.getTime() - backupTime.getTime()) / (1000 * 60 * 60);
-          if (ageHours <= 24) {
-            rpoOk++;
-          } else {
-            rpoViolation++;
-          }
-        } else {
-          rpoViolation++;
+      // Helper to extract date from lastRun (can be string or object with endTime/startTime)
+      const extractLastRunDate = (job: any): Date | null => {
+        const lastRun = job.lastRun || job.lastActiveDate;
+        if (!lastRun) return null;
+        
+        // If it's a string (ISO date), parse directly
+        if (typeof lastRun === 'string') {
+          return new Date(lastRun);
         }
-      }
+        
+        // If it's an object, try endTime, startTime, or any date-like property
+        if (typeof lastRun === 'object') {
+          const dateStr = lastRun.endTime || lastRun.startTime || lastRun.date;
+          if (dateStr) return new Date(dateStr);
+        }
+        
+        return null;
+      };
       
-      const rpoTotal = rpoOk + rpoViolation;
-      const rpoPercentage = rpoTotal > 0 ? Math.round((rpoOk / rpoTotal) * 100) : 100;
+      const companyJobs = jobs.filter((job: any) => {
+        if (job.organizationUid !== companyId) return false;
+        
+        // Filter by lastRun date within period
+        const lastRunDate = extractLastRunDate(job);
+        if (lastRunDate && !isNaN(lastRunDate.getTime())) {
+          return lastRunDate >= periodStart;
+        }
+        
+        return true; // Include jobs without valid lastRun date
+      });
 
       // Calculate Job Sessions Overview
       let jobsOk = 0;
@@ -381,8 +388,8 @@ export class VeeamService {
       const healthTotal = healthyServers + unhealthyServers;
       const healthPercentage = healthTotal > 0 ? Math.round((healthyServers / healthTotal) * 100) : 100;
 
-      // Calculate overall score (weighted average)
-      const overallScore = Math.round((rpoPercentage + jobsPercentage + healthPercentage) / 3 * 10) / 10;
+      // Calculate overall score (average of 2 metrics: Jobs + Health)
+      const overallScore = Math.round((jobsPercentage + healthPercentage) / 2 * 10) / 10;
 
       // Determine status
       let status: 'Well Done' | 'Needs Attention' | 'Critical';
@@ -399,24 +406,18 @@ export class VeeamService {
         statusMessage = 'Your Data Platform Status Score is critical.';
       }
 
-      console.log(`[VeeamService] Scorecard - VMs: ${companyVMs.length}, Jobs: ${companyJobs.length}, Servers: ${companyServers.length}`);
-      console.log(`[VeeamService] Scorecard - RPO: ${rpoPercentage}% (${rpoOk}/${rpoTotal}), Jobs: ${jobsPercentage}% (${jobsOk}/${jobsTotal}), Health: ${healthPercentage}% (${healthyServers}/${healthTotal}), Overall: ${overallScore}%`);
+      console.log(`[VeeamService] Scorecard - Jobs: ${companyJobs.length}, Servers: ${companyServers.length}, Period: ${periodDays} days`);
+      console.log(`[VeeamService] Scorecard - Jobs: ${jobsPercentage}% (${jobsOk}/${jobsTotal}), Health: ${healthPercentage}% (${healthyServers}/${healthTotal}), Overall: ${overallScore}%`);
 
       return {
         overallScore,
         status,
         statusMessage,
-        rpoOverview: {
-          percentage: rpoPercentage,
-          okCount: rpoOk,
-          issueCount: rpoViolation,
-          title: 'RPO Overview (24 Hours)',
-        },
         jobSessions: {
           percentage: jobsPercentage,
           okCount: jobsOk,
           issueCount: jobsIssue,
-          title: 'Job Sessions Overview (24 ...)',
+          title: `Job Sessions Overview (${periodDays} days)`,
         },
         platformHealth: {
           percentage: healthPercentage,
@@ -424,29 +425,24 @@ export class VeeamService {
           issueCount: unhealthyServers,
           title: 'Platform Health State',
         },
+        periodDays,
       };
     } catch (error) {
       console.error('Error fetching scorecard from Veeam:', error);
-      return this.getDemoScorecard();
+      return this.getDemoScorecard(periodDays);
     }
   }
 
-  private getDemoScorecard(): DataPlatformScorecard {
+  private getDemoScorecard(periodDays: number = 7): DataPlatformScorecard {
     return {
-      overallScore: 94.3,
+      overallScore: 98.5,
       status: 'Well Done',
       statusMessage: 'Your Data Platform Status Score is above 90%.',
-      rpoOverview: {
-        percentage: 86,
-        okCount: 1452,
-        issueCount: 234,
-        title: 'RPO Overview (24 Hours)',
-      },
       jobSessions: {
         percentage: 97,
         okCount: 58,
         issueCount: 2,
-        title: 'Job Sessions Overview (24 ...)',
+        title: `Job Sessions Overview (${periodDays} days)`,
       },
       platformHealth: {
         percentage: 100,
@@ -454,6 +450,7 @@ export class VeeamService {
         issueCount: 0,
         title: 'Platform Health State',
       },
+      periodDays,
     };
   }
 }

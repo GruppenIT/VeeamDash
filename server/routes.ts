@@ -215,7 +215,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/scorecard/:companyId", requireAuth, async (req, res) => {
     try {
       const { companyId } = req.params;
-      const scorecard = await veeamService.getDataPlatformScorecard(companyId);
+      const periodDays = parseInt(req.query.period as string) || 7;
+      const scorecard = await veeamService.getDataPlatformScorecard(companyId, periodDays);
       return res.json(scorecard);
     } catch (error) {
       console.error("Get scorecard error:", error);

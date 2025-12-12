@@ -115,7 +115,7 @@ export interface DataPlatformScorecard {
   overallScore: number;
   status: 'Well Done' | 'Needs Attention' | 'Critical';
   statusMessage: string;
-  rpoOverview: ScorecardMetric;
   jobSessions: ScorecardMetric;
   platformHealth: ScorecardMetric;
+  periodDays: number;
 }

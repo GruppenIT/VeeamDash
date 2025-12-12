@@ -9,6 +9,7 @@ import type { VeeamCompany, DashboardMetrics, DataPlatformScorecard as Scorecard
 export default function Dashboard() {
   const [, setLocation] = useLocation();
   const [selectedCompany, setSelectedCompany] = useState<string>("");
+  const [selectedPeriod, setSelectedPeriod] = useState<number>(7);
   const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
 
   const { data: companies, isLoading: companiesLoading } = useQuery<VeeamCompany[]>({
@@ -21,7 +22,12 @@ export default function Dashboard() {
   });
 
   const { data: scorecard, isLoading: scorecardLoading } = useQuery<ScorecardType>({
-    queryKey: ['/api/scorecard', selectedCompany],
+    queryKey: ['/api/scorecard', selectedCompany, selectedPeriod],
+    queryFn: async () => {
+      const response = await fetch(`/api/scorecard/${selectedCompany}?period=${selectedPeriod}`);
+      if (!response.ok) throw new Error('Failed to fetch scorecard');
+      return response.json();
+    },
     enabled: !!selectedCompany,
   });
 
@@ -65,6 +71,8 @@ export default function Dashboard() {
         companies={companies || []}
         selectedCompany={selectedCompany}
         onCompanyChange={handleCompanyChange}
+        selectedPeriod={selectedPeriod}
+        onPeriodChange={setSelectedPeriod}
         userName={user?.name || "Usuário"}
         onLogout={handleLogout}
         onScheduleClick={() => setIsScheduleModalOpen(true)}
@@ -82,7 +90,6 @@ export default function Dashboard() {
               overallScore={scorecard.overallScore}
               status={scorecard.status}
               statusMessage={scorecard.statusMessage}
-              rpoOverview={scorecard.rpoOverview}
               jobSessions={scorecard.jobSessions}
               platformHealth={scorecard.platformHealth}
             />

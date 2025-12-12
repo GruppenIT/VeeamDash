@@ -13,7 +13,6 @@ interface DataPlatformScorecardProps {
   overallScore: number;
   status: 'Well Done' | 'Needs Attention' | 'Critical';
   statusMessage: string;
-  rpoOverview: ScorecardMetric;
   jobSessions: ScorecardMetric;
   platformHealth: ScorecardMetric;
 }
@@ -76,7 +75,6 @@ export function DataPlatformScorecard({
   overallScore,
   status,
   statusMessage,
-  rpoOverview,
   jobSessions,
   platformHealth,
 }: DataPlatformScorecardProps) {
@@ -162,7 +160,6 @@ export function DataPlatformScorecard({
           </div>
 
           <div className="flex flex-col gap-3">
-            <MetricDonut metric={rpoOverview} />
             <MetricDonut metric={jobSessions} />
             <MetricDonut metric={platformHealth} />
           </div>
