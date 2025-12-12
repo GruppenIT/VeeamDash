@@ -1,0 +1,20 @@
+0|veeam-dashboard  | 2025-12-12T12:23:22: 12:23:22 PM [express] POST /api/auth/logout 200 in 10ms :: {"success":true}
+0|veeam-dashboard  | 2025-12-12T12:23:26: 12:23:26 PM [express] POST /api/auth/login 200 in 99ms :: {"success":true,"user":{"id":"645fd3aa-b44a…
+0|veeam-dashboard  | 2025-12-12T12:23:26: [VeeamService] Fetching metrics for company: 62b31994-6334-4518-8b61-ae286faedb6e
+0|veeam-dashboard  | 2025-12-12T12:23:29: [VeeamService] Total jobs received: 100
+0|veeam-dashboard  | 2025-12-12T12:23:29: [VeeamService] Total VMs received: 100
+0|veeam-dashboard  | 2025-12-12T12:23:29: [VeeamService] Sample job keys: instanceUid, uniqueUid, subtype, targetRepositoryUid, protectedVmCount, _embedded
+0|veeam-dashboard  | 2025-12-12T12:23:29: [VeeamService] Sample job organizationUid: N/A
+0|veeam-dashboard  | 2025-12-12T12:23:29: [VeeamService] Sample job mappedOrganizationUid: N/A
+0|veeam-dashboard  | 2025-12-12T12:23:29: [VeeamService] Sample job companyUid: N/A
+0|veeam-dashboard  | 2025-12-12T12:23:29: [VeeamService] Sample job tenantUid: N/A
+0|veeam-dashboard  | 2025-12-12T12:23:29: [VeeamService] Jobs matching company 62b31994-6334-4518-8b61-ae286faedb6e: 0
+0|veeam-dashboard  | 2025-12-12T12:23:29: [VeeamService] Fetching protected workloads for company: 62b31994-6334-4518-8b61-ae286faedb6e
+0|veeam-dashboard  | 2025-12-12T12:23:29: [VeeamService] Total VMs: 100, Computers: 0, VB365: 100
+0|veeam-dashboard  | 2025-12-12T12:23:29: [VeeamService] Sample VM keys: instanceUid, backupServerUid, organizationUid, name, hierarchyRef, parentHostRef, objectUid, ipAddresses, provisionedSourceSize, usedSourceSize, totalRestorePointSize, latestRestorePointSize, restorePoints, latestRestorePointDate, jobUid, malwareState, immutable
+0|veeam-dashboard  | 2025-12-12T12:23:29: [VeeamService] Sample VM organizationUid: b17b3348-4ecf-4e30-b214-1d79cd91f4f7
+0|veeam-dashboard  | 2025-12-12T12:23:29: [VeeamService] Sample VM companyUid: N/A
+0|veeam-dashboard  | 2025-12-12T12:23:29: [VeeamService] Sample VM tenantUid: N/A
+0|veeam-dashboard  | 2025-12-12T12:23:29: [VeeamService] Filtered - VMs: 0, Computers: 0, VB365: 0
+0|veeam-dashboard  | 2025-12-12T12:23:29: [VeeamService] Final metrics - totalBackups: 0, successRate: 0%, storageUsedTB: 0
+0|veeam-dashboard  | 2025-12-12T12:23:29: 12:23:29 PM [express] GET /api/dashboard/metrics/62b31994-6334-4518-8b61-ae286faedb6e 200 in 2509ms :…

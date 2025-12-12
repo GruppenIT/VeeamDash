@@ -2,14 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { DashboardHeader } from "@/components/dashboard-header";
-import { MetricCard } from "@/components/metric-card";
-import { HealthStatusCard } from "@/components/health-status-card";
-import { SuccessRateChart } from "@/components/success-rate-chart";
-import { RepositoryCards } from "@/components/repository-cards";
-import { FailuresTable } from "@/components/failures-table";
-import { ScheduleModal } from "@/components/schedule-modal";
 import { ProtectedDataOverview } from "@/components/protected-data-overview";
-import { Database, Server, HardDrive, TrendingUp } from "lucide-react";
 import type { VeeamCompany, DashboardMetrics } from "@shared/schema";
 
 export default function Dashboard() {
@@ -49,8 +42,6 @@ export default function Dashboard() {
     setSelectedCompany(companyId);
   };
 
-  const selectedCompanyData = companies?.find((c) => c.instanceUid === selectedCompany);
-
   if (companiesLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center" data-testid="loading-companies">
@@ -80,65 +71,13 @@ export default function Dashboard() {
             <p className="text-muted-foreground">Carregando métricas...</p>
           </div>
         ) : metrics ? (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <MetricCard
-                title="Total de Backups"
-                value={metrics.totalBackups}
-                icon={Database}
-                iconColor="text-blue-600"
-              />
-              <MetricCard
-                title="Taxa de Sucesso"
-                value={`${metrics.successRate.toFixed(1)}%`}
-                icon={TrendingUp}
-                iconColor="text-green-600"
-              />
-              <MetricCard
-                title="Jobs Ativos"
-                value={metrics.activeJobs}
-                icon={Server}
-                iconColor="text-purple-600"
-              />
-              <MetricCard
-                title="Armazenamento Usado"
-                value={`${metrics.storageUsedGB.toFixed(1)} TB`}
-                icon={HardDrive}
-                iconColor="text-orange-600"
-              />
-            </div>
-
-            <ProtectedDataOverview workloads={metrics.protectedWorkloads} />
-
-            <HealthStatusCard
-              status={metrics.healthStatus}
-              totalBackups={metrics.totalBackups}
-              successRate={metrics.successRate}
-              activeJobs={metrics.activeJobs}
-            />
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <SuccessRateChart data={metrics.monthlySuccessRates} />
-              <RepositoryCards repositories={metrics.repositories} />
-            </div>
-
-            <FailuresTable failures={metrics.recentFailures} />
-          </>
+          <ProtectedDataOverview workloads={metrics.protectedWorkloads} />
         ) : (
           <div className="text-center py-12 text-muted-foreground">
             <p>Selecione um cliente para visualizar os dados</p>
           </div>
         )}
       </main>
-
-      {selectedCompanyData && (
-        <ScheduleModal
-          open={isScheduleModalOpen}
-          onOpenChange={setIsScheduleModalOpen}
-          companyId={selectedCompanyData.instanceUid}
-          companyName={selectedCompanyData.name}
-        />
-      )}
     </div>
   );
 }
