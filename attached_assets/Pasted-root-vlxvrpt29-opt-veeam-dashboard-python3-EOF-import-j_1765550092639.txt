@@ -1,0 +1,65 @@
+root@vlxvrpt29:/opt/veeam-dashboard# python3 << 'EOF'
+import json
+
+GEDORE_UID = 'dd4d0261-abdf-4738-b395-fc1c30882bac'
+
+def tb(b): return b / (1024**4)
+
+# Carregar todas as VMs
+all_vms = []
+for fn in ['/tmp/vms1.json', '/tmp/vms2.json']:
+    with open(fn) as f:
+        all_vms.extend(json.load(f).get('data', []))
+
+# Agrupar por organizationUid e calcular totalRestorePointSize de cada
+by_org = {}
+for v in all_vms:
+    org = v.get('organizationUid', 'N/A')
+    if org not in by_org:
+        by_org[org] = {'count': 0, 'totalRP': 0, 'used': 0}
+    by_org[org]['count'] += 1
+    by_org[org]['totalRP'] += v.get('totalRestorePointSize', 0) or 0
+    by_org[org]['used'] += v.get('usedSourceSize', 0) or 0
+
+print('=== BREAKDOWN POR ORGANIZACAO ===')
+print(f'{"Org":<40} {"VMs":>6} {"totalRP":>12} {"usedSize":>12}')
+for org, data in sorted(by_org.items(), key=lambda x: -x[1]['totalRP']):
+    is_gedore = ' (GEDORE)' if org == GEDORE_UID else ''
+    print(f'{org[:36]}{is_gedore:<10} {data["count"]:>6} {tb(data["totalRP"]):>10.2f} TB {tb(data["used"]):>10.2f} TB')
+
+# Tentar soma cumulativa para encontrar ~456.7 TB
+print(f'\n=== TENTANDO ENCONTRAR ~456.7 TB ===')
+# Ordenar por tamanho e somar
+sorted_orgs = sorted(by_org.items(), key=lambda x: -x[1]['totalRP'])
+cumsum = 0
+for org, data in sorted_orgs:
+    cumsum += data['totalRP']
+    if 400 * (1024**4) < cumsum < 500 * (1024**4):
+        print(f'Soma até {org[:30]}: {tb(cumsum):.2f} TB')
+EOF
+=== BREAKDOWN POR ORGANIZACAO ===
+Org                                         VMs      totalRP     usedSize
+17b99579-ab3f-47d9-91a3-1d27f1ddfa69              208     720.18 TB     134.43 TB
+dd4d0261-abdf-4738-b395-fc1c30882bac (GEDORE)     112     109.05 TB      61.11 TB
+3526445b-15b4-4cd5-9e04-b7104bf9d4af               15      72.00 TB      14.22 TB
+5f396da0-621a-4239-ab4e-91e26b6ac612               31      62.66 TB       9.71 TB
+b17b3348-4ecf-4e30-b214-1d79cd91f4f7               40      57.41 TB      29.45 TB
+422a2d56-f10c-4bf4-8063-9ecaf6fddac7               17      24.30 TB       6.67 TB
+b10da2f7-8cc8-427d-8a94-3bf5ab1b1c5f               31      24.27 TB      15.71 TB
+3f21557c-d158-4701-9049-e3dcd428ceb2               16      23.76 TB       7.13 TB
+b80612de-af9c-4bef-abed-3cdd7a432ca4                5      15.09 TB       6.55 TB
+dba4a8b8-9d00-444c-a4fc-b1e15bdc92c6               25      11.15 TB      13.24 TB
+0d80a047-a432-4dd6-8064-d31d68550804                2      10.74 TB       2.82 TB
+216e1db0-be59-4d40-acb8-cc4aba9307a2                5      10.09 TB      13.49 TB
+04fd8917-b145-43a8-ae08-3a10d92ae616               19       6.79 TB       4.70 TB
+f8a69f83-d6be-44de-817c-81e28abc9047               24       6.61 TB       9.13 TB
+05f50002-d1db-4377-a216-8ed5aa524ae7               53       4.39 TB      12.84 TB
+bc4c8a68-8782-4a47-a469-f1e54b2a9baf               17       2.87 TB       1.56 TB
+f466448b-54f3-4541-9ff0-7d29bb1b901e               11       1.86 TB       3.21 TB
+79bb0124-23f6-4f8a-af02-b5c27e2becdd                7       1.47 TB       0.90 TB
+a6b4717e-8a05-4e2e-81e6-5561912b6a30                2       0.95 TB       0.69 TB
+939c8ac2-e3ee-4269-a6b8-3a7e98766d00                6       0.78 TB       1.54 TB
+9c4c1e17-76d0-473e-b931-8d997bb088f7                4       0.16 TB       0.14 TB
+
+=== TENTANDO ENCONTRAR ~456.7 TB ===
+root@vlxvrpt29:/opt/veeam-dashboard#
