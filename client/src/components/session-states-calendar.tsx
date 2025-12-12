@@ -15,7 +15,7 @@ export function SessionStatesCalendar({ data, isLoading }: SessionStatesCalendar
         <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
           <CardTitle className="text-lg font-semibold flex items-center gap-2">
             <Calendar className="w-5 h-5 text-primary" />
-            Session States
+            Estados das Sessões
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -33,7 +33,7 @@ export function SessionStatesCalendar({ data, isLoading }: SessionStatesCalendar
         <CardHeader className="flex flex-row items-center justify-between gap-2 space-y-0 pb-2">
           <CardTitle className="text-lg font-semibold flex items-center gap-2">
             <Calendar className="w-5 h-5 text-primary" />
-            Session States
+            Estados das Sessões
           </CardTitle>
           <span className="text-xs text-muted-foreground">Últimos 30 dias</span>
         </CardHeader>
@@ -168,7 +168,7 @@ export function SessionStatesCalendar({ data, isLoading }: SessionStatesCalendar
                                 <p className="font-medium">{formatFullDate(day.date)}</p>
                                 {day.totalCount > 0 ? (
                                   <>
-                                    <p className="text-sm">Job Sessions ({day.totalCount})</p>
+                                    <p className="text-sm">Sessões de Jobs ({day.totalCount})</p>
                                     <div className="flex items-center gap-4 text-xs">
                                       <span className="flex items-center gap-1">
                                         <span className="w-2 h-2 rounded-full bg-red-400"></span>
@@ -205,15 +205,15 @@ export function SessionStatesCalendar({ data, isLoading }: SessionStatesCalendar
         <div className="flex items-center justify-center gap-6 mt-4 text-xs text-muted-foreground">
           <span className="flex items-center gap-1">
             <span className="w-3 h-3 rounded bg-emerald-400"></span>
-            Success
+            Sucesso
           </span>
           <span className="flex items-center gap-1">
             <span className="w-3 h-3 rounded bg-amber-400"></span>
-            Warning
+            Aviso
           </span>
           <span className="flex items-center gap-1">
             <span className="w-3 h-3 rounded bg-red-400"></span>
-            Failed
+            Falha
           </span>
         </div>
       </CardContent>

@@ -133,7 +133,7 @@ export interface ScorecardMetric {
 
 export interface DataPlatformScorecard {
   overallScore: number;
-  status: 'Well Done' | 'Needs Attention' | 'Critical';
+  status: 'Excelente' | 'Atenção' | 'Crítico';
   statusMessage: string;
   jobSessions: ScorecardMetric;
   platformHealth: ScorecardMetric;

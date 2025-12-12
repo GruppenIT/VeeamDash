@@ -11,7 +11,7 @@ interface ScorecardMetric {
 
 interface DataPlatformScorecardProps {
   overallScore: number;
-  status: 'Well Done' | 'Needs Attention' | 'Critical';
+  status: 'Excelente' | 'Atenção' | 'Crítico';
   statusMessage: string;
   jobSessions: ScorecardMetric;
   platformHealth: ScorecardMetric;
@@ -80,11 +80,11 @@ export function DataPlatformScorecard({
 }: DataPlatformScorecardProps) {
   const getStatusColor = () => {
     switch (status) {
-      case 'Well Done':
+      case 'Excelente':
         return '#00B336';
-      case 'Needs Attention':
+      case 'Atenção':
         return '#F59E0B';
-      case 'Critical':
+      case 'Crítico':
         return '#EF4444';
     }
   };
@@ -94,7 +94,7 @@ export function DataPlatformScorecard({
   return (
     <Card data-testid="card-scorecard">
       <CardHeader>
-        <CardTitle>Data Platform Scorecard</CardTitle>
+        <CardTitle>Scorecard da Plataforma de Dados</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

@@ -37,7 +37,7 @@ export function ProtectedDataOverview({ workloads }: ProtectedDataOverviewProps)
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Protected Data Overview</CardTitle>
+        <CardTitle>Visão Geral de Dados Protegidos</CardTitle>
         <CardDescription>Distribuição de workloads protegidos</CardDescription>
       </CardHeader>
       <CardContent>
@@ -84,9 +84,9 @@ export function ProtectedDataOverview({ workloads }: ProtectedDataOverviewProps)
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b">
-                  <th className="text-left py-3 font-medium text-muted-foreground">Name</th>
-                  <th className="text-right py-3 font-medium text-muted-foreground">Quantity</th>
-                  <th className="text-right py-3 font-medium text-muted-foreground">Size</th>
+                  <th className="text-left py-3 font-medium text-muted-foreground">Nome</th>
+                  <th className="text-right py-3 font-medium text-muted-foreground">Quantidade</th>
+                  <th className="text-right py-3 font-medium text-muted-foreground">Tamanho</th>
                 </tr>
               </thead>
               <tbody>

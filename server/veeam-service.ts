@@ -368,18 +368,18 @@ export class VeeamService {
       const overallScore = Math.round((jobsPercentage + healthPercentage) / 2 * 10) / 10;
 
       // Determine status
-      let status: 'Well Done' | 'Needs Attention' | 'Critical';
+      let status: 'Excelente' | 'Atenção' | 'Crítico';
       let statusMessage: string;
       
       if (overallScore >= 90) {
-        status = 'Well Done';
-        statusMessage = 'Your Data Platform Status Score is above 90%.';
+        status = 'Excelente';
+        statusMessage = 'O Score da Plataforma de Dados está acima de 90%.';
       } else if (overallScore >= 70) {
-        status = 'Needs Attention';
-        statusMessage = 'Your Data Platform Status Score needs attention.';
+        status = 'Atenção';
+        statusMessage = 'O Score da Plataforma de Dados precisa de atenção.';
       } else {
-        status = 'Critical';
-        statusMessage = 'Your Data Platform Status Score is critical.';
+        status = 'Crítico';
+        statusMessage = 'O Score da Plataforma de Dados está crítico.';
       }
 
       console.log(`[VeeamService] Scorecard - Jobs: ${companyJobs.length}, Servers: ${companyServers.length}`);
@@ -393,13 +393,13 @@ export class VeeamService {
           percentage: jobsPercentage,
           okCount: jobsOk,
           issueCount: jobsIssue,
-          title: 'Job Sessions Overview',
+          title: 'Sessões de Jobs',
         },
         platformHealth: {
           percentage: healthPercentage,
           okCount: healthyServers,
           issueCount: unhealthyServers,
-          title: 'Platform Health State',
+          title: 'Saúde da Plataforma',
         },
       };
     } catch (error) {
@@ -411,19 +411,19 @@ export class VeeamService {
   private getDemoScorecard(): DataPlatformScorecard {
     return {
       overallScore: 98.5,
-      status: 'Well Done',
-      statusMessage: 'Your Data Platform Status Score is above 90%.',
+      status: 'Excelente',
+      statusMessage: 'O Score da Plataforma de Dados está acima de 90%.',
       jobSessions: {
         percentage: 97,
         okCount: 58,
         issueCount: 2,
-        title: 'Job Sessions Overview',
+        title: 'Sessões de Jobs',
       },
       platformHealth: {
         percentage: 100,
         okCount: 2,
         issueCount: 0,
-        title: 'Platform Health State',
+        title: 'Saúde da Plataforma',
       },
     };
   }
