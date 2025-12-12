@@ -1,0 +1,35 @@
+root@vlxvrpt29:/opt/veeam-dashboard# # Verificar VMs com informações de backup (RPO)
+curl -s -k 'https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/virtualMachines?limit=500' -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' | python3 -c "
+import sys, json
+from datetime import datetime, timedelta
+data = json.load(sys.stdin)
+vms = [v for v in data['data'] if v.get('organizationUid') == 'dd4d0261-abdf-4738-b395-fc1c30882bac']
+print(f'Total VMs for Gedore: {len(vms)}')
+# Verificar campos disponíveis
+if vms:
+    print('Available fields:', list(vms[0].keys()))
+    # Contar por status de proteção
+    now = datetime.utcnow()
+    rpo_24h = 0
+    rpo_violation = 0
+    for v in vms:
+        last_backup = v.get('latestRestorePointDate')
+        if last_backup:
+            try:
+                backup_time = datetime.fromisoformat(last_backup.replace('Z', '+00:00').replace('+00:00', ''))
+                age_hours = (now - backup_time).total_seconds() / 3600
+                if age_hours <= 24:
+                    rpo_24h += 1
+                else:
+                    rpo_violation += 1
+            except:
+                rpo_violation += 1
+        else:
+            rpo_violation += 1
+    print(f'RPO OK (<=24h): {rpo_24h}, RPO Violation (>24h): {rpo_violation}')
+"
+Total VMs for Gedore: 112
+Available fields: ['instanceUid', 'backupServerUid', 'organizationUid', 'name', 'hierarchyRef', 'parentHostRef', 'objectUid', 'ipAddresses', 'provisionedSourceSize', 'usedSourceSize', 'totalRestorePointSize', 'latestRestorePointSize', 'restorePoints', 'latestRestorePointDate', 'jobUid', 'malwareState', 'immutable']
+<string>:11: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+RPO OK (<=24h): 87, RPO Violation (>24h): 25
+root@vlxvrpt29:/opt/veeam-dashboard#
