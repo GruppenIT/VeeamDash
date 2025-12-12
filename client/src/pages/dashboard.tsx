@@ -8,7 +8,8 @@ import { DataPlatformScorecard } from "@/components/data-platform-scorecard";
 import { SessionStatesCalendar } from "@/components/session-states-calendar";
 import { MonthlyCharts } from "@/components/monthly-charts";
 import { AlarmsTable } from "@/components/alarms-table";
-import type { VeeamCompany, DashboardMetrics, DataPlatformScorecard as ScorecardType, SessionStatesData, MonthlyChartData, VeeamAlarm } from "@shared/schema";
+import { FailedJobsTable } from "@/components/failed-jobs-table";
+import type { VeeamCompany, DashboardMetrics, DataPlatformScorecard as ScorecardType, SessionStatesData, MonthlyChartData, VeeamAlarm, FailedJob } from "@shared/schema";
 
 export default function Dashboard() {
   const [, setLocation] = useLocation();
@@ -41,6 +42,11 @@ export default function Dashboard() {
 
   const { data: alarms, isLoading: alarmsLoading } = useQuery<VeeamAlarm[]>({
     queryKey: [`/api/alarms/${selectedCompany}`],
+    enabled: !!selectedCompany,
+  });
+
+  const { data: failedJobs, isLoading: failedJobsLoading } = useQuery<FailedJob[]>({
+    queryKey: [`/api/failed-jobs/${selectedCompany}`],
     enabled: !!selectedCompany,
   });
 
@@ -110,6 +116,10 @@ export default function Dashboard() {
             <SessionStatesCalendar 
               data={sessionStates || { days: [], hasData: false }} 
               isLoading={sessionStatesLoading} 
+            />
+            <FailedJobsTable 
+              jobs={failedJobs || []} 
+              isLoading={failedJobsLoading} 
             />
           </>
         ) : !selectedCompany ? (
