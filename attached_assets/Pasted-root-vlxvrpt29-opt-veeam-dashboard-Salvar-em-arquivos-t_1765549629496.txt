@@ -1,0 +1,44 @@
+root@vlxvrpt29:/opt/veeam-dashboard# # Salvar em arquivos temporários e processar
+curl -s -k 'https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/virtualMachines/backups?limit=500&offset=0' -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' > /tmp/vm1.json
+curl -s -k 'https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/virtualMachines/backups?limit=500&offset=500' -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' > /tmp/vm2.json
+curl -s -k 'https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/virtualMachines/backups?limit=500&offset=1000' -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' > /tmp/vm3.json
+
+# Buscar VMs da Gedore
+curl -s -k 'https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/virtualMachines?organizationUidFilter=dd4d0261-abdf-4738-b395-fc1c30882bac&limit=500' -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' > /tmp/gedore_vms.json
+
+python3 << 'EOF'
+import json
+
+def tb(b): return b / (1024**4)
+
+# Carregar VMs da Gedore
+with open('/tmp/gedore_vms.json') as f:
+    gedore_vms = json.load(f).get('data', [])
+
+# Pegar instanceUids únicos
+gedore_vm_uids = set(vm['instanceUid'] for vm in gedore_vms)
+print(f'VMs Gedore: {len(gedore_vm_uids)}')
+
+# Carregar todos os backups
+all_backups = []
+for fn in ['/tmp/vm1.json', '/tmp/vm2.json', '/tmp/vm3.json']:
+    with open(fn) as f:
+        data = json.load(f)
+        all_backups.extend(data.get('data', []))
+
+print(f'Total backups: {len(all_backups)}')
+
+# Filtrar backups das VMs Gedore (backupType=Backup)
+gedore_backups = [b for b in all_backups if b['virtualMachineUid'] in gedore_vm_uids and b['backupType'] == 'Backup']
+print(f'Backups Gedore (Backup only): {len(gedore_backups)}')
+
+# Calcular totalRestorePointSize
+total = sum(b.get('totalRestorePointSize', 0) for b in gedore_backups)
+print(f'\ntotalRestorePointSize: {tb(total):.2f} TB')
+EOF
+VMs Gedore: 500
+Total backups: 1441
+Backups Gedore (Backup only): 491
+
+totalRestorePointSize: 1215.46 TB
+root@vlxvrpt29:/opt/veeam-dashboard#
