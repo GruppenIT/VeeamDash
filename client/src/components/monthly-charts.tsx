@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from "recharts";
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, LabelList } from "recharts";
 
 interface MonthlyData {
   month: string;
@@ -153,6 +153,16 @@ export function MonthlyCharts({ data, isLoading }: MonthlyChartsProps) {
                     fill={entry.hasData ? '#22C3E6' : 'hsl(var(--muted))'}
                   />
                 ))}
+                <LabelList 
+                  dataKey="successRate" 
+                  position="top" 
+                  formatter={(value: number) => value > 0 ? `${value}%` : ''}
+                  style={{ 
+                    fontSize: 10, 
+                    fill: 'hsl(var(--foreground))',
+                    fontWeight: 500
+                  }}
+                />
               </Bar>
             </BarChart>
           </ResponsiveContainer>
