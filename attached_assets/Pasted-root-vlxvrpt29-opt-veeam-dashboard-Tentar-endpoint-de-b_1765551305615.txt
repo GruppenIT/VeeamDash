@@ -1,0 +1,15 @@
+root@vlxvrpt29:/opt/veeam-dashboard# # Tentar endpoint de backups para VB365
+curl -s -k 'https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/vb365ProtectedObjects/storage?organizationUid=dd4d0261-abdf-4738-b395-fc1c30882bac' -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' | head -c 500
+
+echo ""
+echo "---"
+
+# Verificar se há endpoint de overview ou dashboard
+curl -s -k 'https://vspc.gruppen.com.br:1280/api/v3/overview/protectedData?organizationUid=dd4d0261-abdf-4738-b395-fc1c30882bac' -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' | head -c 1000
+<!DOCTYPE html><html manifest=""><head><meta http-equiv="Content-Security-Policy" content="default-src 'self';connect-src 'self' https://rest-ai.veeam.com:443 wss://rest-ai.veeam.com:443 https://rest-ai.staging.veeam.com:443 wss://rest-ai.staging.veeam.com:443;script-src 'self';style-src 'self' 'unsafe-inline';object-src 'none';base-uri 'self';img-src 'self' blob: data:;font-src 'self' data:;"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,
+---
+<!DOCTYPE html><html manifest=""><head><meta http-equiv="Content-Security-Policy" content="default-src 'self';connect-src 'self' https://rest-ai.veeam.com:443 wss://rest-ai.veeam.com:443 https://rest-ai.staging.veeam.com:443 wss://rest-ai.staging.veeam.com:443;script-src 'self';style-src 'self' 'unsafe-inline';object-src 'none';base-uri 'self';img-src 'self' blob: data:;font-src 'self' data:;"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta charset="UTF-8"><title></title><base href="/"><script src="static/js/unsupported.js"></script><style>@font-face {
+                font-family: 'Open Sans';
+                font-style: normal;
+                font-weight: normal;
+                src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAGEsABMAAAAAsTAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAABqAAAABwAAAAcbEIkOkdERUYAAAHEAAAAHQAAAB4AJwDwR1BPUwAAAeQAAASiAAAJmCwaFlhHU1root@vlxvrpt29:/opt/veeam-dashboard#
