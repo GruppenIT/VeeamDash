@@ -1,0 +1,51 @@
+root@vlxvrpt29:/opt/veeam-dashboard# # Passo 1: Pegar computers da Gedore (organizationUid)
+# Passo 2: Cruzar com backups por backupAgentUid (que é o instanceUid do computer)
+
+curl -s -k -X 'GET' \
+  'https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/computersManagedByBackupServer?organizationUidFilter=dd4d0261-abdf-4738-b395-fc1c30882bac&limit=500' \
+  -H 'accept: application/json' \
+  -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+computers = data.get('data', [])
+print('Computers da Gedore:')
+for c in computers:
+    print(f\"  instanceUid: {c['instanceUid']}, name: {c.get('name', 'N/A')}\")
+print(f'\\nTotal: {len(computers)}')
+print('\\n--- instanceUids para usar no próximo comando ---')
+uids = [c['instanceUid'] for c in computers]
+print(uids)
+"
+Computers da Gedore:
+  instanceUid: 4c4c4544-0035-5810-8036-b6c04f4a3534, name: MHU069230.unimed-ners.net
+  instanceUid: 37393150-3536-5242-4c31-343430575836, name: SUN075.unimed-ners.net
+  instanceUid: 37393150-3536-5242-4c31-343430575836, name: SUN075.unimed-ners.net
+  instanceUid: 9a533d42-386e-143e-09f2-eb664255b012, name: stellaweb01
+  instanceUid: 6cc52f42-fc32-4c64-9022-fd0b402ceb06, name: pavmsts85.medabil.com.br
+  instanceUid: 922c4d56-55e4-d128-d345-4c575bdf0828, name: vmsquestor.miolo.local
+  instanceUid: 922c4d56-55e4-d128-d345-4c575bdf0828, name: vmsquestor.miolo.local
+  instanceUid: 4c4c4544-0033-5610-8047-c6c04f323634, name: NOTEBOOK-3440.gedore.local
+  instanceUid: 4c4c4544-0033-5810-8035-cac04f375a32, name: DSKGEDORE254.gedore.local
+  instanceUid: 4c4c4544-0035-4710-8046-cac04f514d32, name: DSK000134.gedore.local
+  instanceUid: 4c4c4544-0043-3110-804b-c7c04f343234, name: DSK004258.gedore.local
+  instanceUid: 4c4c4544-004c-4c10-8043-b6c04f4a3634, name: NOTE-3450.gedore.local
+  instanceUid: 4c4c4544-0036-4a10-805a-b3c04f525032, name: DSK000229.gedore.local
+  instanceUid: 4c4c4544-0031-4b10-8034-b9c04f365133, name: DSK001437.gedore.local
+  instanceUid: 4c4c4544-004b-4c10-8043-b4c04f4a3634, name: NB004985.gedore.local
+  instanceUid: 44454c4c-4e00-1053-8034-b7c04f314433, name: oracle.icinex.br
+  instanceUid: 44454c4c-4e00-1053-8034-b7c04f314433, name: oracle.icinex.br
+  instanceUid: 44454c4c-4e00-1053-8034-b7c04f314433, name: oracle.icinex.br
+  instanceUid: aab51edd-fb66-4252-a5e2-9d67e2f057f5, name: cnxsrvbackup
+  instanceUid: 4c4c4544-004d-5010-8035-c2c04f365731, name: CNXSRV01.icinex.br
+  instanceUid: 4c4c4544-004d-5010-8035-c2c04f365731, name: CNXSRV01.icinex.br
+  instanceUid: 4c4c4544-004d-3910-804c-c3c04f535932, name: CNXSRV4390.icinex.br
+  instanceUid: 4c4c4544-004d-3910-804c-c3c04f535932, name: CNXSRV4390.icinex.br
+  instanceUid: 4c4c4544-004d-3910-804c-c3c04f535932, name: CNXSRV4390.icinex.br
+  instanceUid: c75d65af-03e2-414e-8ab0-952f96a92dfa, name: srvfiles
+  instanceUid: c75d65af-03e2-414e-8ab0-952f96a92dfa, name: srvfiles
+
+Total: 26
+
+--- instanceUids para usar no próximo comando ---
+['4c4c4544-0035-5810-8036-b6c04f4a3534', '37393150-3536-5242-4c31-343430575836', '37393150-3536-5242-4c31-343430575836', '9a533d42-386e-143e-09f2-eb664255b012', '6cc52f42-fc32-4c64-9022-fd0b402ceb06', '922c4d56-55e4-d128-d345-4c575bdf0828', '922c4d56-55e4-d128-d345-4c575bdf0828', '4c4c4544-0033-5610-8047-c6c04f323634', '4c4c4544-0033-5810-8035-cac04f375a32', '4c4c4544-0035-4710-8046-cac04f514d32', '4c4c4544-0043-3110-804b-c7c04f343234', '4c4c4544-004c-4c10-8043-b6c04f4a3634', '4c4c4544-0036-4a10-805a-b3c04f525032', '4c4c4544-0031-4b10-8034-b9c04f365133', '4c4c4544-004b-4c10-8043-b4c04f4a3634', '44454c4c-4e00-1053-8034-b7c04f314433', '44454c4c-4e00-1053-8034-b7c04f314433', '44454c4c-4e00-1053-8034-b7c04f314433', 'aab51edd-fb66-4252-a5e2-9d67e2f057f5', '4c4c4544-004d-5010-8035-c2c04f365731', '4c4c4544-004d-5010-8035-c2c04f365731', '4c4c4544-004d-3910-804c-c3c04f535932', '4c4c4544-004d-3910-804c-c3c04f535932', '4c4c4544-004d-3910-804c-c3c04f535932', 'c75d65af-03e2-414e-8ab0-952f96a92dfa', 'c75d65af-03e2-414e-8ab0-952f96a92dfa']
+root@vlxvrpt29:/opt/veeam-dashboard#
