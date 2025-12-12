@@ -690,57 +690,42 @@ export class VeeamService {
     try {
       console.log(`[VeeamService] Fetching failed jobs for company: ${companyId}`);
       
-      const [jobs, sessions] = await Promise.all([
-        this.fetchAllPages<any>('/api/v3/infrastructure/backupServers/jobs'),
-        this.fetchAllPages<any>('/api/v3/infrastructure/backupServers/jobs/sessions'),
-      ]);
+      // Fetch jobs - each job already contains status, failureMessage, lastEndTime
+      const jobs = await this.fetchAllPages<any>('/api/v3/infrastructure/backupServers/jobs');
       
-      console.log(`[VeeamService] Total jobs fetched: ${jobs.length}, sessions: ${sessions.length}`);
+      console.log(`[VeeamService] Total jobs fetched: ${jobs.length}`);
       
+      // Filter by company
       const companyJobs = jobs.filter((job: any) => job.organizationUid === companyId);
-      const jobMap = new Map(companyJobs.map((job: any) => [job.instanceUid, job]));
       
       console.log(`[VeeamService] Company jobs: ${companyJobs.length}`);
       
-      const companyJobUids = new Set(companyJobs.map((job: any) => job.instanceUid));
-      const companySessions = sessions.filter((s: any) => companyJobUids.has(s.jobUid));
-      
-      console.log(`[VeeamService] Company sessions: ${companySessions.length}`);
-      
-      const failedSessions = companySessions.filter((s: any) => {
-        const result = (s.result || s.status || '').toLowerCase();
-        return result === 'failed' || result === 'warning' || result === 'error';
+      // Filter jobs with failed/warning status
+      const failedJobsList = companyJobs.filter((job: any) => {
+        const status = (job.status || '').toLowerCase();
+        return status === 'failed' || status === 'warning' || status === 'error';
       });
       
-      console.log(`[VeeamService] Failed sessions: ${failedSessions.length}`);
+      console.log(`[VeeamService] Jobs with issues: ${failedJobsList.length}`);
       
-      failedSessions.sort((a: any, b: any) => 
-        new Date(b.endTime || 0).getTime() - new Date(a.endTime || 0).getTime()
+      // Sort by lastEndTime (most recent first)
+      failedJobsList.sort((a: any, b: any) => 
+        new Date(b.lastEndTime || 0).getTime() - new Date(a.lastEndTime || 0).getTime()
       );
       
-      const seenJobs = new Set<string>();
-      const failedJobs: FailedJob[] = [];
+      // Map to FailedJob format
+      const failedJobs: FailedJob[] = failedJobsList.map((job: any) => ({
+        instanceUid: job.instanceUid || '',
+        name: job.name || '',
+        type: job.type || '',
+        status: job.status || '',
+        lastRun: job.lastEndTime || job.lastRun || '',
+        lastResult: job.status || '',
+        description: job.description || '',
+        lastSessionMessage: job.failureMessage || job.bottleneck || '',
+      }));
       
-      for (const session of failedSessions) {
-        if (seenJobs.has(session.jobUid)) continue;
-        seenJobs.add(session.jobUid);
-        
-        const job = jobMap.get(session.jobUid);
-        if (!job) continue;
-        
-        failedJobs.push({
-          instanceUid: job.instanceUid || '',
-          name: job.name || '',
-          type: job.type || job.jobType || '',
-          status: session.result || session.status || '',
-          lastRun: session.endTime || job.lastRun || '',
-          lastResult: session.result || session.status || '',
-          description: job.description || '',
-          lastSessionMessage: session.message || session.bottleneck || '',
-        });
-      }
-      
-      console.log(`[VeeamService] Failed jobs (unique): ${failedJobs.length}`);
+      console.log(`[VeeamService] Failed jobs returned: ${failedJobs.length}`);
       
       return failedJobs;
     } catch (error) {
