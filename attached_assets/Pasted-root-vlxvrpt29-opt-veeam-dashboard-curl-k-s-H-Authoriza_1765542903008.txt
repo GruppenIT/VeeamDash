@@ -1,0 +1,214 @@
+root@vlxvrpt29:/opt/veeam-dashboard# curl -k -s -H "Authorization: Bearer $(cat /opt/veeam-dashboard/.env | grep VEEAM_API_KEY | cut -d'=' -f2)" \
+  "https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/virtualMachines?limit=1000" | python3 -m json.tool | head -200
+{
+    "errors": [
+        {
+            "message": "Parameter value must be less or equal to 500.",
+            "type": "logical",
+            "code": 400,
+            "parameterName": "limit"
+        }
+    ]
+}
+root@vlxvrpt29:/opt/veeam-dashboard# curl -k -s -H "Authorization: Bearer $(cat /opt/veeam-dashboard/.env | grep VEEAM_API_KEY | cut -d'=' -f2)"   "https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/virtualMachines?limit=100" | python3 -m json.tool | head -200
+{
+    "meta": {
+        "pagingInfo": {
+            "total": 644,
+            "count": 100,
+            "offset": 0
+        }
+    },
+    "data": [
+        {
+            "instanceUid": "6aa7ad11-6a73-c91f-d68f-b3691ca5b682",
+            "backupServerUid": "362f49c2-ecdc-4128-bf60-5988c3599d3a",
+            "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+            "name": "PAVLXECD90",
+            "hierarchyRef": "vm-242",
+            "parentHostRef": "nbvlxvc07.medabil.com.br",
+            "objectUid": "9db8b102-c2c9-412f-adca-a28d4df665d3",
+            "ipAddresses": [
+                "10.51.0.90",
+                "fe80::250:56ff:fea0:3fcb"
+            ],
+            "provisionedSourceSize": 1050119503872,
+            "usedSourceSize": 332464652288,
+            "totalRestorePointSize": 500319662080,
+            "latestRestorePointSize": 118296576,
+            "restorePoints": 39,
+            "latestRestorePointDate": "2025-12-12T01:04:54.5170000+00:00",
+            "jobUid": "429ef455-0127-4162-9e05-85afb73f8eef",
+            "malwareState": "Unverified",
+            "immutable": true
+        },
+        {
+            "instanceUid": "7ded355a-fb68-3846-7814-3358fb7a3ed9",
+            "backupServerUid": "362f49c2-ecdc-4128-bf60-5988c3599d3a",
+            "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+            "name": "PAVLXECP126",
+            "hierarchyRef": "vm-274",
+            "parentHostRef": "nbvlxvc07.medabil.com.br",
+            "objectUid": "38cae2c5-a665-4a46-a3e2-f8301b801780",
+            "ipAddresses": [
+                "10.10.10.10",
+                "fe80::250:56ff:fea0:4b48",
+                "10.51.0.126",
+                "fe80::250:56ff:feac:795a",
+                "192.168.200.126",
+                "fe80::250:56ff:fea0:6794",
+                "192.168.200.127",
+                "fe80::250:56ff:fea0:1f65"
+            ],
+            "provisionedSourceSize": 120259084288,
+            "usedSourceSize": 113029152768,
+            "totalRestorePointSize": 69589487616,
+            "latestRestorePointSize": 125190144,
+            "restorePoints": 39,
+            "latestRestorePointDate": "2025-12-12T01:12:39.8070000+00:00",
+            "jobUid": "429ef455-0127-4162-9e05-85afb73f8eef",
+            "malwareState": "Unverified",
+            "immutable": true
+        },
+        {
+            "instanceUid": "c1beadb0-58b4-855d-4c07-683c33c971c2",
+            "backupServerUid": "362f49c2-ecdc-4128-bf60-5988c3599d3a",
+            "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+            "name": "PAVLXSLM153",
+            "hierarchyRef": "vm-239",
+            "parentHostRef": "nbvlxvc07.medabil.com.br",
+            "objectUid": "e70aa28a-f6aa-452b-b198-725d4db2ab58",
+            "ipAddresses": [
+                "10.51.0.153",
+                "fe80::2f0c:a688:33f1:401",
+                "192.168.122.1"
+            ],
+            "provisionedSourceSize": 914828034048,
+            "usedSourceSize": 1241724747776,
+            "totalRestorePointSize": 1878972645376,
+            "latestRestorePointSize": 124321792,
+            "restorePoints": 39,
+            "latestRestorePointDate": "2025-12-12T01:08:08.1470000+00:00",
+            "jobUid": "429ef455-0127-4162-9e05-85afb73f8eef",
+            "malwareState": "Unverified",
+            "immutable": true
+        },
+        {
+            "instanceUid": "aa6e049d-fee8-84ec-4060-9d8d29232ef3",
+            "backupServerUid": "362f49c2-ecdc-4128-bf60-5988c3599d3a",
+            "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+            "name": "PAVLXPHA151",
+            "hierarchyRef": "vm-268",
+            "parentHostRef": "nbvlxvc07.medabil.com.br",
+            "objectUid": "1339ebea-2192-456b-890e-94458db56719",
+            "ipAddresses": [
+                "10.51.0.151",
+                "fe80::28af:339b:da99:a7bc",
+                "192.168.122.1"
+            ],
+            "provisionedSourceSize": 2486786064384,
+            "usedSourceSize": 2438368067584,
+            "totalRestorePointSize": 8315379273728,
+            "latestRestorePointSize": 22133870592,
+            "restorePoints": 39,
+            "latestRestorePointDate": "2025-12-12T01:12:33.4930000+00:00",
+            "jobUid": "429ef455-0127-4162-9e05-85afb73f8eef",
+            "malwareState": "Unverified",
+            "immutable": true
+        },
+        {
+            "instanceUid": "e58980a4-0724-b5e7-e25c-9f4c34c60e4e",
+            "backupServerUid": "362f49c2-ecdc-4128-bf60-5988c3599d3a",
+            "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+            "name": "PAVLXSAP152",
+            "hierarchyRef": "vm-234",
+            "parentHostRef": "nbvlxvc07.medabil.com.br",
+            "objectUid": "f9a4cabf-745b-441a-88c0-6cc59a70ce0d",
+            "ipAddresses": [],
+            "provisionedSourceSize": 198642237440,
+            "usedSourceSize": 162252455936,
+            "totalRestorePointSize": 77201657856,
+            "latestRestorePointSize": 322363392,
+            "restorePoints": 39,
+            "latestRestorePointDate": "2025-12-12T01:12:35.7130000+00:00",
+            "jobUid": "429ef455-0127-4162-9e05-85afb73f8eef",
+            "malwareState": "Unverified",
+            "immutable": true
+        },
+        {
+            "instanceUid": "5291db99-2c8b-4dce-e2a1-c7f0f1edd3ce",
+            "backupServerUid": "362f49c2-ecdc-4128-bf60-5988c3599d3a",
+            "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+            "name": "PAVMSDI142",
+            "hierarchyRef": "vm-236",
+            "parentHostRef": "nbvlxvc07.medabil.com.br",
+            "objectUid": "74a47d38-79f0-4d2c-902a-88b85d3791e9",
+            "ipAddresses": [
+                "10.51.0.142"
+            ],
+            "provisionedSourceSize": 858993459200,
+            "usedSourceSize": 858952564736,
+            "totalRestorePointSize": 639952846848,
+            "latestRestorePointSize": 3759394816,
+            "restorePoints": 39,
+            "latestRestorePointDate": "2025-12-12T01:03:15.9830000+00:00",
+            "jobUid": "429ef455-0127-4162-9e05-85afb73f8eef",
+            "malwareState": "Unverified",
+            "immutable": true
+        },
+        {
+            "instanceUid": "a3474872-b7e6-a624-0887-f19f8751a683",
+            "backupServerUid": "362f49c2-ecdc-4128-bf60-5988c3599d3a",
+            "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+            "name": "NBVMSDB60",
+            "hierarchyRef": "vm-73",
+            "parentHostRef": "nbvlxvc07.medabil.com.br",
+            "objectUid": "7920978b-440d-491c-89a1-4f4c0306ebe9",
+            "ipAddresses": [
+                "10.54.0.60"
+            ],
+            "provisionedSourceSize": 386547056640,
+            "usedSourceSize": 386565931008,
+            "totalRestorePointSize": 107580391424,
+            "latestRestorePointSize": 1145933824,
+            "restorePoints": 26,
+            "latestRestorePointDate": "2025-12-12T01:12:07.3830000+00:00",
+            "jobUid": "429ef455-0127-4162-9e05-85afb73f8eef",
+            "malwareState": "Unverified",
+            "immutable": true
+        },
+        {
+            "instanceUid": "f3bc3aa7-7102-e0cc-c29e-1d7d98eaeee8",
+            "backupServerUid": "362f49c2-ecdc-4128-bf60-5988c3599d3a",
+            "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+            "name": "NBVMSBK70",
+            "hierarchyRef": "vm-63",
+            "parentHostRef": "nbvlxvc07.medabil.com.br",
+            "objectUid": "1d71734c-66c0-43ff-b768-3ecddfe44b97",
+            "ipAddresses": [
+                "10.54.0.70",
+                "fe80::39da:6974:560d:6b4"
+            ],
+            "provisionedSourceSize": 3269114356736,
+            "usedSourceSize": 3269133860864,
+            "totalRestorePointSize": 15753204576256,
+            "latestRestorePointSize": 1998358503424,
+            "restorePoints": 6,
+            "latestRestorePointDate": "2025-12-06T06:01:49.2430000+00:00",
+            "jobUid": "fd67897a-1470-4c44-9136-95be448ff365",
+            "malwareState": "Unverified",
+            "immutable": true
+        },
+        {
+            "instanceUid": "50523028-464a-5612-6035-68e067fbbd71",
+            "backupServerUid": "362f49c2-ecdc-4128-bf60-5988c3599d3a",
+            "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+            "name": "NBVMSPRTG13",
+            "hierarchyRef": "vm-47",
+            "parentHostRef": "nbvlxvc07.medabil.com.br",
+            "objectUid": "f7a3cf35-e775-4314-96ea-66f2a6c3ad62",
+            "ipAddresses": [
+                "10.54.0.13",
+                "fe80::925e:2718:f5c8:b828"
+            ],
+root@vlxvrpt29:/opt/veeam-dashboard#

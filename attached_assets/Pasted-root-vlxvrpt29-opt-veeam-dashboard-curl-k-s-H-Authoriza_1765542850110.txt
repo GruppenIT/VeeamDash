@@ -1,0 +1,103 @@
+root@vlxvrpt29:/opt/veeam-dashboard# curl -k -s -H "Authorization: Bearer $(cat /opt/veeam-dashboard/.env | grep VEEAM_API_KEY | cut -d'=' -f2)" \
+  "https://vspc.gruppen.com.br:1280/api/v3/organizations/companies" | python3 -m json.tool | head -100
+{
+    "meta": {
+        "pagingInfo": {
+            "total": 57,
+            "count": 57,
+            "offset": 0
+        }
+    },
+    "data": [
+        {
+            "instanceUid": "62b31994-6334-4518-8b61-ae286faedb6e",
+            "name": "IDR",
+            "status": "Active",
+            "resellerUid": null,
+            "subscriptionPlanUid": "2121a8b2-74cf-4202-808a-645bca170d81",
+            "isRestAccessEnabled": false,
+            "isAlarmDetectEnabled": false,
+            "companyServices": {
+                "hostedServices": {
+                    "isVbPublicCloudManagementEnabled": false
+                },
+                "remoteServices": {
+                    "isBackupResourcesEnabled": true,
+                    "backupAgentsManagement": null,
+                    "backupServersManagement": null,
+                    "vb365ServersManagement": null,
+                    "isVbPublicCloudManagementEnabled": false
+                }
+            },
+            "loginUrl": null,
+            "ownerCredentials": {
+                "userName": "IDR",
+                "password": null
+            },
+            "_embedded": {
+                "organization": null
+            }
+        },
+        {
+            "instanceUid": "7bda87d7-7652-4a6e-99e6-351e3c6c08b1",
+            "name": "Flecksteel",
+            "status": "Active",
+            "resellerUid": null,
+            "subscriptionPlanUid": "5b0ee653-eddd-48d6-889e-295f317e4192",
+            "isRestAccessEnabled": false,
+            "isAlarmDetectEnabled": false,
+            "companyServices": {
+                "hostedServices": {
+                    "isVbPublicCloudManagementEnabled": false
+                },
+                "remoteServices": {
+                    "isBackupResourcesEnabled": true,
+                    "backupAgentsManagement": null,
+                    "backupServersManagement": null,
+                    "vb365ServersManagement": null,
+                    "isVbPublicCloudManagementEnabled": false
+                }
+            },
+            "loginUrl": null,
+            "ownerCredentials": {
+                "userName": "Flecksteel",
+                "password": null
+            },
+            "_embedded": {
+                "organization": null
+            }
+        },
+        {
+            "instanceUid": "9c4c1e17-76d0-473e-b931-8d997bb088f7",
+            "name": "Portoa",
+            "status": "Active",
+            "resellerUid": null,
+            "subscriptionPlanUid": "9c92b375-9783-4dfe-b075-8ca95eaf051e",
+            "isRestAccessEnabled": false,
+            "isAlarmDetectEnabled": false,
+            "companyServices": {
+                "hostedServices": {
+                    "isVbPublicCloudManagementEnabled": false
+                },
+                "remoteServices": {
+                    "isBackupResourcesEnabled": true,
+                    "backupAgentsManagement": {
+                        "workstationAgentsQuota": null,
+                        "serverAgentsQuota": null
+                    },
+                    "backupServersManagement": {
+                        "backupServerQuota": null
+                    },
+                    "vb365ServersManagement": null,
+                    "isVbPublicCloudManagementEnabled": false
+                }
+            },
+            "loginUrl": null,
+            "ownerCredentials": {
+                "userName": "Portoa",
+                "password": null
+            },
+            "_embedded": {
+                "organization": null
+            }
+root@vlxvrpt29:/opt/veeam-dashboard#
