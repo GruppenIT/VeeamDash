@@ -1,0 +1,121 @@
+root@vlxvrpt29:/opt/veeam-dashboard# curl -s -k -X 'GET' \
+  'https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/computersManagedByBackupServer?organizationUidFilter=dd4d0261-abdf-4738-b395-fc1c30882bac&limit=500' \
+  -H 'accept: application/json' \
+  -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' | python3 -c "
+import sys, json
+
+def tb(b): return b / (1024**4)
+
+data = json.load(sys.stdin)
+computers = data.get('data', [])
+
+# Agrupar por instanceUid (remover duplicatas)
+unique_computers = {}
+for c in computers:
+    uid = c['instanceUid']
+    if uid not in unique_computers:
+        unique_computers[uid] = c
+
+print(f'Total entries: {len(computers)}')
+print(f'Computers únicos: {len(unique_computers)}')
+print()
+
+# Mostrar cada computer único e campos de tamanho disponíveis
+print('--- COMPUTERS ÚNICOS (campos de tamanho) ---')
+total_used = 0
+total_prov = 0
+for uid, c in unique_computers.items():
+    name = c.get('name', 'N/A')
+    used = c.get('usedSourceSize', 0) or 0
+    prov = c.get('provisionedSourceSize', 0) or 0
+    total_used += used
+    total_prov += prov
+    print(f'{name}:')
+    print(f'  usedSourceSize: {tb(used):.3f} TB')
+    print(f'  provisionedSourceSize: {tb(prov):.3f} TB')
+    print()
+
+print(f'--- TOTAIS ---')
+print(f'Soma usedSourceSize: {tb(total_used):.2f} TB')
+print(f'Soma provisionedSourceSize: {tb(total_prov):.2f} TB')
+"
+Total entries: 26
+Computers únicos: 18
+
+--- COMPUTERS ÚNICOS (campos de tamanho) ---
+MHU069230.unimed-ners.net:
+  usedSourceSize: 0.000 TB
+  provisionedSourceSize: 0.000 TB
+
+SUN075.unimed-ners.net:
+  usedSourceSize: 0.000 TB
+  provisionedSourceSize: 0.000 TB
+
+stellaweb01:
+  usedSourceSize: 0.000 TB
+  provisionedSourceSize: 0.000 TB
+
+pavmsts85.medabil.com.br:
+  usedSourceSize: 0.000 TB
+  provisionedSourceSize: 0.000 TB
+
+vmsquestor.miolo.local:
+  usedSourceSize: 0.000 TB
+  provisionedSourceSize: 0.000 TB
+
+NOTEBOOK-3440.gedore.local:
+  usedSourceSize: 0.000 TB
+  provisionedSourceSize: 0.000 TB
+
+DSKGEDORE254.gedore.local:
+  usedSourceSize: 0.000 TB
+  provisionedSourceSize: 0.000 TB
+
+DSK000134.gedore.local:
+  usedSourceSize: 0.000 TB
+  provisionedSourceSize: 0.000 TB
+
+DSK004258.gedore.local:
+  usedSourceSize: 0.000 TB
+  provisionedSourceSize: 0.000 TB
+
+NOTE-3450.gedore.local:
+  usedSourceSize: 0.000 TB
+  provisionedSourceSize: 0.000 TB
+
+DSK000229.gedore.local:
+  usedSourceSize: 0.000 TB
+  provisionedSourceSize: 0.000 TB
+
+DSK001437.gedore.local:
+  usedSourceSize: 0.000 TB
+  provisionedSourceSize: 0.000 TB
+
+NB004985.gedore.local:
+  usedSourceSize: 0.000 TB
+  provisionedSourceSize: 0.000 TB
+
+oracle.icinex.br:
+  usedSourceSize: 0.000 TB
+  provisionedSourceSize: 0.000 TB
+
+cnxsrvbackup:
+  usedSourceSize: 0.000 TB
+  provisionedSourceSize: 0.000 TB
+
+CNXSRV01.icinex.br:
+  usedSourceSize: 0.000 TB
+  provisionedSourceSize: 0.000 TB
+
+CNXSRV4390.icinex.br:
+  usedSourceSize: 0.000 TB
+  provisionedSourceSize: 0.000 TB
+
+srvfiles:
+  usedSourceSize: 0.000 TB
+  provisionedSourceSize: 0.000 TB
+
+--- TOTAIS ---
+Soma usedSourceSize: 0.00 TB
+Soma provisionedSourceSize: 0.00 TB
+root@vlxvrpt29:/opt/veeam-dashboard#
