@@ -1,0 +1,60 @@
+root@vlxvrpt29:/opt/veeam-dashboard# curl -s -k -X 'GET' \
+  'https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/computersManagedByBackupServer?organizationUidFilter=dd4d0261-abdf-4738-b395-fc1c30882bac&limit=500' \
+  -H 'accept: application/json' \
+  -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' | python3 -c "
+import sys, json
+
+GEDORE_UID = 'dd4d0261-abdf-4738-b395-fc1c30882bac'
+
+data = json.load(sys.stdin)
+computers = data.get('data', [])
+
+# Agrupar por organizationUid
+by_org = {}
+for c in computers:
+    org = c.get('organizationUid', 'N/A')
+    if org not in by_org:
+        by_org[org] = []
+    by_org[org].append(c)
+
+print('=== COMPUTERS POR organizationUid ===')
+for org, comps in by_org.items():
+    # Contar únicos por instanceUid
+    unique = len(set(c['instanceUid'] for c in comps))
+    is_gedore = '(GEDORE)' if org == GEDORE_UID else ''
+    print(f'{org} {is_gedore}: {len(comps)} entries, {unique} únicos')
+
+# Listar os 8 computers que são exatamente da Gedore
+print()
+print('=== COMPUTERS EXATAMENTE DA GEDORE ===')
+gedore_computers = [c for c in computers if c.get('organizationUid') == GEDORE_UID]
+unique_gedore = {}
+for c in gedore_computers:
+    uid = c['instanceUid']
+    if uid not in unique_gedore:
+        unique_gedore[uid] = c['name']
+
+print(f'Total: {len(unique_gedore)}')
+for uid, name in unique_gedore.items():
+    print(f'  {name} ({uid})')
+"
+=== COMPUTERS POR organizationUid ===
+17b99579-ab3f-47d9-91a3-1d27f1ddfa69 : 3 entries, 2 únicos
+b10da2f7-8cc8-427d-8a94-3bf5ab1b1c5f : 1 entries, 1 únicos
+b17b3348-4ecf-4e30-b214-1d79cd91f4f7 : 1 entries, 1 únicos
+dba4a8b8-9d00-444c-a4fc-b1e15bdc92c6 : 2 entries, 1 únicos
+dd4d0261-abdf-4738-b395-fc1c30882bac (GEDORE): 8 entries, 8 únicos
+3526445b-15b4-4cd5-9e04-b7104bf9d4af : 9 entries, 4 únicos
+79bb0124-23f6-4f8a-af02-b5c27e2becdd : 2 entries, 1 únicos
+
+=== COMPUTERS EXATAMENTE DA GEDORE ===
+Total: 8
+  NOTEBOOK-3440.gedore.local (4c4c4544-0033-5610-8047-c6c04f323634)
+  DSKGEDORE254.gedore.local (4c4c4544-0033-5810-8035-cac04f375a32)
+  DSK000134.gedore.local (4c4c4544-0035-4710-8046-cac04f514d32)
+  DSK004258.gedore.local (4c4c4544-0043-3110-804b-c7c04f343234)
+  NOTE-3450.gedore.local (4c4c4544-004c-4c10-8043-b6c04f4a3634)
+  DSK000229.gedore.local (4c4c4544-0036-4a10-805a-b3c04f525032)
+  DSK001437.gedore.local (4c4c4544-0031-4b10-8034-b9c04f365133)
+  NB004985.gedore.local (4c4c4544-004b-4c10-8043-b4c04f4a3634)
+root@vlxvrpt29:/opt/veeam-dashboard#
