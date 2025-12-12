@@ -144,9 +144,33 @@ export class VeeamService {
       
       console.log(`[VeeamService] Filtered - VMs: ${companyVMs.length}, VB365: ${companyVB365.length}, Computers: ${companyComputers.length}`);
 
-      // Use usedSourceSize for VMs (represents actual used disk space)
-      const vmTotalSizeBytes = companyVMs.reduce((sum: number, vm: any) => 
-        sum + (vm.usedSourceSize || 0), 0);
+      // Fetch VM backups and sum totalRestorePointSize (all backup types)
+      let vmTotalSizeBytes = 0;
+      if (companyVMs.length > 0) {
+        console.log(`[VeeamService] Fetching backups for VMs...`);
+        
+        const allVMBackups = await this.fetchAllPages<any>(
+          '/api/v3/protectedWorkloads/virtualMachines/backups'
+        );
+        
+        console.log(`[VeeamService] Total VM backups fetched: ${allVMBackups.length}`);
+        
+        const companyVMUids = new Set(companyVMs.map((vm: any) => vm.instanceUid));
+        
+        // Filter backups for this company's VMs (all backup types - Backup + Copy)
+        const companyVMBackups = allVMBackups.filter(
+          (b: any) => companyVMUids.has(b.virtualMachineUid)
+        );
+        
+        console.log(`[VeeamService] Company VM backups: ${companyVMBackups.length}`);
+        
+        // Sum totalRestorePointSize for all backups
+        for (const backup of companyVMBackups) {
+          vmTotalSizeBytes += backup.totalRestorePointSize || 0;
+        }
+        
+        console.log(`[VeeamService] VMs total size: ${(vmTotalSizeBytes / (1024 ** 4)).toFixed(2)} TB`);
+      }
       const vmTotalSizeTB = vmTotalSizeBytes / (1024 ** 4);
 
       // Fetch backups for computers and sum totalRestorePointSize (jobKind=Backup only)
