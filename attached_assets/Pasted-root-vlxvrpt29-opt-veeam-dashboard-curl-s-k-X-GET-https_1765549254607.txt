@@ -1,0 +1,74 @@
+root@vlxvrpt29:/opt/veeam-dashboard# curl -s -k -X 'GET' \
+  'https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/computersManagedByBackupServer/restorePoints/latest?limit=500' \
+  -H 'accept: application/json' \
+  -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' | python3 -c "
+import sys, json
+
+# Os 8 computers da Gedore (organizationUid exato)
+gedore_8 = {
+    '4c4c4544-0033-5610-8047-c6c04f323634',
+    '4c4c4544-0033-5810-8035-cac04f375a32',
+    '4c4c4544-0035-4710-8046-cac04f514d32',
+    '4c4c4544-0043-3110-804b-c7c04f343234',
+    '4c4c4544-004c-4c10-8043-b6c04f4a3634',
+    '4c4c4544-0036-4a10-805a-b3c04f525032',
+    '4c4c4544-0031-4b10-8034-b9c04f365133',
+    '4c4c4544-004b-4c10-8043-b4c04f4a3634',
+}
+
+# Todos os 18 (incluindo subempresas)
+all_18 = {
+    '4c4c4544-0035-5810-8036-b6c04f4a3534',
+    '37393150-3536-5242-4c31-343430575836',
+    '9a533d42-386e-143e-09f2-eb664255b012',
+    '6cc52f42-fc32-4c64-9022-fd0b402ceb06',
+    '922c4d56-55e4-d128-d345-4c575bdf0828',
+    '4c4c4544-0033-5610-8047-c6c04f323634',
+    '4c4c4544-0033-5810-8035-cac04f375a32',
+    '4c4c4544-0035-4710-8046-cac04f514d32',
+    '4c4c4544-0043-3110-804b-c7c04f343234',
+    '4c4c4544-004c-4c10-8043-b6c04f4a3634',
+    '4c4c4544-0036-4a10-805a-b3c04f525032',
+    '4c4c4544-0031-4b10-8034-b9c04f365133',
+    '4c4c4544-004b-4c10-8043-b4c04f4a3634',
+    '44454c4c-4e00-1053-8034-b7c04f314433',
+    'aab51edd-fb66-4252-a5e2-9d67e2f057f5',
+    '4c4c4544-004d-5010-8035-c2c04f365731',
+    '4c4c4544-004d-3910-804c-c3c04f535932',
+    'c75d65af-03e2-414e-8ab0-952f96a92dfa',
+}
+
+def tb(b): return b / (1024**4)
+
+data = json.load(sys.stdin)
+points = data.get('data', [])
+
+# Filtrar por Gedore 8
+g8 = [p for p in points if p['backupAgentUid'] in gedore_8]
+# Filtrar por todos 18
+g18 = [p for p in points if p['backupAgentUid'] in all_18]
+
+print('=== 8 COMPUTERS GEDORE (organizationUid exato) ===')
+print(f'Restore points: {len(g8)}')
+print(f'sourceSize: {tb(sum(p.get(\"sourceSize\",0) or 0 for p in g8)):.2f} TB')
+print(f'usedSourceSize: {tb(sum(p.get(\"usedSourceSize\",0) or 0 for p in g8)):.2f} TB')
+print(f'size (backup size): {tb(sum(p.get(\"size\",0) or 0 for p in g8)):.2f} TB')
+
+print()
+print('=== 18 COMPUTERS (incluindo subempresas) ===')
+print(f'Restore points: {len(g18)}')
+print(f'sourceSize: {tb(sum(p.get(\"sourceSize\",0) or 0 for p in g18)):.2f} TB')
+print(f'usedSourceSize: {tb(sum(p.get(\"usedSourceSize\",0) or 0 for p in g18)):.2f} TB')
+print(f'size (backup size): {tb(sum(p.get(\"size\",0) or 0 for p in g18)):.2f} TB')
+"
+=== 8 COMPUTERS GEDORE (organizationUid exato) ===
+Restore points: 8
+sourceSize: 1.97 TB
+usedSourceSize: 1.05 TB
+size (backup size): 0.11 TB
+
+=== 18 COMPUTERS (incluindo subempresas) ===
+Restore points: 18
+sourceSize: 23.54 TB
+usedSourceSize: 10.18 TB
+size (backup size): 0.36 TB
