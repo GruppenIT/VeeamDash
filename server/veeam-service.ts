@@ -684,7 +684,7 @@ export class VeeamService {
 
   async getFailedJobs(companyId: string): Promise<FailedJob[]> {
     if (!this.isConfigured()) {
-      return this.getDemoFailedJobs();
+      return this.getDemoFailedJobs(companyId);
     }
 
     try {
@@ -737,43 +737,40 @@ export class VeeamService {
       return failedJobs;
     } catch (error) {
       console.error('Error fetching failed jobs:', error);
-      return this.getDemoFailedJobs();
+      return this.getDemoFailedJobs(companyId);
     }
   }
 
-  private getDemoFailedJobs(): FailedJob[] {
-    return [
-      {
-        instanceUid: 'demo-failed-1',
-        name: 'Backup Servidor Arquivos',
-        type: 'VMBackup',
-        status: 'Failed',
-        lastRun: new Date(Date.now() - 3600000).toISOString(),
-        lastResult: 'Failed',
-        description: 'Created by ADMIN at 14/12/2022 07:10.',
-        lastSessionMessage: 'Failed to connect to storage. Error: Connection timeout after 30 seconds. Check network connectivity.',
-      },
-      {
-        instanceUid: 'demo-failed-2',
-        name: 'Backup SQL Server',
-        type: 'VMBackup',
-        status: 'Warning',
-        lastRun: new Date(Date.now() - 7200000).toISOString(),
-        lastResult: 'Warning',
-        description: 'Created by ADMIN at 29/08/2024 16:54.',
-        lastSessionMessage: 'Backup completed with warnings. 2 VMs were skipped due to CBT issues. VM: SQL-01, VM: SQL-02.',
-      },
-      {
-        instanceUid: 'demo-failed-3',
-        name: 'Replicação DC',
-        type: 'Replication',
-        status: 'Failed',
-        lastRun: new Date(Date.now() - 86400000).toISOString(),
-        lastResult: 'Failed',
-        description: 'Created by ADMIN at 15/01/2024 10:30.',
-        lastSessionMessage: 'Replication failed. Host connection timeout: Unable to reach destination host dc-replica.local after 120 seconds.',
-      },
-    ];
+  private getDemoFailedJobs(companyId: string): FailedJob[] {
+    if (companyId === 'demo-company-1') {
+      return [
+        {
+          instanceUid: 'demo-failed-1',
+          name: 'Backup Servidor Alpha',
+          type: 'VMBackup',
+          status: 'Failed',
+          lastRun: new Date(Date.now() - 3600000).toISOString(),
+          lastResult: 'Failed',
+          description: 'Created by ADMIN at 14/12/2022 07:10.',
+          lastSessionMessage: 'Failed to connect to storage. Error: Connection timeout after 30 seconds.',
+        },
+      ];
+    }
+    if (companyId === 'demo-company-2') {
+      return [
+        {
+          instanceUid: 'demo-failed-2',
+          name: 'Backup SQL Beta',
+          type: 'VMBackup',
+          status: 'Warning',
+          lastRun: new Date(Date.now() - 7200000).toISOString(),
+          lastResult: 'Warning',
+          description: 'Created by ADMIN at 29/08/2024 16:54.',
+          lastSessionMessage: 'Backup completed with warnings. 2 VMs were skipped due to CBT issues.',
+        },
+      ];
+    }
+    return [];
   }
 }
 
