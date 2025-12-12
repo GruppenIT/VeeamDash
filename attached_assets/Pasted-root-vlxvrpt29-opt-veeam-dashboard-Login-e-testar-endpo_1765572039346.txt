@@ -1,0 +1,61 @@
+root@vlxvrpt29:/opt/veeam-dashboard# # Login e testar endpoint
+curl -c /tmp/cookies.txt -X POST http://localhost:5000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"login@sistema.com","password":"admin"}' && \
+curl -b /tmp/cookies.txt "http://localhost:5000/api/failed-jobs/dd4d0261-abdf-4738-b395-fc1c30882bac" | jq .
+{"success":true,"user":{"id":"645fd3aa-b44a-43bc-9986-33850aba587a","username":"login@sistema.com","name":"Administrador Sistema"}}  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100     2  100     2    0     0     62      0 --:--:-- --:--:-- --:--:--    64
+[]
+root@vlxvrpt29:/opt/veeam-dashboard# pm2 logs veeam-dashboard --lines 30 | grep -i "failed\|session\|VeeamService"
+0|veeam-da | 2025-12-12T20:30:34:     at async VeeamService.getFailedJobs (file:///opt/veeam-dashboard/dist/index.js:702:32)
+0|veeam-da | 2025-12-12T20:30:41: Error fetching failed jobs: Error: Veeam API error: Bad Request
+0|veeam-da | 2025-12-12T20:30:41:     at VeeamService.fetchVeeamAPI (file:///opt/veeam-dashboard/dist/index.js:186:13)
+0|veeam-da | 2025-12-12T20:30:41:     at async VeeamService.fetchAllPages (file:///opt/veeam-dashboard/dist/index.js:196:24)
+0|veeam-da | 2025-12-12T20:30:41:     at async VeeamService.getFailedJobs (file:///opt/veeam-dashboard/dist/index.js:702:32)
+0|veeam-da | 2025-12-12T20:30:48: Error fetching failed jobs: Error: Veeam API error: Bad Request
+0|veeam-da | 2025-12-12T20:30:48:     at VeeamService.fetchVeeamAPI (file:///opt/veeam-dashboard/dist/index.js:186:13)
+0|veeam-da | 2025-12-12T20:30:48:     at async VeeamService.fetchAllPages (file:///opt/veeam-dashboard/dist/index.js:196:24)
+0|veeam-da | 2025-12-12T20:30:48:     at async VeeamService.getFailedJobs (file:///opt/veeam-dashboard/dist/index.js:702:32)
+0|veeam-da | 2025-12-12T20:30:56: Error fetching failed jobs: Error: Veeam API error: Bad Request
+0|veeam-da | 2025-12-12T20:30:56:     at VeeamService.fetchVeeamAPI (file:///opt/veeam-dashboard/dist/index.js:186:13)
+0|veeam-da | 2025-12-12T20:30:56:     at async VeeamService.fetchAllPages (file:///opt/veeam-dashboard/dist/index.js:196:24)
+0|veeam-da | 2025-12-12T20:30:56:     at async VeeamService.getFailedJobs (file:///opt/veeam-dashboard/dist/index.js:702:32)
+0|veeam-da | 2025-12-12T20:40:45: Error fetching failed jobs: Error: Veeam API error: Bad Request
+0|veeam-da | 2025-12-12T20:40:45:     at VeeamService.fetchVeeamAPI (file:///opt/veeam-dashboard/dist/index.js:186:13)
+0|veeam-da | 2025-12-12T20:40:45:     at async VeeamService.fetchAllPages (file:///opt/veeam-dashboard/dist/index.js:196:24)
+0|veeam-da | 2025-12-12T20:40:45:     at async VeeamService.getFailedJobs (file:///opt/veeam-dashboard/dist/index.js:702:32)
+0|veeam-da | 2025-12-12T20:30:52: [VeeamService] Filtered - VMs: 0, VB365: 0, Computers: 0
+0|veeam-da | 2025-12-12T20:30:52: [VeeamService] Sizes - VMs: 0.0 TB, Computers: 0.00 TB, VB365: N/A
+0|veeam-da | 2025-12-12T20:30:56: [VeeamService] Fetching metrics for company: 3f21557c-d158-4701-9049-e3dcd428ceb2
+0|veeam-da | 2025-12-12T20:30:56: [VeeamService] Fetching protected workloads for company: 3f21557c-d158-4701-9049-e3dcd428ceb2
+0|veeam-da | 2025-12-12T20:30:56: [VeeamService] Fetching scorecard for company: 3f21557c-d158-4701-9049-e3dcd428ceb2
+0|veeam-da | 2025-12-12T20:30:56: 8:30:56 PM [express] GET /api/session-states/3f21557c-d158-4701-9049-e3dcd428ceb2 200 in 8ms :: {"da…
+0|veeam-da | 2025-12-12T20:30:56: [VeeamService] Fetching active alarms for company: 3f21557c-d158-4701-9049-e3dcd428ceb2
+0|veeam-da | 2025-12-12T20:30:56: [VeeamService] Fetching failed jobs for company: 3f21557c-d158-4701-9049-e3dcd428ceb2
+0|veeam-da | 2025-12-12T20:30:56: 8:30:56 PM [express] GET /api/failed-jobs/3f21557c-d158-4701-9049-e3dcd428ceb2 200 in 53ms :: []
+0|veeam-da | 2025-12-12T20:30:56: [VeeamService] Total alarms fetched: 307
+0|veeam-da | 2025-12-12T20:30:56: [VeeamService] Company alarms: 14
+0|veeam-da | 2025-12-12T20:30:56: [VeeamService] Fetched 237 jobs total
+0|veeam-da | 2025-12-12T20:30:56: [VeeamService] Company has 7 jobs
+0|veeam-da | 2025-12-12T20:30:56: [VeeamService] Scorecard - Jobs: 7, Servers: 1
+0|veeam-da | 2025-12-12T20:30:56: [VeeamService] Scorecard - Jobs: 71% (5/7), Health: 0% (0/1), Overall: 35.5%
+0|veeam-da | 2025-12-12T20:30:56: [VeeamService] Total fetched - VMs: 650, VB365: 2625, Computers: 26
+0|veeam-da | 2025-12-12T20:30:56: [VeeamService] Filtered - VMs: 16, VB365: 1, Computers: 0
+0|veeam-da | 2025-12-12T20:30:56: [VeeamService] Fetching backups for VMs...
+0|veeam-da | 2025-12-12T20:30:56: [VeeamService] Total VM backups fetched: 1441
+0|veeam-da | 2025-12-12T20:30:56: [VeeamService] Company VM backups: 42
+0|veeam-da | 2025-12-12T20:30:56: [VeeamService] VMs total size: 43.69 TB
+0|veeam-da | 2025-12-12T20:30:56: [VeeamService] Sizes - VMs: 43.7 TB, Computers: 0.00 TB, VB365: N/A
+0|veeam-da | 2025-12-12T20:40:45: [VeeamService] Fetching failed jobs for company: dd4d0261-abdf-4738-b395-fc1c30882bac
+0|veeam-da | 2025-12-12T20:40:45: 8:40:45 PM [express] GET /api/failed-jobs/dd4d0261-abdf-4738-b395-fc1c30882bac 200 in 29ms :: []
+^C
+root@vlxvrpt29:/opt/veeam-dashboard# # Substitua pela sua API_KEY do .env
+source /opt/veeam-dashboard/.env
+curl -k -H "Authorization: Bearer $VEEAM_API_KEY" \
+  "$VEEAM_API_URL/api/v3/infrastructure/backupServers/jobs/sessions?limit=10" | jq '.data[] | {jobUid, result, status, endTime}'
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   114  100   114    0     0   4720      0 --:--:-- --:--:-- --:--:--  4956
+jq: error (at <stdin>:0): Cannot iterate over null (null)
+root@vlxvrpt29:/opt/veeam-dashboard#
