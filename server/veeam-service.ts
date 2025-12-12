@@ -8,6 +8,7 @@ import type {
   DataPlatformScorecard,
   SessionStatesData,
   DaySessionState,
+  VeeamAlarm,
 } from "@shared/schema";
 import { storage } from "./storage";
 
@@ -600,6 +601,84 @@ export class VeeamService {
       console.error('Error getting monthly stats:', error);
       return [];
     }
+  }
+
+  async getActiveAlarms(companyId: string): Promise<VeeamAlarm[]> {
+    if (!this.isConfigured()) {
+      return this.getDemoAlarms();
+    }
+
+    try {
+      console.log(`[VeeamService] Fetching active alarms for company: ${companyId}`);
+      
+      const alarms = await this.fetchAllPages<VeeamAlarm>('/api/v3/alarms/active');
+      
+      console.log(`[VeeamService] Total alarms fetched: ${alarms.length}`);
+      
+      const companyAlarms = alarms.filter(
+        (alarm) => alarm.object?.organizationUid === companyId
+      );
+      
+      console.log(`[VeeamService] Company alarms: ${companyAlarms.length}`);
+      
+      companyAlarms.sort((a, b) => {
+        const dateA = new Date(a.lastActivation?.time || 0);
+        const dateB = new Date(b.lastActivation?.time || 0);
+        return dateB.getTime() - dateA.getTime();
+      });
+      
+      return companyAlarms;
+    } catch (error) {
+      console.error('Error fetching active alarms:', error);
+      return this.getDemoAlarms();
+    }
+  }
+
+  private getDemoAlarms(): VeeamAlarm[] {
+    return [
+      {
+        instanceUid: 'demo-alarm-1',
+        alarmTemplateUid: 'demo-template-1',
+        repeatCount: 3,
+        object: {
+          instanceUid: 'demo-obj-1',
+          type: 'BackupServer',
+          organizationUid: 'demo-company-1',
+          locationUid: 'demo-loc-1',
+          computerName: 'SERVIDOR-BACKUP-01',
+          objectUid: 'demo-obj-uid-1',
+          objectName: 'Job Backup Diário',
+        },
+        lastActivation: {
+          time: new Date().toISOString(),
+          status: 'Warning',
+          message: 'Backup completed with warnings. Some VMs were skipped.',
+          remark: 'Check VM connectivity.',
+        },
+        area: 'vspc',
+      },
+      {
+        instanceUid: 'demo-alarm-2',
+        alarmTemplateUid: 'demo-template-2',
+        repeatCount: 1,
+        object: {
+          instanceUid: 'demo-obj-2',
+          type: 'BackupServer',
+          organizationUid: 'demo-company-1',
+          locationUid: 'demo-loc-1',
+          computerName: 'SERVIDOR-BACKUP-02',
+          objectUid: 'demo-obj-uid-2',
+          objectName: 'Job Replicação',
+        },
+        lastActivation: {
+          time: new Date(Date.now() - 86400000).toISOString(),
+          status: 'Resolved',
+          message: 'All metrics are back to normal.',
+          remark: 'The alarm has been automatically resolved.',
+        },
+        area: 'vspc',
+      },
+    ];
   }
 }
 
