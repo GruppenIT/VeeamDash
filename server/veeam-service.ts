@@ -9,6 +9,7 @@ import type {
   SessionStatesData,
   DaySessionState,
   VeeamAlarm,
+  FailedJob,
 } from "@shared/schema";
 import { storage } from "./storage";
 
@@ -677,6 +678,84 @@ export class VeeamService {
           remark: 'The alarm has been automatically resolved.',
         },
         area: 'vspc',
+      },
+    ];
+  }
+
+  async getFailedJobs(companyId: string): Promise<FailedJob[]> {
+    if (!this.isConfigured()) {
+      return this.getDemoFailedJobs();
+    }
+
+    try {
+      console.log(`[VeeamService] Fetching failed jobs for company: ${companyId}`);
+      
+      const jobs = await this.fetchAllPages<any>('/api/v3/infrastructure/backupServers/jobs');
+      
+      console.log(`[VeeamService] Total jobs fetched: ${jobs.length}`);
+      
+      const companyJobs = jobs.filter((job: any) => job.organizationUid === companyId);
+      
+      console.log(`[VeeamService] Company jobs: ${companyJobs.length}`);
+      
+      const failedJobs = companyJobs
+        .filter((job: any) => {
+          const status = job.status?.toLowerCase() || '';
+          return status === 'failed' || status === 'warning' || status === 'error';
+        })
+        .map((job: any): FailedJob => ({
+          instanceUid: job.instanceUid || '',
+          name: job.name || '',
+          type: job.type || job.jobType || '',
+          status: job.status || '',
+          lastRun: job.lastRun || '',
+          lastResult: job.lastResult || job.status || '',
+          description: job.description || '',
+        }));
+      
+      failedJobs.sort((a: FailedJob, b: FailedJob) => {
+        const dateA = new Date(a.lastRun || 0);
+        const dateB = new Date(b.lastRun || 0);
+        return dateB.getTime() - dateA.getTime();
+      });
+      
+      console.log(`[VeeamService] Failed jobs: ${failedJobs.length}`);
+      
+      return failedJobs;
+    } catch (error) {
+      console.error('Error fetching failed jobs:', error);
+      return this.getDemoFailedJobs();
+    }
+  }
+
+  private getDemoFailedJobs(): FailedJob[] {
+    return [
+      {
+        instanceUid: 'demo-failed-1',
+        name: 'Backup Servidor Arquivos',
+        type: 'VMBackup',
+        status: 'Failed',
+        lastRun: new Date(Date.now() - 3600000).toISOString(),
+        lastResult: 'Failed',
+        description: 'Erro de conexão com o storage. Verifique a rede.',
+      },
+      {
+        instanceUid: 'demo-failed-2',
+        name: 'Backup SQL Server',
+        type: 'VMBackup',
+        status: 'Warning',
+        lastRun: new Date(Date.now() - 7200000).toISOString(),
+        lastResult: 'Warning',
+        description: 'Backup concluído com avisos. Algumas VMs foram ignoradas.',
+      },
+      {
+        instanceUid: 'demo-failed-3',
+        name: 'Replicação DC',
+        type: 'Replication',
+        status: 'Failed',
+        lastRun: new Date(Date.now() - 86400000).toISOString(),
+        lastResult: 'Failed',
+        description: 'Falha na replicação. Timeout de conexão com o host de destino.',
       },
     ];
   }
