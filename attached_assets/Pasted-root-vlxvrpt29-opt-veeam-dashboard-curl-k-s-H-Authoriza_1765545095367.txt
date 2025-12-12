@@ -1,0 +1,50 @@
+root@vlxvrpt29:/opt/veeam-dashboard# curl -k -s -H "Authorization: Bearer $(cat /opt/veeam-dashboard/.env | grep VEEAM_API_KEY | cut -d'=' -f2)" \
+  "https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/vb365ProtectedObjects?limit=10" | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+items = data.get('data', [])
+if items:
+    print('Campos disponíveis:')
+    for key in items[0].keys():
+        print(f'  - {key}: {items[0].get(key)}')
+"
+Campos disponíveis:
+  - id: 5b4c4e3d-6ce5-5401-a544-59c41c17fd19:7213002a-e1a2-4624-a850-50f3d0599ed5
+  - name:
+  - repositoryUid: 7213002a-e1a2-4624-a850-50f3d0599ed5
+  - repositoryName: CL-GEDORE
+  - archiveRepositoryUid: None
+  - archiveRepositoryName: None
+  - protectedDataType: Site
+  - restorePointsCount: 330
+  - archiveRestorePointsCount: 0
+  - latestRestorePointDate: 2025-12-12T04:48:58.7930000+00:00
+  - vb365ServerUid: cade90ae-3321-44e5-856c-3b0bee2593ca
+  - vb365ServerName: VMSVO36540
+  - organizationUid: dd4d0261-abdf-4738-b395-fc1c30882bac
+  - organizationName: Gedore
+  - vb365OrganizationUid: 27958e7b-7616-4454-abfc-227ec7040f44
+  - vb365OrganizationName: gedorebrasil.onmicrosoft.com
+  - siteUid: None
+  - siteName: None
+  - locationUid: f04abaa2-0ec9-4e4d-9a2d-eaf2a0d94708
+  - locationName: Hosted
+  - consumesLicense: None
+  - isEducationalUser: None
+  - fileRestorePortalUrl: None
+  - isFileRestorePortalEnabled: False
+root@vlxvrpt29:/opt/veeam-dashboard# curl -k -s -H "Authorization: Bearer $(cat /opt/veeam-dashboard/.env | grep VEEAM_API_KEY | cut -d'=' -f2)" \
+  "https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/virtualMachines?limit=500" | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+items = data.get('data', [])
+gedore = 'dd4d0261-abdf-4738-b395-fc1c30882bac'
+gedore_vms = [vm for vm in items if vm.get('organizationUid') == gedore]
+size = sum(vm.get('totalRestorePointSize', 0) for vm in gedore_vms)
+used = sum(vm.get('usedSourceSize', 0) for vm in gedore_vms)
+print(f'totalRestorePointSize: {size / (1024**4):.1f} TB')
+print(f'usedSourceSize: {used / (1024**4):.1f} TB')
+"
+totalRestorePointSize: 61.6 TB
+usedSourceSize: 61.1 TB
+root@vlxvrpt29:/opt/veeam-dashboard#
