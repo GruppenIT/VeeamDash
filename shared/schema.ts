@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, timestamp, integer } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, timestamp, integer, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -37,6 +37,42 @@ export const sessionSnapshots = pgTable("session_snapshots", {
   createdAt: timestamp("created_at").notNull().default(sql`now()`),
 });
 
+// Report schedules for automated email reports
+export const reportSchedules = pgTable("report_schedules", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  companyId: text("company_id").notNull(),
+  companyName: text("company_name").notNull(),
+  frequency: text("frequency").notNull(), // 'daily', 'weekly', 'monthly'
+  dayOfWeek: integer("day_of_week"), // 0-6 (Sunday-Saturday) for weekly
+  dayOfMonth: integer("day_of_month"), // 1-31 for monthly
+  hour: integer("hour").notNull().default(8),
+  minute: integer("minute").notNull().default(0),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+  updatedAt: timestamp("updated_at").notNull().default(sql`now()`),
+  userId: varchar("user_id").notNull().references(() => users.id),
+});
+
+// Recipients for report schedules (multiple emails per schedule)
+export const scheduleRecipients = pgTable("schedule_recipients", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  scheduleId: varchar("schedule_id").notNull().references(() => reportSchedules.id),
+  email: text("email").notNull(),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
+// Run history for scheduled reports
+export const scheduleRuns = pgTable("schedule_runs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  scheduleId: varchar("schedule_id").notNull().references(() => reportSchedules.id),
+  status: text("status").notNull(), // 'success', 'failed', 'pending'
+  errorMessage: text("error_message"),
+  recipientCount: integer("recipient_count").notNull().default(0),
+  startedAt: timestamp("started_at").notNull().default(sql`now()`),
+  completedAt: timestamp("completed_at"),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -53,12 +89,34 @@ export const insertSessionSnapshotSchema = createInsertSchema(sessionSnapshots).
   createdAt: true,
 });
 
+export const insertReportScheduleSchema = createInsertSchema(reportSchedules).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertScheduleRecipientSchema = createInsertSchema(scheduleRecipients).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertScheduleRunSchema = createInsertSchema(scheduleRuns).omit({
+  id: true,
+  startedAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type EmailSchedule = typeof emailSchedules.$inferSelect;
 export type InsertEmailSchedule = z.infer<typeof insertEmailScheduleSchema>;
 export type SessionSnapshot = typeof sessionSnapshots.$inferSelect;
 export type InsertSessionSnapshot = z.infer<typeof insertSessionSnapshotSchema>;
+export type ReportSchedule = typeof reportSchedules.$inferSelect;
+export type InsertReportSchedule = z.infer<typeof insertReportScheduleSchema>;
+export type ScheduleRecipient = typeof scheduleRecipients.$inferSelect;
+export type InsertScheduleRecipient = z.infer<typeof insertScheduleRecipientSchema>;
+export type ScheduleRun = typeof scheduleRuns.$inferSelect;
+export type InsertScheduleRun = z.infer<typeof insertScheduleRunSchema>;
 
 // Veeam VSPC API Types (não armazenados no banco, apenas para type safety)
 export interface VeeamCompany {
