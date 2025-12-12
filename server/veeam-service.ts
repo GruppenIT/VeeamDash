@@ -149,25 +149,47 @@ export class VeeamService {
         sum + (vm.usedSourceSize || 0), 0);
       const vmTotalSizeTB = vmTotalSizeBytes / (1024 ** 4);
 
-      // Fetch backup sizes for computers (in parallel, max 10 concurrent)
+      // Fetch restore points for computers and use sourceSize from the latest restore point per computer
       let computersTotalSizeBytes = 0;
       if (companyComputers.length > 0) {
-        console.log(`[VeeamService] Fetching backup sizes for ${companyComputers.length} computers...`);
-        const backupPromises = companyComputers.map((computer: any) =>
-          this.fetchVeeamAPI<any>(
-            `/api/v3/protectedWorkloads/computersManagedByBackupServer/${computer.instanceUid}/backups?limit=100`
-          ).catch(() => ({ data: [] }))
+        console.log(`[VeeamService] Fetching restore points for computers...`);
+        
+        // Get all restore points for computers
+        const allRestorePoints = await this.fetchAllPages<any>(
+          '/api/v3/protectedWorkloads/computersManagedByBackupServer/restorePoints'
         );
         
-        const backupResults = await Promise.all(backupPromises);
+        console.log(`[VeeamService] Total restore points fetched: ${allRestorePoints.length}`);
         
-        for (const result of backupResults) {
-          const backups = result.data || [];
-          for (const backup of backups) {
-            computersTotalSizeBytes += backup.usedSourceSize || 0;
+        // Get the computer instanceUids for this company
+        const companyComputerUids = new Set(companyComputers.map((c: any) => c.instanceUid));
+        
+        // Filter restore points for this company's computers
+        const companyRestorePoints = allRestorePoints.filter(
+          (rp: any) => companyComputerUids.has(rp.backupAgentUid)
+        );
+        
+        console.log(`[VeeamService] Company restore points: ${companyRestorePoints.length}`);
+        
+        // Group by backupAgentUid and get the latest restore point for each
+        const latestByAgent: Record<string, any> = {};
+        for (const rp of companyRestorePoints) {
+          const agentUid = rp.backupAgentUid;
+          const rpTime = new Date(rp.backupCreationTime).getTime();
+          
+          if (!latestByAgent[agentUid] || rpTime > new Date(latestByAgent[agentUid].backupCreationTime).getTime()) {
+            latestByAgent[agentUid] = rp;
           }
         }
-        console.log(`[VeeamService] Computers total size: ${(computersTotalSizeBytes / (1024 ** 4)).toFixed(2)} TB`);
+        
+        // Sum sourceSize (fallback to provisionedSourceSize) from the latest restore point per computer
+        for (const agentUid of Object.keys(latestByAgent)) {
+          const rp = latestByAgent[agentUid];
+          const size = rp.sourceSize || rp.provisionedSourceSize || 0;
+          computersTotalSizeBytes += size;
+        }
+        
+        console.log(`[VeeamService] Computers total size: ${(computersTotalSizeBytes / (1024 ** 4)).toFixed(2)} TB (from ${Object.keys(latestByAgent).length} latest restore points)`);
       }
       const computersTotalSizeTB = computersTotalSizeBytes / (1024 ** 4);
 
