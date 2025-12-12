@@ -24,6 +24,19 @@ export const emailSchedules = pgTable("email_schedules", {
   userId: varchar("user_id").notNull().references(() => users.id),
 });
 
+// Session snapshots for historical calendar view
+export const sessionSnapshots = pgTable("session_snapshots", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  date: timestamp("date").notNull(),
+  companyId: text("company_id").notNull(),
+  companyName: text("company_name").notNull(),
+  successCount: integer("success_count").notNull().default(0),
+  warningCount: integer("warning_count").notNull().default(0),
+  failedCount: integer("failed_count").notNull().default(0),
+  totalCount: integer("total_count").notNull().default(0),
+  createdAt: timestamp("created_at").notNull().default(sql`now()`),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -35,10 +48,17 @@ export const insertEmailScheduleSchema = createInsertSchema(emailSchedules).omit
   createdAt: true,
 });
 
+export const insertSessionSnapshotSchema = createInsertSchema(sessionSnapshots).omit({
+  id: true,
+  createdAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type EmailSchedule = typeof emailSchedules.$inferSelect;
 export type InsertEmailSchedule = z.infer<typeof insertEmailScheduleSchema>;
+export type SessionSnapshot = typeof sessionSnapshots.$inferSelect;
+export type InsertSessionSnapshot = z.infer<typeof insertSessionSnapshotSchema>;
 
 // Veeam VSPC API Types (não armazenados no banco, apenas para type safety)
 export interface VeeamCompany {
@@ -117,4 +137,22 @@ export interface DataPlatformScorecard {
   statusMessage: string;
   jobSessions: ScorecardMetric;
   platformHealth: ScorecardMetric;
+}
+
+// Session States Calendar Types
+export interface DaySessionState {
+  date: string;
+  successPercent: number;
+  warningPercent: number;
+  failedPercent: number;
+  successCount: number;
+  warningCount: number;
+  failedCount: number;
+  totalCount: number;
+}
+
+export interface SessionStatesData {
+  days: DaySessionState[];
+  hasData: boolean;
+  message?: string;
 }
