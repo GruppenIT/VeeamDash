@@ -1,0 +1,127 @@
+root@vlxvrpt29:/opt/veeam-dashboard# # Verificar estrutura de jobs de backup
+curl -s -k 'https://vspc.gruppen.com.br:1280/api/v3/infrastructure/backupServers/jobs/backupVmJobs?limit=3' -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' | python3 -m json.tool | head -80
+
+# Ver um job específico para entender estrutura
+curl -s -k 'https://vspc.gruppen.com.br:1280/api/v3/infrastructure/backupServers/jobs?limit=3' -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' | python3 -m json.tool | head -80
+{
+    "meta": {
+        "pagingInfo": {
+            "total": 247,
+            "count": 3,
+            "offset": 0
+        }
+    },
+    "data": [
+        {
+            "instanceUid": "b8d3e753-6fad-48d6-a8d0-ce982b90e5ff",
+            "uniqueUid": "9239ad1b-bbb5-6471-8de3-41bdf01ba793",
+            "subtype": "VSphere",
+            "targetRepositoryUid": "44b0e9f4-1759-49d6-b1a1-f0723c227fee",
+            "protectedVmCount": 0,
+            "_embedded": {
+                "backupServerJob": null
+            }
+        },
+        {
+            "instanceUid": "54d890b2-45bf-4ad1-9f60-a3aa77c30006",
+            "uniqueUid": "e535188b-fc8b-69cb-98e6-47082171a2b6",
+            "subtype": "VSphere",
+            "targetRepositoryUid": "66055324-edc4-4aa6-991f-85ba13c99639",
+            "protectedVmCount": 0,
+            "_embedded": {
+                "backupServerJob": null
+            }
+        },
+        {
+            "instanceUid": "76c04fa2-d546-4fdc-b2f2-7b661a80711f",
+            "uniqueUid": "01a7c5bc-9fda-6eeb-bebc-86206933ef06",
+            "subtype": "VSphere",
+            "targetRepositoryUid": "66055324-edc4-4aa6-991f-85ba13c99639",
+            "protectedVmCount": 0,
+            "_embedded": {
+                "backupServerJob": null
+            }
+        }
+    ]
+}
+{
+    "meta": {
+        "pagingInfo": {
+            "total": 237,
+            "count": 3,
+            "offset": 0
+        }
+    },
+    "data": [
+        {
+            "instanceUid": "b8d3e753-6fad-48d6-a8d0-ce982b90e5ff",
+            "uniqueUid": "9239ad1b-bbb5-6471-8de3-41bdf01ba793",
+            "name": "HU-Backup-Windows-SQL-Server-AppAwareFita SQL Server Transaction Log Backup",
+            "description": "Automatically created SQL Server transaction log backup job",
+            "createdBy": "UNIMED-NERS-DMZ\\admcsgarion",
+            "creationTime": "2024-04-28T18:02:56.4239880+00:00",
+            "backupServerUid": "df9f2837-1ecb-4652-9d13-5757c1c60d42",
+            "locationUid": "7507a4a1-d7ca-4084-a3ce-1c8287e10423",
+            "siteUid": "1484e82a-75ba-4ba5-a183-8a18ed586dee",
+            "organizationUid": "17b99579-ab3f-47d9-91a3-1d27f1ddfa69",
+            "mappedOrganizationUid": "17b99579-ab3f-47d9-91a3-1d27f1ddfa69",
+            "status": "Running",
+            "type": "SqlLogBackup",
+            "lastRun": "2025-12-12T04:31:03.1146240+00:00",
+            "lastEndTime": null,
+            "lastDuration": 38195,
+            "processingRate": 0.0,
+            "avgDuration": null,
+            "transferredData": 0,
+            "backupChainSize": null,
+            "bottleneck": "None",
+            "isEnabled": true,
+            "scheduleType": "Continuously",
+            "failureMessage": null,
+            "targetType": "Local",
+            "destination": "Veeam_Storehb3660_Hospital_Windows",
+            "retentionLimit": 7,
+            "retentionLimitType": "RestorePoints",
+            "isGfsOptionEnabled": false,
+            "lastSessionTasks": [
+                {
+                    "instanceUid": "713f903a-e86a-4b36-ae20-32f66f1ecaf7",
+                    "objectUid": "22e44b90-b328-4ad1-a4a0-1ac3a621b8b3",
+                    "objectName": "SUN134 - SQL Server",
+                    "totalObjects": null,
+                    "processedObjects": null,
+                    "readDataSize": 34940416,
+                    "transferredDataSize": 34943408,
+                    "startTime": "2025-12-12T04:31:29.1254030+00:00",
+                    "endTime": "2025-12-12T15:07:38.1254030+00:00",
+                    "duration": 38169,
+                    "failureMessages": [],
+                    "status": "Pending"
+                }
+            ]
+        },
+        {
+            "instanceUid": "54d890b2-45bf-4ad1-9f60-a3aa77c30006",
+            "uniqueUid": "e535188b-fc8b-69cb-98e6-47082171a2b6",
+            "name": "HU-Backup-Oracle-CME-AppAwareFita Oracle Redo Log Backup",
+            "description": "Automatically created Oracle redo log backup job",
+            "createdBy": "UNIMED-NERS-DMZ\\admcsgarion",
+            "creationTime": "2024-04-28T18:41:38.8112960+00:00",
+            "backupServerUid": "df9f2837-1ecb-4652-9d13-5757c1c60d42",
+            "locationUid": "7507a4a1-d7ca-4084-a3ce-1c8287e10423",
+            "siteUid": "1484e82a-75ba-4ba5-a183-8a18ed586dee",
+            "organizationUid": "17b99579-ab3f-47d9-91a3-1d27f1ddfa69",
+            "mappedOrganizationUid": "17b99579-ab3f-47d9-91a3-1d27f1ddfa69",
+            "status": "Running",
+            "type": "OracleLogBackup",
+            "lastRun": "2025-12-12T00:01:00.3744760+00:00",
+            "lastEndTime": null,
+            "lastDuration": 54410,
+            "processingRate": 0.0,
+            "avgDuration": null,
+            "transferredData": 0,
+            "backupChainSize": null,
+            "bottleneck": "None",
+            "isEnabled": true,
+            "scheduleType": "Continuously",
+root@vlxvrpt29:/opt/veeam-dashboard#
