@@ -1,0 +1,61 @@
+root@vlxvrpt29:/opt/veeam-dashboard# curl -s -k -X 'GET' \
+  'https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/computersManagedByBackupServer/backups?limit=500' \
+  -H 'accept: application/json' \
+  -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' | python3 -c "
+import sys, json
+
+gedore_8 = {
+    '4c4c4544-0033-5610-8047-c6c04f323634',
+    '4c4c4544-0033-5810-8035-cac04f375a32',
+    '4c4c4544-0035-4710-8046-cac04f514d32',
+    '4c4c4544-0043-3110-804b-c7c04f343234',
+    '4c4c4544-004c-4c10-8043-b6c04f4a3634',
+    '4c4c4544-0036-4a10-805a-b3c04f525032',
+    '4c4c4544-0031-4b10-8034-b9c04f365133',
+    '4c4c4544-004b-4c10-8043-b4c04f4a3634',
+}
+
+def tb(b): return b / (1024**4)
+
+data = json.load(sys.stdin)
+backups = data.get('data', [])
+
+# Filtrar Gedore 8, apenas jobKind=Backup
+g8 = [b for b in backups if b['backupAgentUid'] in gedore_8 and b['jobKind'] == 'Backup']
+
+print(f'Backups Gedore (8 computers, jobKind=Backup): {len(g8)}')
+print()
+
+# Diferentes métricas
+total_rp = sum(b.get('totalRestorePointSize', 0) or 0 for b in g8)
+latest_rp = sum(b.get('latestRestorePointSize', 0) or 0 for b in g8)
+used = sum(b.get('usedSourceSize', 0) or 0 for b in g8)
+prov = sum(b.get('provisionedSourceSize', 0) or 0 for b in g8)
+
+print(f'totalRestorePointSize: {tb(total_rp):.2f} TB')
+print(f'latestRestorePointSize: {tb(latest_rp):.2f} TB')
+print(f'usedSourceSize: {tb(used):.2f} TB')
+print(f'provisionedSourceSize: {tb(prov):.2f} TB')
+
+print()
+print('--- BREAKDOWN por backup ---')
+for b in g8:
+    print(f\"{b['jobName']}: totalRP={tb(b.get('totalRestorePointSize',0)):.3f} TB, latestRP={tb(b.get('latestRestorePointSize',0)):.3f} TB\")
+"
+Backups Gedore (8 computers, jobKind=Backup): 8
+
+totalRestorePointSize: 4.15 TB
+latestRestorePointSize: 0.11 TB
+usedSourceSize: 1.05 TB
+provisionedSourceSize: 1.97 TB
+
+--- BREAKDOWN por backup ---
+GEDORE-DESKTOPS-1xDia: totalRP=0.390 TB, latestRP=0.004 TB
+GEDORE-DESKTOPS-IMAGEM: totalRP=0.030 TB, latestRP=0.030 TB
+GEDORE-DESKTOPS-IMAGEM: totalRP=0.030 TB, latestRP=0.004 TB
+GEDORE-DESKTOPS-1xDia: totalRP=0.654 TB, latestRP=0.011 TB
+GEDORE-DESKTOPS-IMAGEM: totalRP=0.026 TB, latestRP=0.026 TB
+GEDORE-DESKTOPS-1xDia: totalRP=1.959 TB, latestRP=0.016 TB
+GEDORE-DESKTOPS-1xDia: totalRP=0.487 TB, latestRP=0.008 TB
+GEDORE-DESKTOPS-1xDia: totalRP=0.572 TB, latestRP=0.007 TB
+root@vlxvrpt29:/opt/veeam-dashboard#
