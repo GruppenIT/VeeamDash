@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
+import { Building2, ArrowUpRight } from "lucide-react";
 import { DashboardHeader } from "@/components/dashboard-header";
 import { ProtectedDataOverview } from "@/components/protected-data-overview";
 import { DataPlatformScorecard } from "@/components/data-platform-scorecard";
@@ -28,12 +29,6 @@ export default function Dashboard() {
   const { data: user } = useQuery<{ name: string; username: string }>({
     queryKey: ["/api/auth/me"],
   });
-
-  useEffect(() => {
-    if (companies && companies.length > 0 && !selectedCompany) {
-      setSelectedCompany(companies[0].instanceUid);
-    }
-  }, [companies, selectedCompany]);
 
   const handleLogout = async () => {
     try {
@@ -87,9 +82,25 @@ export default function Dashboard() {
             />
             <ProtectedDataOverview workloads={metrics.protectedWorkloads} />
           </>
+        ) : !selectedCompany ? (
+          <div className="flex flex-col items-center justify-center py-24" data-testid="select-company-prompt">
+            <div className="bg-card border rounded-lg p-8 max-w-md text-center shadow-sm">
+              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Building2 className="w-8 h-8 text-primary" />
+              </div>
+              <h2 className="text-xl font-semibold mb-2">Selecione um Cliente</h2>
+              <p className="text-muted-foreground mb-4">
+                Para visualizar as métricas de backup, selecione um cliente no seletor localizado no canto superior direito da tela.
+              </p>
+              <div className="flex items-center justify-center gap-2 text-sm text-primary">
+                <span>Clique no seletor de clientes</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </div>
+            </div>
+          </div>
         ) : (
           <div className="text-center py-12 text-muted-foreground">
-            <p>Selecione um cliente para visualizar os dados</p>
+            <p>Nenhum dado disponível para este cliente</p>
           </div>
         )}
       </main>
