@@ -329,6 +329,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get failed jobs for a company
+  app.get("/api/failed-jobs/:companyId", requireAuth, async (req, res) => {
+    try {
+      const { companyId } = req.params;
+      const failedJobs = await veeamService.getFailedJobs(companyId);
+      return res.json(failedJobs);
+    } catch (error) {
+      console.error("Get failed jobs error:", error);
+      return res.status(500).json({ message: "Erro ao buscar jobs com falha" });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;
