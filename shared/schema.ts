@@ -191,3 +191,14 @@ export interface VeeamAlarm {
   lastActivation: VeeamAlarmActivation;
   area: string;
 }
+
+// Failed Jobs Types
+export interface FailedJob {
+  instanceUid: string;
+  name: string;
+  type: string;
+  status: string;
+  lastRun: string;
+  lastResult: string;
+  description: string;
+}
