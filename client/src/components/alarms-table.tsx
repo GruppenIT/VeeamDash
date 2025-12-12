@@ -55,6 +55,8 @@ function formatDateTime(dateString: string) {
 }
 
 export function AlarmsTable({ alarms, isLoading }: AlarmsTableProps) {
+  const activeAlarms = alarms.filter(alarm => alarm.lastActivation?.status !== 'Resolved');
+
   if (isLoading) {
     return (
       <Card>
@@ -79,15 +81,15 @@ export function AlarmsTable({ alarms, isLoading }: AlarmsTableProps) {
         <CardTitle className="flex items-center gap-2">
           <Bell className="w-5 h-5" />
           Alarmes Ativos
-          {alarms.length > 0 && (
+          {activeAlarms.length > 0 && (
             <Badge variant="secondary" className="ml-2">
-              {alarms.length}
+              {activeAlarms.length}
             </Badge>
           )}
         </CardTitle>
       </CardHeader>
       <CardContent>
-        {alarms.length === 0 ? (
+        {activeAlarms.length === 0 ? (
           <div className="text-center py-8 text-muted-foreground">
             <CheckCircle className="w-12 h-12 mx-auto mb-3 text-green-500" />
             <p>Nenhum alarme ativo para este cliente</p>
@@ -106,7 +108,7 @@ export function AlarmsTable({ alarms, isLoading }: AlarmsTableProps) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {alarms.map((alarm) => {
+                {activeAlarms.map((alarm) => {
                   const statusConfig = getStatusConfig(alarm.lastActivation?.status || 'Information');
                   const StatusIcon = statusConfig.icon;
                   
@@ -131,9 +133,9 @@ export function AlarmsTable({ alarms, isLoading }: AlarmsTableProps) {
                       <TableCell className="text-sm text-muted-foreground">
                         {alarm.lastActivation?.time ? formatDateTime(alarm.lastActivation.time) : '-'}
                       </TableCell>
-                      <TableCell className="max-w-[300px]">
-                        <p className="text-sm truncate" title={alarm.lastActivation?.message || ''}>
-                          {alarm.lastActivation?.message?.replace(/\r\n/g, ' ').trim() || '-'}
+                      <TableCell>
+                        <p className="text-sm whitespace-pre-wrap">
+                          {alarm.lastActivation?.message?.trim() || '-'}
                         </p>
                       </TableCell>
                       <TableCell className="text-center">
