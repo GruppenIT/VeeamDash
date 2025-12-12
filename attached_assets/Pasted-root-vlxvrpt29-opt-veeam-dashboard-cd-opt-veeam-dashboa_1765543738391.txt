@@ -1,0 +1,43 @@
+root@vlxvrpt29:/opt/veeam-dashboard# cd /opt/veeam-dashboard
+sudo git fetch origin
+sudo git reset --hard origin/main
+sudo npm run build
+sudo pm2 restart veeam-dashboard
+remote: Enumerating objects: 41, done.
+remote: Counting objects: 100% (41/41), done.
+remote: Compressing objects: 100% (12/12), done.
+remote: Total 33 (delta 21), reused 33 (delta 21), pack-reused 0 (from 0)
+Unpacking objects: 100% (33/33), 248.38 KiB | 1.90 MiB/s, done.
+From https://github.com/GruppenIT/VeeamDash
+   d5c8464..905cec4  main       -> origin/main
+HEAD is now at 905cec4 Implement pagination for fetching all Veeam data
+
+> rest-express@1.0.0 build
+> vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+
+vite v5.4.20 building for production...
+transforming (4) src/App.tsx
+A PostCSS plugin did not pass the `from` option to `postcss.parse`. This may cause imported assets to be incorrectly transformed. If you've recently added a PostCSS plugin that raised this warning, please contact the package author to fix the issue.
+✓ 2524 modules transformed.
+../dist/public/index.html                   0.96 kB │ gzip:   0.52 kB
+../dist/public/assets/index-yEbIHs_v.css   71.14 kB │ gzip:  11.57 kB
+../dist/public/assets/index-DZT32_dM.js   808.94 kB │ gzip: 237.98 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 7.78s
+
+  dist/index.js  19.1kb
+
+⚡ Done in 7ms
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [veeam-dashboard](ids: [ 0 ])
+[PM2] [veeam-dashboard](0) ✓
+┌────┬────────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name               │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ veeam-dashboard    │ default     │ 1.0.0   │ fork    │ 1198577  │ 0s     │ 10   │ online    │ 0%       │ 0b       │ root     │ disabled │
+└────┴────────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+root@vlxvrpt29:/opt/veeam-dashboard#
