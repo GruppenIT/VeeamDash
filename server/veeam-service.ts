@@ -67,18 +67,42 @@ export class VeeamService {
     }
 
     try {
+      console.log(`[VeeamService] Fetching metrics for company: ${companyId}`);
+      
       const [jobs, vms] = await Promise.all([
         this.fetchVeeamAPI<{ data: VeeamBackupJob[] }>('/api/v3/infrastructure/backupServers/jobs/backupVmJobs'),
         this.fetchVeeamAPI<{ data: any[] }>('/api/v3/protectedWorkloads/virtualMachines'),
       ]);
 
-      const companyJobs = jobs.data.filter((job) => job.mappedOrganizationUid === companyId);
+      console.log(`[VeeamService] Total jobs received: ${jobs.data?.length || 0}`);
+      console.log(`[VeeamService] Total VMs received: ${vms.data?.length || 0}`);
+      
+      // Log first job structure to debug filtering
+      if (jobs.data && jobs.data.length > 0) {
+        const sampleJob = jobs.data[0] as any;
+        console.log(`[VeeamService] Sample job keys: ${Object.keys(sampleJob).join(', ')}`);
+        console.log(`[VeeamService] Sample job organizationUid: ${sampleJob.organizationUid || 'N/A'}`);
+        console.log(`[VeeamService] Sample job mappedOrganizationUid: ${sampleJob.mappedOrganizationUid || 'N/A'}`);
+        console.log(`[VeeamService] Sample job companyUid: ${sampleJob.companyUid || 'N/A'}`);
+        console.log(`[VeeamService] Sample job tenantUid: ${sampleJob.tenantUid || 'N/A'}`);
+      }
+
+      // Try multiple possible field names for organization filtering
+      const companyJobs = jobs.data.filter((job: any) => {
+        return job.mappedOrganizationUid === companyId || 
+               job.organizationUid === companyId ||
+               job.companyUid === companyId ||
+               job.tenantUid === companyId;
+      });
+      
+      console.log(`[VeeamService] Jobs matching company ${companyId}: ${companyJobs.length}`);
+      
       const totalBackups = companyJobs.length;
       const successfulJobs = companyJobs.filter((job) => job.lastRunStatus === 'Success').length;
       const successRate = totalBackups > 0 ? (successfulJobs / totalBackups) * 100 : 0;
 
       const storageUsedBytes = companyJobs.reduce((sum, job) => sum + (job.backupChainSize || 0), 0);
-      const storageUsedGB = storageUsedBytes / (1024 ** 4);
+      const storageUsedTB = storageUsedBytes / (1024 ** 4);
 
       const healthStatus = this.calculateHealthStatus(successRate);
 
@@ -87,11 +111,13 @@ export class VeeamService {
       const recentFailures = this.getRecentFailures(companyJobs);
       const protectedWorkloads = await this.getProtectedWorkloads(companyId);
 
+      console.log(`[VeeamService] Final metrics - totalBackups: ${totalBackups}, successRate: ${successRate}%, storageUsedTB: ${storageUsedTB}`);
+
       return {
         totalBackups,
         successRate,
         activeJobs: companyJobs.filter((j) => j.lastRunStatus === 'Running').length,
-        storageUsedGB,
+        storageUsedGB: storageUsedTB,
         healthStatus,
         repositories,
         monthlySuccessRates,
@@ -110,6 +136,8 @@ export class VeeamService {
     }
 
     try {
+      console.log(`[VeeamService] Fetching protected workloads for company: ${companyId}`);
+      
       const [vmsResponse, computersResponse, vb365Response] = await Promise.allSettled([
         this.fetchVeeamAPI<{ data: any[] }>('/api/v3/protectedWorkloads/virtualMachines'),
         this.fetchVeeamAPI<{ data: any[] }>('/api/v3/protectedWorkloads/computers'),
@@ -120,9 +148,35 @@ export class VeeamService {
       const computers = computersResponse.status === 'fulfilled' ? computersResponse.value.data : [];
       const vb365Objects = vb365Response.status === 'fulfilled' ? vb365Response.value.data : [];
 
-      const companyVMs = vms.filter((vm: any) => vm.organizationUid === companyId);
-      const companyComputers = computers.filter((comp: any) => comp.organizationUid === companyId);
-      const companyVB365 = vb365Objects.filter((obj: any) => obj.organizationUid === companyId);
+      console.log(`[VeeamService] Total VMs: ${vms?.length || 0}, Computers: ${computers?.length || 0}, VB365: ${vb365Objects?.length || 0}`);
+      
+      // Debug - log first item of each to see available fields
+      if (vms && vms.length > 0) {
+        const sampleVM = vms[0];
+        console.log(`[VeeamService] Sample VM keys: ${Object.keys(sampleVM).join(', ')}`);
+        console.log(`[VeeamService] Sample VM organizationUid: ${sampleVM.organizationUid || 'N/A'}`);
+        console.log(`[VeeamService] Sample VM companyUid: ${sampleVM.companyUid || 'N/A'}`);
+        console.log(`[VeeamService] Sample VM tenantUid: ${sampleVM.tenantUid || 'N/A'}`);
+      }
+
+      // Try multiple possible field names for organization filtering
+      const companyVMs = vms.filter((vm: any) => 
+        vm.organizationUid === companyId || 
+        vm.companyUid === companyId || 
+        vm.tenantUid === companyId
+      );
+      const companyComputers = computers.filter((comp: any) => 
+        comp.organizationUid === companyId || 
+        comp.companyUid === companyId || 
+        comp.tenantUid === companyId
+      );
+      const companyVB365 = vb365Objects.filter((obj: any) => 
+        obj.organizationUid === companyId || 
+        obj.companyUid === companyId || 
+        obj.tenantUid === companyId
+      );
+      
+      console.log(`[VeeamService] Filtered - VMs: ${companyVMs.length}, Computers: ${companyComputers.length}, VB365: ${companyVB365.length}`);
 
       const vmTotalSizeGB = companyVMs.reduce((sum: number, vm: any) => sum + (vm.totalRestorePointSize || 0), 0) / (1024 ** 3);
       const computerTotalSizeGB = companyComputers.reduce((sum: number, comp: any) => sum + (comp.totalRestorePointSize || 0), 0) / (1024 ** 3);
