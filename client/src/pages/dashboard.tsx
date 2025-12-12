@@ -5,7 +5,8 @@ import { Building2, ArrowUpRight } from "lucide-react";
 import { DashboardHeader } from "@/components/dashboard-header";
 import { ProtectedDataOverview } from "@/components/protected-data-overview";
 import { DataPlatformScorecard } from "@/components/data-platform-scorecard";
-import type { VeeamCompany, DashboardMetrics, DataPlatformScorecard as ScorecardType } from "@shared/schema";
+import { SessionStatesCalendar } from "@/components/session-states-calendar";
+import type { VeeamCompany, DashboardMetrics, DataPlatformScorecard as ScorecardType, SessionStatesData } from "@shared/schema";
 
 export default function Dashboard() {
   const [, setLocation] = useLocation();
@@ -23,6 +24,11 @@ export default function Dashboard() {
 
   const { data: scorecard, isLoading: scorecardLoading } = useQuery<ScorecardType>({
     queryKey: ['/api/scorecard', selectedCompany],
+    enabled: !!selectedCompany,
+  });
+
+  const { data: sessionStates, isLoading: sessionStatesLoading } = useQuery<SessionStatesData>({
+    queryKey: ['/api/session-states', selectedCompany],
     enabled: !!selectedCompany,
   });
 
@@ -81,6 +87,10 @@ export default function Dashboard() {
               platformHealth={scorecard.platformHealth}
             />
             <ProtectedDataOverview workloads={metrics.protectedWorkloads} />
+            <SessionStatesCalendar 
+              data={sessionStates || { days: [], hasData: false }} 
+              isLoading={sessionStatesLoading} 
+            />
           </>
         ) : !selectedCompany ? (
           <div className="flex flex-col items-center justify-center py-24" data-testid="select-company-prompt">

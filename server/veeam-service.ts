@@ -496,10 +496,10 @@ export class VeeamService {
 
       const days: DaySessionState[] = [];
 
-      // Generate all 30 days
-      for (let i = 0; i < 30; i++) {
+      // Generate all 30 days in chronological order (oldest first)
+      for (let i = 29; i >= 0; i--) {
         const date = new Date();
-        date.setDate(date.getDate() - (29 - i));
+        date.setDate(date.getDate() - i);
         date.setHours(0, 0, 0, 0);
 
         const dateStr = date.toISOString().split('T')[0];
@@ -521,7 +521,7 @@ export class VeeamService {
             totalCount: snapshot.totalCount,
           });
         } else {
-          // No data for this day
+          // No data for this day - will show "Sem dados" in UI
           days.push({
             date: dateStr,
             successPercent: 0,
