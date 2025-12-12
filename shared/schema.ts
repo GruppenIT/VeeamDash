@@ -102,3 +102,20 @@ export interface DashboardMetrics {
   recentFailures: BackupFailure[];
   protectedWorkloads: ProtectedWorkload[];
 }
+
+// Data Platform Scorecard Types
+export interface ScorecardMetric {
+  percentage: number;
+  okCount: number;
+  issueCount: number;
+  title: string;
+}
+
+export interface DataPlatformScorecard {
+  overallScore: number;
+  status: 'Well Done' | 'Needs Attention' | 'Critical';
+  statusMessage: string;
+  rpoOverview: ScorecardMetric;
+  jobSessions: ScorecardMetric;
+  platformHealth: ScorecardMetric;
+}
