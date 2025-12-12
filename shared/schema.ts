@@ -164,3 +164,30 @@ export interface MonthlyChartData {
   warnings: number;
   successRate: number;
 }
+
+// Veeam Active Alarms Types
+export interface VeeamAlarmObject {
+  instanceUid: string;
+  type: string;
+  organizationUid: string;
+  locationUid: string;
+  computerName: string;
+  objectUid: string;
+  objectName: string;
+}
+
+export interface VeeamAlarmActivation {
+  time: string;
+  status: 'Warning' | 'Error' | 'Resolved' | 'Information';
+  message: string;
+  remark: string;
+}
+
+export interface VeeamAlarm {
+  instanceUid: string;
+  alarmTemplateUid: string;
+  repeatCount: number;
+  object: VeeamAlarmObject;
+  lastActivation: VeeamAlarmActivation;
+  area: string;
+}

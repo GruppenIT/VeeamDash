@@ -1,0 +1,2083 @@
+        "objectName": "Backup Enecon"
+      },
+      "lastActivation": {
+        "instanceUid": "19f2a904-cfbc-43f4-8cc6-f0b14367f522",
+        "time": "2025-10-27T17:47:42.5521035+00:00",
+        "status": "Resolved",
+        "message": "Object for which alarm has been triggered is no longer present in the infrastructure or has been excluded from monitoring.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "ec755326-b41c-4f46-8f2f-0037bec9085c",
+      "alarmTemplateUid": "18434b61-0d21-46f0-a642-e38ece46b9bb",
+      "repeatCount": 30,
+      "object": {
+        "instanceUid": "ddcd35de-e7f4-47b2-ac30-e2b45e7cfd16",
+        "type": "BackupMicrosoft365Server",
+        "organizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+        "locationUid": "f04abaa2-0ec9-4e4d-9a2d-eaf2a0d94708",
+        "managementAgentUid": null,
+        "computerName": "VMSVO36540",
+        "objectUid": "ddcd35de-e7f4-47b2-ac30-e2b45e7cfd16",
+        "objectName": "Backup Gedore"
+      },
+      "lastActivation": {
+        "instanceUid": "8d15b067-3069-4944-8abe-ffe946e711d6",
+        "time": "2025-10-25T18:09:27.1425545+00:00",
+        "status": "Resolved",
+        "message": "Resolved by zerogroup.local\\zg_adm_daniel\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "0e6b9d7f-d645-490e-aacd-0c88a938835b",
+      "alarmTemplateUid": "d601e883-b6b9-4f81-95ba-ab8a8ef98478",
+      "repeatCount": 4,
+      "object": {
+        "instanceUid": "20e8b865-51ca-6325-8c37-c4cf76ef607a",
+        "type": "BackupServer",
+        "organizationUid": "b80612de-af9c-4bef-abed-3cdd7a432ca4",
+        "locationUid": "56d2c625-19ea-468a-bab8-80cc73567a20",
+        "managementAgentUid": "97fb21ef-34f3-496e-8c92-5c9aedbfda48",
+        "computerName": "PUL-VEEAM",
+        "objectUid": "e5ca86fe-53c3-4cb9-8d1f-d97c799e5583",
+        "objectName": "PUL-VEEAM"
+      },
+      "lastActivation": {
+        "instanceUid": "d46004e3-cd28-42aa-9bd3-d68b39614773",
+        "time": "2025-10-27T13:19:05.9772054+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "662b12af-65ef-4bc0-980d-50a880b9a580",
+      "alarmTemplateUid": "d601e883-b6b9-4f81-95ba-ab8a8ef98478",
+      "repeatCount": 5,
+      "object": {
+        "instanceUid": "e85ae0dc-e460-6615-9bff-e6d8767daa18",
+        "type": "BackupServer",
+        "organizationUid": "f466448b-54f3-4541-9ff0-7d29bb1b901e",
+        "locationUid": "814f8596-2965-4751-968b-051346f57805",
+        "managementAgentUid": "b5f7936d-6381-417d-98af-e76e0a82eb0e",
+        "computerName": "NBK-UNIAIR",
+        "objectUid": "5883d4f2-2b09-4716-aabb-6d8500835621",
+        "objectName": "NBK-UNIAIR"
+      },
+      "lastActivation": {
+        "instanceUid": "d5b31396-4d51-431d-8cd9-84ab34ac031e",
+        "time": "2025-10-27T19:54:49.5938407+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "cb667274-2823-43e2-8d16-9b0384354ad4",
+      "alarmTemplateUid": "54931004-53df-45fb-a9e8-3cae9327e761",
+      "repeatCount": 3,
+      "object": {
+        "instanceUid": "bf1559fa-00b5-668f-a1fd-9e8e0b874c1d",
+        "type": "BackupServerJob",
+        "organizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+        "locationUid": "ee6e3e7c-4d18-4745-837b-4687dfc15b8a",
+        "managementAgentUid": "22ba0c22-9e21-4297-8889-7500a5abd455",
+        "computerName": "VMSBKP50",
+        "objectUid": "d0381ecb-1a5e-4eb9-b18c-fb2a0d2133c2",
+        "objectName": "GEDORE-DESKTOPS-1xDia"
+      },
+      "lastActivation": {
+        "instanceUid": "06d701ef-3112-421a-8145-425d55859086",
+        "time": "2025-10-15T16:29:15.8300000+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"GEDORE-DESKTOPS-1xDia\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "0fb9898e-5709-4260-9847-bde5f3cb8439",
+      "alarmTemplateUid": "ada28dce-1d53-4b86-82a2-82d01c59b904",
+      "repeatCount": 2,
+      "object": {
+        "instanceUid": "619c3fb2-71ef-61d5-8040-184c9654dda6",
+        "type": "BackupServer",
+        "organizationUid": "dba4a8b8-9d00-444c-a4fc-b1e15bdc92c6",
+        "locationUid": "c6cd2076-253a-4ae0-bbb2-d53cf58d68c5",
+        "managementAgentUid": "60a6aa1e-b3dc-4f12-8216-ff9fd3563b16",
+        "computerName": "VMSVBR10",
+        "objectUid": "c12531f7-7268-461b-a8be-9ee34adf2165",
+        "objectName": "VMSVBR10"
+      },
+      "lastActivation": {
+        "instanceUid": "b4cc1883-f5b6-475c-935c-9c405b16839e",
+        "time": "2025-11-21T22:19:03.4651782+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "232b4b4b-287c-4e46-89a4-2b84810e8110",
+      "alarmTemplateUid": "d601e883-b6b9-4f81-95ba-ab8a8ef98478",
+      "repeatCount": 6,
+      "object": {
+        "instanceUid": "d190b835-4ec3-6271-acc4-0826f06b1109",
+        "type": "BackupServer",
+        "organizationUid": "bc4c8a68-8782-4a47-a469-f1e54b2a9baf",
+        "locationUid": "e7374f51-952c-4b86-bee1-501c2a30b187",
+        "managementAgentUid": "dfe9154d-9028-4681-87e4-94c3cf5cbb39",
+        "computerName": "SRVBACKUP",
+        "objectUid": "0a06b7b6-1998-4139-889a-7725e5b42250",
+        "objectName": "SRVBACKUP"
+      },
+      "lastActivation": {
+        "instanceUid": "e5a0b7aa-939a-4789-9e5a-b29ca25a2126",
+        "time": "2025-10-28T13:38:42.9567803+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "fc19cd70-b5e8-4bf2-8c45-8489ead9f095",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 8,
+      "object": {
+        "instanceUid": "12a31c7f-65b7-49a7-965a-4eef7c4b2592",
+        "type": "BackupServerJob",
+        "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+        "locationUid": "04e2ccb7-b22d-4cbf-8079-4cf5dc26f90e",
+        "managementAgentUid": "2ae3f40c-d39c-4501-a12a-934845e665d0",
+        "computerName": "PAVMSVM84",
+        "objectUid": "12a31c7f-65b7-49a7-965a-4eef7c4b2592",
+        "objectName": "Medabil-AD"
+      },
+      "lastActivation": {
+        "instanceUid": "3dfd1d6d-5d14-473e-8292-5f6edeafea50",
+        "time": "2025-09-15T15:23:01.6770000+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"Medabil-AD\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "9c5351dd-72c2-43bd-ac9b-f52fcaf1f21c",
+      "alarmTemplateUid": "d601e883-b6b9-4f81-95ba-ab8a8ef98478",
+      "repeatCount": 4,
+      "object": {
+        "instanceUid": "a43a207e-4962-6e56-8e6c-167d5864a32a",
+        "type": "BackupServer",
+        "organizationUid": "831719bd-2d25-478e-ba71-d86e6fe7a4aa",
+        "locationUid": "434a5cd5-f768-49f8-9254-98c68ed8fba8",
+        "managementAgentUid": null,
+        "computerName": "FMSVEEAM181",
+        "objectUid": "a08e104a-27aa-4f02-a23a-56b0c474d50e",
+        "objectName": "FMSVEEAM181"
+      },
+      "lastActivation": {
+        "instanceUid": "58f2506a-c671-4826-b25a-48daa373d530",
+        "time": "2025-10-27T12:44:40.2237612+00:00",
+        "status": "Resolved",
+        "message": "Object for which alarm has been triggered is no longer present in the infrastructure or has been excluded from monitoring.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "c1f0144e-add2-460e-8167-01fdf812b5b9",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "efd86f7c-da92-468e-8cf8-635e9b1e67d4",
+        "type": "BackupServerJob",
+        "organizationUid": "b10da2f7-8cc8-427d-8a94-3bf5ab1b1c5f",
+        "locationUid": "490f9bdd-59bd-4e3c-93e0-d7b1894b2699",
+        "managementAgentUid": "8cda8201-9040-4858-9270-0186f1677f46",
+        "computerName": "ECO01",
+        "objectUid": "efd86f7c-da92-468e-8cf8-635e9b1e67d4",
+        "objectName": "Múltiplos Diários - Stella/ZBX"
+      },
+      "lastActivation": {
+        "instanceUid": "a645fd50-87c0-4e83-93aa-9a37f2710bf0",
+        "time": "2025-09-25T12:13:42.8970000+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"Múltiplos Diários - Stella/ZBX\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "fcf831dd-c276-47b4-a7c9-ecfacc692193",
+      "alarmTemplateUid": "d601e883-b6b9-4f81-95ba-ab8a8ef98478",
+      "repeatCount": 6,
+      "object": {
+        "instanceUid": "d4b50a2a-b22c-64e4-80c9-a6a06dd00cba",
+        "type": "BackupServer",
+        "organizationUid": "05f50002-d1db-4377-a216-8ed5aa524ae7",
+        "locationUid": "483bbeb3-8d1e-40d9-a868-b1437e6b39a1",
+        "managementAgentUid": "ecadbfa2-1a50-42c0-9757-e5dc7101114a",
+        "computerName": "SAANHSRV54",
+        "objectUid": "82e41070-eb6b-4f76-aab7-7f6ed649fb83",
+        "objectName": "SAANHSRV54"
+      },
+      "lastActivation": {
+        "instanceUid": "e25f4fad-324e-48c7-9b2f-4c452b494999",
+        "time": "2025-10-30T14:15:25.9467528+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "e39e3e5d-ea8e-4a39-bc82-294931a93326",
+      "alarmTemplateUid": "d601e883-b6b9-4f81-95ba-ab8a8ef98478",
+      "repeatCount": 4,
+      "object": {
+        "instanceUid": "5a3a6b46-4237-63c4-bffd-ce3f307c8c9a",
+        "type": "BackupServer",
+        "organizationUid": "939c8ac2-e3ee-4269-a6b8-3a7e98766d00",
+        "locationUid": "10a2f678-c152-4f43-885d-3a3ebd95a254",
+        "managementAgentUid": "d3575472-f0e7-41c8-b876-8217af25d349",
+        "computerName": "ICSERVER6",
+        "objectUid": "44f021a3-0f53-4661-8f5c-6ac12143c026",
+        "objectName": "ICSERVER6"
+      },
+      "lastActivation": {
+        "instanceUid": "f7521f2a-9c77-4d27-bcda-597a8e5394e5",
+        "time": "2025-10-27T00:27:48.7818225+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "cee7f1b6-3227-4aeb-a04e-55de787b59b7",
+      "alarmTemplateUid": "d601e883-b6b9-4f81-95ba-ab8a8ef98478",
+      "repeatCount": 3,
+      "object": {
+        "instanceUid": "f667d1ba-5002-6f97-9c02-e47cfa70e609",
+        "type": "BackupServer",
+        "organizationUid": "9c4c1e17-76d0-473e-b931-8d997bb088f7",
+        "locationUid": "778847d9-7fc7-49cf-9741-c0eb9be8bd09",
+        "managementAgentUid": "4be8f31e-bdd2-43ab-ac6c-b09b24b7ffea",
+        "computerName": "SRVVEEAM",
+        "objectUid": "7a669ad5-0996-4f09-9956-f71ff057ea43",
+        "objectName": "SRVVEEAM"
+      },
+      "lastActivation": {
+        "instanceUid": "fd167267-5a98-4ecf-963c-ea1b86726eff",
+        "time": "2025-10-27T13:06:58.5553255+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "5a9d578d-1ccd-47af-9498-8f94a640a0f8",
+      "alarmTemplateUid": "6595053e-4c6c-4308-9552-dd1ff9c9c740",
+      "repeatCount": 2,
+      "object": {
+        "instanceUid": "b3fcd987-3553-429c-b931-89e66548c49d",
+        "type": "Company",
+        "organizationUid": "b3fcd987-3553-429c-b931-89e66548c49d",
+        "locationUid": null,
+        "managementAgentUid": null,
+        "computerName": null,
+        "objectUid": "b3fcd987-3553-429c-b931-89e66548c49d",
+        "objectName": "Corpus"
+      },
+      "lastActivation": {
+        "instanceUid": "0b846382-1942-430f-9611-22cf7ed2215a",
+        "time": "2025-09-29T04:00:41.2100000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "3741861c-a81b-4618-bff1-eb48dae91961",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "56665fdd-344d-40d1-8e80-d50687248211",
+        "type": "BackupServerJob",
+        "organizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+        "locationUid": "ee6e3e7c-4d18-4745-837b-4687dfc15b8a",
+        "managementAgentUid": "22ba0c22-9e21-4297-8889-7500a5abd455",
+        "computerName": "VMSBKP50",
+        "objectUid": "56665fdd-344d-40d1-8e80-d50687248211",
+        "objectName": "GEDORE-1x1Hora"
+      },
+      "lastActivation": {
+        "instanceUid": "027d9a88-6a68-4284-aa06-81f2026b8d92",
+        "time": "2025-09-19T07:08:01.8000000+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"GEDORE-1x1Hora\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "8a681d99-6905-4119-98e7-25ccf4e699a4",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 2,
+      "object": {
+        "instanceUid": "0bc3ad1f-9815-4c03-9450-add94c9a0706",
+        "type": "BackupServerJob",
+        "organizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+        "locationUid": "ee6e3e7c-4d18-4745-837b-4687dfc15b8a",
+        "managementAgentUid": "22ba0c22-9e21-4297-8889-7500a5abd455",
+        "computerName": "VMSBKP50",
+        "objectUid": "0bc3ad1f-9815-4c03-9450-add94c9a0706",
+        "objectName": "GEDORE-BKPCP-PROGRESS"
+      },
+      "lastActivation": {
+        "instanceUid": "9867784d-c608-4648-8e0c-e040152f4937",
+        "time": "2025-10-28T06:15:58.3360298+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"GEDORE-BKPCP-PROGRESS\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "907b6699-d241-4262-bb84-51285e22e3ce",
+      "alarmTemplateUid": "d601e883-b6b9-4f81-95ba-ab8a8ef98478",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "add83dad-0484-6d25-9283-e08816beeb32",
+        "type": "BackupServer",
+        "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+        "locationUid": "f4085019-ef16-4605-8d2c-80d5528d640f",
+        "managementAgentUid": null,
+        "computerName": "CNXSRV4503",
+        "objectUid": "e171af96-1cd9-413a-86fd-d411a1971a7a",
+        "objectName": "CNXSRV4503"
+      },
+      "lastActivation": {
+        "instanceUid": "a449722d-16c9-46ab-bdaa-ccf8c2dd3d52",
+        "time": "2025-10-27T12:34:34.6582016+00:00",
+        "status": "Resolved",
+        "message": "Object for which alarm has been triggered is no longer present in the infrastructure or has been excluded from monitoring.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "d3c4a0f6-a740-480e-8e19-2b15673bb6c5",
+      "alarmTemplateUid": "ada28dce-1d53-4b86-82a2-82d01c59b904",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "d4b50a2a-b22c-64e4-80c9-a6a06dd00cba",
+        "type": "BackupServer",
+        "organizationUid": "05f50002-d1db-4377-a216-8ed5aa524ae7",
+        "locationUid": "483bbeb3-8d1e-40d9-a868-b1437e6b39a1",
+        "managementAgentUid": "ecadbfa2-1a50-42c0-9757-e5dc7101114a",
+        "computerName": "SAANHSRV54",
+        "objectUid": "82e41070-eb6b-4f76-aab7-7f6ed649fb83",
+        "objectName": "SAANHSRV54"
+      },
+      "lastActivation": {
+        "instanceUid": "ab9e7390-5efb-4791-9eac-b24946f7094d",
+        "time": "2025-09-29T02:28:53.9730000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "edea33dd-9d21-41b1-b838-f3404e2b7098",
+      "alarmTemplateUid": "6595053e-4c6c-4308-9552-dd1ff9c9c740",
+      "repeatCount": 6,
+      "object": {
+        "instanceUid": "faef8ef9-39c0-41e5-91d2-b4aeeed7440b",
+        "type": "Company",
+        "organizationUid": "faef8ef9-39c0-41e5-91d2-b4aeeed7440b",
+        "locationUid": null,
+        "managementAgentUid": null,
+        "computerName": null,
+        "objectUid": "faef8ef9-39c0-41e5-91d2-b4aeeed7440b",
+        "objectName": "Sacres"
+      },
+      "lastActivation": {
+        "instanceUid": "86dcfd7e-bf7d-44fe-86d0-41030ce24821",
+        "time": "2025-10-23T17:55:18.3870000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "955989a4-cafa-470c-9666-81fb39f6ca96",
+      "alarmTemplateUid": "4e648f83-cdcb-4fc6-af4d-09df04aad391",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "7f76f71c-489a-4324-8696-3e94b628373f",
+        "type": "BackupServerJob",
+        "organizationUid": "05f50002-d1db-4377-a216-8ed5aa524ae7",
+        "locationUid": "483bbeb3-8d1e-40d9-a868-b1437e6b39a1",
+        "managementAgentUid": "ecadbfa2-1a50-42c0-9757-e5dc7101114a",
+        "computerName": "SAANHSRV54",
+        "objectUid": "7f76f71c-489a-4324-8696-3e94b628373f",
+        "objectName": "Backup_Copy_Geral"
+      },
+      "lastActivation": {
+        "instanceUid": "0c4f6158-c634-47cf-8500-46f8c2398f4a",
+        "time": "2025-10-30T14:56:06.8362513+00:00",
+        "status": "Resolved",
+        "message": "Alarm has been disabled.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "2f2ca7df-4422-4c46-b937-4cbcc73c75b4",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "d132c8a0-5af0-4eae-a8c7-bbd67f78357c",
+        "type": "BackupServerJob",
+        "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+        "locationUid": "04e2ccb7-b22d-4cbf-8079-4cf5dc26f90e",
+        "managementAgentUid": "2ae3f40c-d39c-4501-a12a-934845e665d0",
+        "computerName": "PAVMSVM84",
+        "objectUid": "d132c8a0-5af0-4eae-a8c7-bbd67f78357c",
+        "objectName": "Medabil-FS-POA"
+      },
+      "lastActivation": {
+        "instanceUid": "000184c1-92cc-43fa-8ec0-85dece46c725",
+        "time": "2025-09-09T13:53:52.8800000+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"Medabil-FS-POA\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "bea4b3a8-89c3-4fe1-813b-8e5b3c258136",
+      "alarmTemplateUid": "3d10c789-c78c-4f2f-968e-77af41249391",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "5c34df22-a999-6d71-a51e-b582bfa544bb",
+        "type": "BackupProxy",
+        "organizationUid": "bc4c8a68-8782-4a47-a469-f1e54b2a9baf",
+        "locationUid": "e7374f51-952c-4b86-bee1-501c2a30b187",
+        "managementAgentUid": "dfe9154d-9028-4681-87e4-94c3cf5cbb39",
+        "computerName": "SRVBACKUP",
+        "objectUid": "22cce37a-4df1-449a-aae6-fa9ccb532fe5",
+        "objectName": "172.22.0.244"
+      },
+      "lastActivation": {
+        "instanceUid": "db6324e5-297c-4feb-a714-29e8abd47985",
+        "time": "2025-10-16T13:08:59.1500000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "4ea33297-55f5-4d9d-a7b7-3ea1ddc0b432",
+      "alarmTemplateUid": "4926a46f-2b62-4b5e-9649-a9131f24d732",
+      "repeatCount": 27,
+      "object": {
+        "instanceUid": "22ef806a-3bcd-6d73-b7ec-9e8a29625163",
+        "type": "BackupRepository",
+        "organizationUid": "5f396da0-621a-4239-ab4e-91e26b6ac612",
+        "locationUid": "ea0fa943-b8ab-4c39-9010-93373b9e41fb",
+        "managementAgentUid": "fde95827-ac56-4935-a7a0-4c77cce06545",
+        "computerName": "bibi-veeam",
+        "objectUid": "88a7d584-5169-4fef-a28d-db5fd6b3d9b1",
+        "objectName": "Repositorio_NAS"
+      },
+      "lastActivation": {
+        "instanceUid": "e6d47d09-b013-4c63-8951-6f847502b928",
+        "time": "2025-10-05T20:03:17.2470000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "bffd8c14-865f-423e-847d-829fcc6c1281",
+      "alarmTemplateUid": "72915e08-047b-4193-a8c9-017616fdbf41",
+      "repeatCount": 7981,
+      "object": {
+        "instanceUid": "49b2174c-7c29-40a0-9a95-cbedfb660419",
+        "type": "BackupServerJob",
+        "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+        "locationUid": "f4085019-ef16-4605-8d2c-80d5528d640f",
+        "managementAgentUid": null,
+        "computerName": "CNXSRV4503",
+        "objectUid": "49b2174c-7c29-40a0-9a95-cbedfb660419",
+        "objectName": "COPY_ORACLE"
+      },
+      "lastActivation": {
+        "instanceUid": "f2b583ed-72ef-44fa-9ed8-87cebe4d673c",
+        "time": "2025-10-12T06:00:52.6100000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "9aeff498-8740-457d-bae3-d81366f64f0b",
+      "alarmTemplateUid": "72915e08-047b-4193-a8c9-017616fdbf41",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "83f1fcf0-e85e-4528-8498-6de2a7fd480d",
+        "type": "BackupServerJob",
+        "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+        "locationUid": "f4085019-ef16-4605-8d2c-80d5528d640f",
+        "managementAgentUid": null,
+        "computerName": "CNXSRV4503",
+        "objectUid": "83f1fcf0-e85e-4528-8498-6de2a7fd480d",
+        "objectName": "COPY_GV1_ORACLE"
+      },
+      "lastActivation": {
+        "instanceUid": "8f0e2649-a5f0-48a8-8613-72d4e938b335",
+        "time": "2025-10-12T06:00:52.7530000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "56c9e4cf-d66a-48a0-a7f9-371081d8a015",
+      "alarmTemplateUid": "72915e08-047b-4193-a8c9-017616fdbf41",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "3dae74c5-6a10-41b1-8ece-21f20e940866",
+        "type": "BackupServerJob",
+        "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+        "locationUid": "f4085019-ef16-4605-8d2c-80d5528d640f",
+        "managementAgentUid": null,
+        "computerName": "CNXSRV4503",
+        "objectUid": "3dae74c5-6a10-41b1-8ece-21f20e940866",
+        "objectName": "COPY_GV2_BKP_ORACLE"
+      },
+      "lastActivation": {
+        "instanceUid": "852d3809-9a70-4a6f-bc6c-89f4c6284d73",
+        "time": "2025-10-12T06:00:52.8600000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "8b324453-eaf3-4fbc-a465-805bc2dd5f1f",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 2,
+      "object": {
+        "instanceUid": "55fa49f7-1c67-45ec-8c9c-01d43d3e7788",
+        "type": "BackupServerJob",
+        "organizationUid": "b10da2f7-8cc8-427d-8a94-3bf5ab1b1c5f",
+        "locationUid": "490f9bdd-59bd-4e3c-93e0-d7b1894b2699",
+        "managementAgentUid": "8cda8201-9040-4858-9270-0186f1677f46",
+        "computerName": "ECO01",
+        "objectUid": "55fa49f7-1c67-45ec-8c9c-01d43d3e7788",
+        "objectName": "Backup Criticos - FS"
+      },
+      "lastActivation": {
+        "instanceUid": "c71032b2-9b5e-4511-b952-41c04f014df1",
+        "time": "2025-09-22T15:35:42.8370000+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"Backup Criticos - FS\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "e6f03119-af8d-46e0-81e5-94dbcba06d1c",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 2,
+      "object": {
+        "instanceUid": "cd8944a0-6c66-449b-961b-0e78b5bd033a",
+        "type": "BackupServerJob",
+        "organizationUid": "b10da2f7-8cc8-427d-8a94-3bf5ab1b1c5f",
+        "locationUid": "490f9bdd-59bd-4e3c-93e0-d7b1894b2699",
+        "managementAgentUid": "8cda8201-9040-4858-9270-0186f1677f46",
+        "computerName": "ECO01",
+        "objectUid": "cd8944a0-6c66-449b-961b-0e78b5bd033a",
+        "objectName": "Backup Criticos - Múltiplos Diários"
+      },
+      "lastActivation": {
+        "instanceUid": "ad3a29c4-b0bb-419f-bda2-67d20c0ea367",
+        "time": "2025-09-22T15:05:26.2100000+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"Backup Criticos - Múltiplos Diários\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "769e9bde-0e94-410a-9569-d2302bef3612",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 2,
+      "object": {
+        "instanceUid": "45e887ae-6121-4a26-baa1-a492516a7a00",
+        "type": "BackupServerJob",
+        "organizationUid": "b10da2f7-8cc8-427d-8a94-3bf5ab1b1c5f",
+        "locationUid": "490f9bdd-59bd-4e3c-93e0-d7b1894b2699",
+        "managementAgentUid": "8cda8201-9040-4858-9270-0186f1677f46",
+        "computerName": "ECO01",
+        "objectUid": "45e887ae-6121-4a26-baa1-a492516a7a00",
+        "objectName": "Backup_ADs"
+      },
+      "lastActivation": {
+        "instanceUid": "7606a378-4d3f-47cc-a587-09ce651a6ae3",
+        "time": "2025-09-12T00:08:47.8330000+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"Backup_ADs\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "0c83fdc0-4b92-4fc7-8818-3b988176efd4",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "49b2174c-7c29-40a0-9a95-cbedfb660419",
+        "type": "BackupServerJob",
+        "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+        "locationUid": "f4085019-ef16-4605-8d2c-80d5528d640f",
+        "managementAgentUid": null,
+        "computerName": "CNXSRV4503",
+        "objectUid": "49b2174c-7c29-40a0-9a95-cbedfb660419",
+        "objectName": "COPY_ORACLE"
+      },
+      "lastActivation": {
+        "instanceUid": "f6cf6881-5a05-4be0-bf97-8961d46874c3",
+        "time": "2025-09-12T15:16:38.6230000+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"COPY_ORACLE\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "dfc0ebb4-6f4b-408c-8121-5fa78923be39",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "fd67897a-1470-4c44-9136-95be448ff365",
+        "type": "BackupServerJob",
+        "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+        "locationUid": "04e2ccb7-b22d-4cbf-8079-4cf5dc26f90e",
+        "managementAgentUid": "2ae3f40c-d39c-4501-a12a-934845e665d0",
+        "computerName": "PAVMSVM84",
+        "objectUid": "fd67897a-1470-4c44-9136-95be448ff365",
+        "objectName": "Medabil-BK70"
+      },
+      "lastActivation": {
+        "instanceUid": "96485a6a-63f9-485b-baa3-4ccd5c0e27c0",
+        "time": "2025-09-10T04:41:08.1370000+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"Medabil-BK70\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "7609bf21-9644-42a6-800a-edbf9fca6cd8",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 52,
+      "object": {
+        "instanceUid": "f2d2505d-3362-4fb5-ad9c-c7055460e4d0",
+        "type": "BackupServerJob",
+        "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+        "locationUid": "04e2ccb7-b22d-4cbf-8079-4cf5dc26f90e",
+        "managementAgentUid": "2ae3f40c-d39c-4501-a12a-934845e665d0",
+        "computerName": "PAVMSVM84",
+        "objectUid": "f2d2505d-3362-4fb5-ad9c-c7055460e4d0",
+        "objectName": "Medabil-SISTEMAS-Cloud"
+      },
+      "lastActivation": {
+        "instanceUid": "85cc5cea-95e2-40f5-9c63-d92f4defd8f4",
+        "time": "2025-10-30T14:56:06.8984391+00:00",
+        "status": "Resolved",
+        "message": "Alarm has been disabled.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "8b796b97-5ef1-438a-b2f7-366745967a34",
+      "alarmTemplateUid": "d601e883-b6b9-4f81-95ba-ab8a8ef98478",
+      "repeatCount": 3,
+      "object": {
+        "instanceUid": "46cbf113-b440-6ee7-a909-30e8799ab445",
+        "type": "BackupServer",
+        "organizationUid": "5e5bfda9-7529-4b80-8b2c-4000fee2fb96",
+        "locationUid": "93cc4d4a-8281-4664-988e-5bde875fc394",
+        "managementAgentUid": "5e3f75a5-47bf-4151-a722-29b3317f0f5b",
+        "computerName": "CLMSGBUY3",
+        "objectUid": "b2c407c0-5f1f-40a7-a757-2c0aa7ebc639",
+        "objectName": "CLMSGBUY3"
+      },
+      "lastActivation": {
+        "instanceUid": "d84b19fb-fe3b-4427-8353-f73af5f8b8cc",
+        "time": "2025-10-27T00:11:42.4678385+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "436032e1-d3e2-4e5a-bd48-803489414f40",
+      "alarmTemplateUid": "d601e883-b6b9-4f81-95ba-ab8a8ef98478",
+      "repeatCount": 3,
+      "object": {
+        "instanceUid": "15ad0301-aa81-63f2-af84-ed89cfae99e7",
+        "type": "BackupServer",
+        "organizationUid": "f8a69f83-d6be-44de-817c-81e28abc9047",
+        "locationUid": "6b0ea0ef-8f54-4b65-b9f0-aa2d2279e2d7",
+        "managementAgentUid": "311ef886-7d62-4247-8192-f2ef713adbb5",
+        "computerName": "vmsveeam",
+        "objectUid": "71343a7f-d4ad-44de-aad9-306066b91919",
+        "objectName": "vmsveeam"
+      },
+      "lastActivation": {
+        "instanceUid": "ac3206e8-8b5e-4fc9-ba1d-93f188396006",
+        "time": "2025-10-27T13:39:18.1224615+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "40688d82-7dd1-47a9-9158-7fa9ecb1b093",
+      "alarmTemplateUid": "ada28dce-1d53-4b86-82a2-82d01c59b904",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "47efab82-cea3-63a1-9640-58391a3f8dc7",
+        "type": "BackupServer",
+        "organizationUid": "edbc45f9-12df-4f21-a245-83dc34c40676",
+        "locationUid": "34c900d6-acf0-4fd2-a857-2c5e8609e849",
+        "managementAgentUid": null,
+        "computerName": "IBMBRBKP01",
+        "objectUid": "8a4beeb0-ac54-4552-b785-5b788edf47d0",
+        "objectName": "IBMBRBKP01"
+      },
+      "lastActivation": {
+        "instanceUid": "5c901d6b-8645-4b08-a40a-bfeb07a5d606",
+        "time": "2025-10-16T04:50:55.9430000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "8b351eeb-99bf-4c18-ba9d-a75406684360",
+      "alarmTemplateUid": "3d10c789-c78c-4f2f-968e-77af41249391",
+      "repeatCount": 3,
+      "object": {
+        "instanceUid": "a5ab3f64-9ec5-61df-9ed7-3dfda4b50391",
+        "type": "BackupProxy",
+        "organizationUid": "b80612de-af9c-4bef-abed-3cdd7a432ca4",
+        "locationUid": "56d2c625-19ea-468a-bab8-80cc73567a20",
+        "managementAgentUid": "97fb21ef-34f3-496e-8c92-5c9aedbfda48",
+        "computerName": "PUL-VEEAM",
+        "objectUid": "8a8500f5-c29f-4c0a-a800-f0fb2981e8ed",
+        "objectName": "192.168.1.15"
+      },
+      "lastActivation": {
+        "instanceUid": "7c00f145-6385-46a7-8392-52a0babe0448",
+        "time": "2025-10-30T14:56:06.8507563+00:00",
+        "status": "Resolved",
+        "message": "Alarm has been disabled.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "98d87972-4791-4159-893e-1dfd59beead2",
+      "alarmTemplateUid": "6595053e-4c6c-4308-9552-dd1ff9c9c740",
+      "repeatCount": 3,
+      "object": {
+        "instanceUid": "73158604-5420-4bed-bd6e-92af7485a1f1",
+        "type": "Company",
+        "organizationUid": "73158604-5420-4bed-bd6e-92af7485a1f1",
+        "locationUid": null,
+        "managementAgentUid": null,
+        "computerName": null,
+        "objectUid": "73158604-5420-4bed-bd6e-92af7485a1f1",
+        "objectName": "Bourbon"
+      },
+      "lastActivation": {
+        "instanceUid": "6bdf645c-ebbc-4620-b6e0-f9fa7efe5e68",
+        "time": "2025-10-14T18:57:58.3870000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "9a4d3004-1282-4584-817f-17a17578fc26",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "16a8e008-f221-4f57-93be-119717324e7c",
+        "type": "BackupServerJob",
+        "organizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+        "locationUid": "ee6e3e7c-4d18-4745-837b-4687dfc15b8a",
+        "managementAgentUid": "22ba0c22-9e21-4297-8889-7500a5abd455",
+        "computerName": "VMSBKP50",
+        "objectUid": "16a8e008-f221-4f57-93be-119717324e7c",
+        "objectName": "GEDORE-1xDia-sem-nuvem"
+      },
+      "lastActivation": {
+        "instanceUid": "10a5273d-d001-4a6c-ba21-72454c79f109",
+        "time": "2025-09-26T04:08:11.7030000+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"GEDORE-1xDia-sem-nuvem\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "6a05735c-79e7-428a-976c-e21b50341180",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "0db9855d-b7df-41d6-9f38-783d4ac7b212",
+        "type": "BackupServerJob",
+        "organizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+        "locationUid": "ee6e3e7c-4d18-4745-837b-4687dfc15b8a",
+        "managementAgentUid": "22ba0c22-9e21-4297-8889-7500a5abd455",
+        "computerName": "VMSBKP50",
+        "objectUid": "0db9855d-b7df-41d6-9f38-783d4ac7b212",
+        "objectName": "GEDORE-1xDia"
+      },
+      "lastActivation": {
+        "instanceUid": "6dfd40ee-353a-426f-9003-15195a9f87dc",
+        "time": "2025-09-26T03:53:03.9070000+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"GEDORE-1xDia\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "1bdfe818-48c4-40a5-90a9-7a8280522e37",
+      "alarmTemplateUid": "54931004-53df-45fb-a9e8-3cae9327e761",
+      "repeatCount": 11,
+      "object": {
+        "instanceUid": "8bb8920d-e8f0-6cf7-b057-5dcbda8997d4",
+        "type": "BackupServerJob",
+        "organizationUid": "79bb0124-23f6-4f8a-af02-b5c27e2becdd",
+        "locationUid": "35d802d1-e6a9-46ac-929c-62231de35083",
+        "managementAgentUid": "1e888e73-4421-4192-857d-19b11c306298",
+        "computerName": "SvBkpSus",
+        "objectUid": "ef30713a-87e0-4126-b6cc-61aab03e3910",
+        "objectName": "Backup File Server"
+      },
+      "lastActivation": {
+        "instanceUid": "eaffddca-62f0-442f-8a38-8230f26f4e31",
+        "time": "2025-10-29T04:34:15.6572102+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"Backup File Server\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "c4b8d67c-c68a-478d-9cea-e5471b75cbc7",
+      "alarmTemplateUid": "54931004-53df-45fb-a9e8-3cae9327e761",
+      "repeatCount": 24,
+      "object": {
+        "instanceUid": "af85169d-3e02-6e1c-a8be-248cc5859682",
+        "type": "BackupServerJob",
+        "organizationUid": "edbc45f9-12df-4f21-a245-83dc34c40676",
+        "locationUid": "34c900d6-acf0-4fd2-a857-2c5e8609e849",
+        "managementAgentUid": null,
+        "computerName": "IBMBRBKP01",
+        "objectUid": "86e81369-3149-45e9-8bbc-0318b88cc0f7",
+        "objectName": "SISPRO-CANOAS-TESTE-SISCANOSLAB1"
+      },
+      "lastActivation": {
+        "instanceUid": "c4bb2064-eaaf-42e9-9460-ccb0d56aceec",
+        "time": "2025-10-17T12:36:09.0900000+00:00",
+        "status": "Resolved",
+        "message": "Object for which alarm has been triggered is no longer present in the infrastructure or has been excluded from monitoring.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "b049751b-4a17-4123-9c3b-bf7444320a02",
+      "alarmTemplateUid": "4926a46f-2b62-4b5e-9649-a9131f24d732",
+      "repeatCount": 2,
+      "object": {
+        "instanceUid": "8eeb9831-e50e-60ed-8262-ffd1c70e79e4",
+        "type": "BackupRepository",
+        "organizationUid": "edbc45f9-12df-4f21-a245-83dc34c40676",
+        "locationUid": "34c900d6-acf0-4fd2-a857-2c5e8609e849",
+        "managementAgentUid": null,
+        "computerName": "IBMBRBKP01",
+        "objectUid": "4ea15343-0fe1-43d2-8056-36de114dc535",
+        "objectName": "Repo-Temp-Canoas"
+      },
+      "lastActivation": {
+        "instanceUid": "60e7e3b9-f60e-49d3-b54b-9af62741f000",
+        "time": "2025-09-15T00:50:08.5230000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "9851a455-60f9-4817-9f11-0d6198ece737",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 43,
+      "object": {
+        "instanceUid": "a3a56261-6e50-4c6a-bf2f-1db85ac950ff",
+        "type": "BackupServerJob",
+        "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+        "locationUid": "04e2ccb7-b22d-4cbf-8079-4cf5dc26f90e",
+        "managementAgentUid": "2ae3f40c-d39c-4501-a12a-934845e665d0",
+        "computerName": "PAVMSVM84",
+        "objectUid": "a3a56261-6e50-4c6a-bf2f-1db85ac950ff",
+        "objectName": "Medabil-SISTEMAS-Local"
+      },
+      "lastActivation": {
+        "instanceUid": "7bc91e7c-a68e-4170-b41c-16a2883dbeac",
+        "time": "2025-10-30T14:56:06.8996384+00:00",
+        "status": "Resolved",
+        "message": "Alarm has been disabled.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "58d1a553-7b6b-40bd-b300-97477dcaa888",
+      "alarmTemplateUid": "4e648f83-cdcb-4fc6-af4d-09df04aad391",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "af85169d-3e02-6e1c-a8be-248cc5859682",
+        "type": "BackupServerJob",
+        "organizationUid": "edbc45f9-12df-4f21-a245-83dc34c40676",
+        "locationUid": "34c900d6-acf0-4fd2-a857-2c5e8609e849",
+        "managementAgentUid": null,
+        "computerName": "IBMBRBKP01",
+        "objectUid": "86e81369-3149-45e9-8bbc-0318b88cc0f7",
+        "objectName": "SISPRO-CANOAS-TESTE-SISCANOSLAB1"
+      },
+      "lastActivation": {
+        "instanceUid": "ed72608b-b06c-402f-bcb6-f840e8d84b99",
+        "time": "2025-10-17T12:36:08.7930000+00:00",
+        "status": "Resolved",
+        "message": "Object for which alarm has been triggered is no longer present in the infrastructure or has been excluded from monitoring.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "54d2d7b4-184f-49ec-a040-50eaf353bf85",
+      "alarmTemplateUid": "54931004-53df-45fb-a9e8-3cae9327e761",
+      "repeatCount": 2,
+      "object": {
+        "instanceUid": "cb61a403-1d89-6484-b227-9eed8cce1621",
+        "type": "BackupServerJob",
+        "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+        "locationUid": "f4085019-ef16-4605-8d2c-80d5528d640f",
+        "managementAgentUid": "3a163e99-a2ff-4da6-824e-7dfa93e35e13",
+        "computerName": "CNXSRV12",
+        "objectUid": "7f7ef664-0789-4fa8-9de4-60446e933a1b",
+        "objectName": "BKP_ORACLE"
+      },
+      "lastActivation": {
+        "instanceUid": "8345a20b-2b8f-4680-990d-cfeed79a3f1d",
+        "time": "2025-10-30T07:21:30.6827729+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"BKP_ORACLE\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "410b6840-77a0-4438-85de-b1beac2b040a",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "d160d03d-2058-4703-90f1-cafc062550ae",
+        "type": "BackupServerJob",
+        "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+        "locationUid": "04e2ccb7-b22d-4cbf-8079-4cf5dc26f90e",
+        "managementAgentUid": "2ae3f40c-d39c-4501-a12a-934845e665d0",
+        "computerName": "PAVMSVM84",
+        "objectUid": "d160d03d-2058-4703-90f1-cafc062550ae",
+        "objectName": "Medabil-SAP-local"
+      },
+      "lastActivation": {
+        "instanceUid": "98158ec7-87b8-44f9-9b1a-ae68dc7a6546",
+        "time": "2025-09-09T01:48:03.8570000+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"Medabil-SAP-local\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "809af11b-2abf-4104-9951-286e563d94b3",
+      "alarmTemplateUid": "b28566db-35e1-4daa-bc3d-4beed8ce087f",
+      "repeatCount": 2,
+      "object": {
+        "instanceUid": "85d7176b-2ea9-65d2-99be-15ed939d3aa3",
+        "type": "BackupMicrosoft365Server",
+        "organizationUid": "0a83513d-a2b4-47ee-8253-ed13516d45c0",
+        "locationUid": null,
+        "managementAgentUid": null,
+        "computerName": "VMSVO36540",
+        "objectUid": "00000000-0000-0000-0000-000000000000",
+        "objectName": "VMSVO36540"
+      },
+      "lastActivation": {
+        "instanceUid": "643c46a3-c9dc-42c5-9cfe-9518240c5136",
+        "time": "2025-10-27T17:47:42.5491829+00:00",
+        "status": "Resolved",
+        "message": "Object for which alarm has been triggered is no longer present in the infrastructure or has been excluded from monitoring.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "9d60d5c5-d00d-4d54-a836-9f1b96d0a4c1",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "1db7b3d6-dee6-4077-ae43-42875383cf18",
+        "type": "BackupServerJob",
+        "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+        "locationUid": "04e2ccb7-b22d-4cbf-8079-4cf5dc26f90e",
+        "managementAgentUid": "2ae3f40c-d39c-4501-a12a-934845e665d0",
+        "computerName": "PAVMSVM84",
+        "objectUid": "1db7b3d6-dee6-4077-ae43-42875383cf18",
+        "objectName": "BKPCP-Medabil"
+      },
+      "lastActivation": {
+        "instanceUid": "ae5c05c2-827e-42f9-a81d-52772544c223",
+        "time": "2025-09-09T10:32:15.5800000+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"BKPCP-Medabil\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "781a3725-3b60-426b-82cc-86bab6b85e05",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "12c22f1e-7381-4474-a0a8-892760548205",
+        "type": "BackupServerJob",
+        "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+        "locationUid": "f4085019-ef16-4605-8d2c-80d5528d640f",
+        "managementAgentUid": null,
+        "computerName": "CNXSRV4503",
+        "objectUid": "12c22f1e-7381-4474-a0a8-892760548205",
+        "objectName": "COPY_GV1_BPK_FS"
+      },
+      "lastActivation": {
+        "instanceUid": "2c9aac1a-f6f2-4307-8a39-e5ea02e62949",
+        "time": "2025-10-25T18:09:27.1572404+00:00",
+        "status": "Resolved",
+        "message": "Resolved by zerogroup.local\\zg_adm_daniel\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "68fee01c-87bd-4002-9dcd-6cb4b19b2211",
+      "alarmTemplateUid": "d601e883-b6b9-4f81-95ba-ab8a8ef98478",
+      "repeatCount": 4,
+      "object": {
+        "instanceUid": "c0443c18-b43a-6635-9c21-205362bcc5b6",
+        "type": "BackupServer",
+        "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+        "locationUid": "f4085019-ef16-4605-8d2c-80d5528d640f",
+        "managementAgentUid": "3a163e99-a2ff-4da6-824e-7dfa93e35e13",
+        "computerName": "CNXSRV12",
+        "objectUid": "f40c28eb-8262-4dbf-bf82-8f7cc1054cc3",
+        "objectName": "CNXSRV12"
+      },
+      "lastActivation": {
+        "instanceUid": "b7a99a64-fe23-4e11-8247-89dee9722425",
+        "time": "2025-10-27T19:00:24.8136787+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "e5d0968f-18da-4277-9315-073b91a8a469",
+      "alarmTemplateUid": "d601e883-b6b9-4f81-95ba-ab8a8ef98478",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "0bbdb67b-61ba-6f3a-881b-67d9ad888e18",
+        "type": "BackupServer",
+        "organizationUid": "216e1db0-be59-4d40-acb8-cc4aba9307a2",
+        "locationUid": "3ae88ab4-d62f-44aa-b53b-649e7f4e0c21",
+        "managementAgentUid": "68532fee-15d6-438e-9032-56499ee89167",
+        "computerName": "4ZONA-BACKUP",
+        "objectUid": "118cb3e9-a7d4-4dda-9f22-a636b2141fbd",
+        "objectName": "4ZONA-BACKUP"
+      },
+      "lastActivation": {
+        "instanceUid": "fb994cad-86e6-4971-bdfc-bea87a8f5d5f",
+        "time": "2025-10-24T18:32:16.4400000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "59264cdf-dfda-4432-b52d-79a005f5971a",
+      "alarmTemplateUid": "7a5231ba-fa09-431f-a1a7-1becee976aa7",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "23fe0e59-cc24-6689-a7c6-b63825c9d52c",
+        "type": "BackupProxy",
+        "organizationUid": "216e1db0-be59-4d40-acb8-cc4aba9307a2",
+        "locationUid": "3ae88ab4-d62f-44aa-b53b-649e7f4e0c21",
+        "managementAgentUid": "68532fee-15d6-438e-9032-56499ee89167",
+        "computerName": "4ZONA-BACKUP",
+        "objectUid": "e74d28b9-3593-4698-a1fe-6a8940f28eab",
+        "objectName": "4ZONA-HOST02"
+      },
+      "lastActivation": {
+        "instanceUid": "93b528c9-be71-476d-b0d5-55970a4a8600",
+        "time": "2025-10-24T18:27:14.5170000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "55482b8e-8332-4f1c-882d-081c38596fdd",
+      "alarmTemplateUid": "7a5231ba-fa09-431f-a1a7-1becee976aa7",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "bff2c1cd-447f-62e7-98d6-a94a3981a700",
+        "type": "BackupProxy",
+        "organizationUid": "216e1db0-be59-4d40-acb8-cc4aba9307a2",
+        "locationUid": "3ae88ab4-d62f-44aa-b53b-649e7f4e0c21",
+        "managementAgentUid": "68532fee-15d6-438e-9032-56499ee89167",
+        "computerName": "4ZONA-BACKUP",
+        "objectUid": "6605999e-de67-4b26-b558-230aca85bb03",
+        "objectName": "4ZONA-HOST01"
+      },
+      "lastActivation": {
+        "instanceUid": "b5b81414-220a-40da-b420-2c7734c53375",
+        "time": "2025-10-24T18:27:14.4530000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "2a07c423-4db3-42a2-9014-bf35c3534fc9",
+      "alarmTemplateUid": "7a5231ba-fa09-431f-a1a7-1becee976aa7",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "d664d4e4-a1fd-67a4-935a-28f80a3fc269",
+        "type": "BackupProxy",
+        "organizationUid": "216e1db0-be59-4d40-acb8-cc4aba9307a2",
+        "locationUid": "3ae88ab4-d62f-44aa-b53b-649e7f4e0c21",
+        "managementAgentUid": "68532fee-15d6-438e-9032-56499ee89167",
+        "computerName": "4ZONA-BACKUP",
+        "objectUid": "18b661c1-d9dc-4233-90a0-7e7b10dc2d09",
+        "objectName": "VMware Backup Proxy"
+      },
+      "lastActivation": {
+        "instanceUid": "58f94cb4-7ea6-4044-a635-0d61ca9bc981",
+        "time": "2025-10-24T18:27:14.3300000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "21746c49-5118-4a83-bf08-8b9b3e7b13da",
+      "alarmTemplateUid": "7a5231ba-fa09-431f-a1a7-1becee976aa7",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "947fb45e-9f00-64e6-b843-29e073d03232",
+        "type": "BackupProxy",
+        "organizationUid": "216e1db0-be59-4d40-acb8-cc4aba9307a2",
+        "locationUid": "3ae88ab4-d62f-44aa-b53b-649e7f4e0c21",
+        "managementAgentUid": "68532fee-15d6-438e-9032-56499ee89167",
+        "computerName": "4ZONA-BACKUP",
+        "objectUid": "50cbf622-129e-482a-9197-d67e5bb1fb1f",
+        "objectName": "Backup Proxy"
+      },
+      "lastActivation": {
+        "instanceUid": "c9b3d8d4-550e-4f01-a55a-5161ffc9a4e3",
+        "time": "2025-10-24T18:27:14.3900000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "efce8049-82bc-45dc-8ae1-25e386d5ee2f",
+      "alarmTemplateUid": "879f230b-4a38-461e-bb08-3c21ee38e31c",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "26ab7d8d-edda-6124-a340-166765404210",
+        "type": "BackupRepository",
+        "organizationUid": "216e1db0-be59-4d40-acb8-cc4aba9307a2",
+        "locationUid": "3ae88ab4-d62f-44aa-b53b-649e7f4e0c21",
+        "managementAgentUid": "68532fee-15d6-438e-9032-56499ee89167",
+        "computerName": "4ZONA-BACKUP",
+        "objectUid": "88788f9e-d8f5-4eb4-bc4f-9b3f5403bcec",
+        "objectName": "Default Backup Repository"
+      },
+      "lastActivation": {
+        "instanceUid": "d8b4a6d9-a799-4830-9a1b-68b478d07fa7",
+        "time": "2025-10-24T18:27:14.5630000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "b5750af2-a8bf-4f99-811b-d553134ad443",
+      "alarmTemplateUid": "879f230b-4a38-461e-bb08-3c21ee38e31c",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "5d9258a5-9a9e-6307-b604-ee78ec925fc9",
+        "type": "BackupRepository",
+        "organizationUid": "216e1db0-be59-4d40-acb8-cc4aba9307a2",
+        "locationUid": "3ae88ab4-d62f-44aa-b53b-649e7f4e0c21",
+        "managementAgentUid": "68532fee-15d6-438e-9032-56499ee89167",
+        "computerName": "4ZONA-BACKUP",
+        "objectUid": "e6212880-0c75-4c6a-96a2-5227880f4235",
+        "objectName": "SSD"
+      },
+      "lastActivation": {
+        "instanceUid": "98c9dd33-3c25-4c42-b642-2f26003ec45b",
+        "time": "2025-10-24T18:27:14.6270000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "0d4ab2a0-c596-45b2-bff6-7d547f3c6166",
+      "alarmTemplateUid": "d601e883-b6b9-4f81-95ba-ab8a8ef98478",
+      "repeatCount": 6,
+      "object": {
+        "instanceUid": "d8c4aa61-67b0-6d97-a1e2-3047b03a3b1a",
+        "type": "BackupServer",
+        "organizationUid": "3f21557c-d158-4701-9049-e3dcd428ceb2",
+        "locationUid": "f75b45d8-0f09-485c-b71d-1eada8f86ff5",
+        "managementAgentUid": "7bdcc2a8-f82f-4707-94fa-717881a3fec7",
+        "computerName": "VEEAM",
+        "objectUid": "c965a8b7-0b26-4466-acac-348b6353efcd",
+        "objectName": "VEEAM"
+      },
+      "lastActivation": {
+        "instanceUid": "329b6b0a-6542-4d55-b012-271695bf9922",
+        "time": "2025-10-27T16:47:08.7577678+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "1bc22de0-a533-4e56-b36e-2039651e50c2",
+      "alarmTemplateUid": "4926a46f-2b62-4b5e-9649-a9131f24d732",
+      "repeatCount": 20,
+      "object": {
+        "instanceUid": "580e4621-0688-6784-92fa-659214587050",
+        "type": "BackupRepository",
+        "organizationUid": "939c8ac2-e3ee-4269-a6b8-3a7e98766d00",
+        "locationUid": "10a2f678-c152-4f43-885d-3a3ebd95a254",
+        "managementAgentUid": "d3575472-f0e7-41c8-b876-8217af25d349",
+        "computerName": "ICSERVER6",
+        "objectUid": "51fb9661-417f-40c7-bc2c-4fc07546e25f",
+        "objectName": "NAS_LOCAL"
+      },
+      "lastActivation": {
+        "instanceUid": "5b5c264c-881d-4796-b52a-b1a08c56b542",
+        "time": "2025-12-03T22:10:41.2010315+00:00",
+        "status": "Error",
+        "message": "Repository free space (0%, 0 B) is below the defined threshold (5%).\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "405eda9e-4322-4ede-8564-5fdc6f751e91",
+      "alarmTemplateUid": "6595053e-4c6c-4308-9552-dd1ff9c9c740",
+      "repeatCount": 8,
+      "object": {
+        "instanceUid": "3f21557c-d158-4701-9049-e3dcd428ceb2",
+        "type": "Company",
+        "organizationUid": "3f21557c-d158-4701-9049-e3dcd428ceb2",
+        "locationUid": null,
+        "managementAgentUid": null,
+        "computerName": null,
+        "objectUid": "3f21557c-d158-4701-9049-e3dcd428ceb2",
+        "objectName": "BrasDiesel"
+      },
+      "lastActivation": {
+        "instanceUid": "5f8fd7f8-7aca-4e09-bd54-c2b2de5da113",
+        "time": "2025-10-27T03:39:43.2524628+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "2c4c9a2f-bf0d-4c94-80e3-56fdf8b57f08",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "b910f15c-322f-4db5-895a-6ce9e02547c9",
+        "type": "BackupServerJob",
+        "organizationUid": "f466448b-54f3-4541-9ff0-7d29bb1b901e",
+        "locationUid": "814f8596-2965-4751-968b-051346f57805",
+        "managementAgentUid": "b5f7936d-6381-417d-98af-e76e0a82eb0e",
+        "computerName": "NBK-UNIAIR",
+        "objectUid": "b910f15c-322f-4db5-895a-6ce9e02547c9",
+        "objectName": "UNIAIR-BKP-CRITICOS"
+      },
+      "lastActivation": {
+        "instanceUid": "e86acfd7-ba41-45e6-9822-1397e4dfa77d",
+        "time": "2025-10-30T14:56:06.9001737+00:00",
+        "status": "Resolved",
+        "message": "Alarm has been disabled.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "d8725a1e-bb3d-4957-b821-34d7efc6c08d",
+      "alarmTemplateUid": "4926a46f-2b62-4b5e-9649-a9131f24d732",
+      "repeatCount": 22,
+      "object": {
+        "instanceUid": "8c644935-dcc0-67c7-be9b-5c21a7db7fb8",
+        "type": "BackupRepository",
+        "organizationUid": "0a83513d-a2b4-47ee-8253-ed13516d45c0",
+        "locationUid": null,
+        "managementAgentUid": "d9924114-144a-4f63-ac72-617f6cf181cb",
+        "computerName": "VMSVCC51",
+        "objectUid": "fc713801-c1c9-4fcf-a78e-6b2a4c6a69c7",
+        "objectName": "VLXREPO63_01"
+      },
+      "lastActivation": {
+        "instanceUid": "39126daf-e98d-41ef-b94f-164cc6955498",
+        "time": "2025-12-12T16:02:29.2478025+00:00",
+        "status": "Warning",
+        "message": "Repository free space (9.96%, 11.32 TB) is below the defined threshold (10%).\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "d4d6057c-10db-4527-b0f6-f11644ed1ca7",
+      "alarmTemplateUid": "3d10c789-c78c-4f2f-968e-77af41249391",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "b2be0d97-b76d-651d-b50d-bd6bc1e83aa0",
+        "type": "BackupProxy",
+        "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+        "locationUid": "04e2ccb7-b22d-4cbf-8079-4cf5dc26f90e",
+        "managementAgentUid": "2ae3f40c-d39c-4501-a12a-934845e665d0",
+        "computerName": "PAVMSVM84",
+        "objectUid": "262c4b40-b7a4-43f6-96f3-cf8e8cf8aee4",
+        "objectName": "pavmsvprx99.medabil.com.br"
+      },
+      "lastActivation": {
+        "instanceUid": "95f08e41-bca5-4f1c-bd82-853151be0411",
+        "time": "2025-10-27T18:28:04.7501494+00:00",
+        "status": "Resolved",
+        "message": "Object for which alarm has been triggered is no longer present in the infrastructure or has been excluded from monitoring.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "22adc30a-4da1-41fa-a3bd-bba741b188d7",
+      "alarmTemplateUid": "d601e883-b6b9-4f81-95ba-ab8a8ef98478",
+      "repeatCount": 5,
+      "object": {
+        "instanceUid": "66b39a68-b933-680d-865f-cca110568d2f",
+        "type": "BackupServer",
+        "organizationUid": "a6b4717e-8a05-4e2e-81e6-5561912b6a30",
+        "locationUid": "953633ee-c8a4-4273-90e3-5978f5673755",
+        "managementAgentUid": "cb9d5c5e-466f-4ac7-a70f-9c58f0ac7be7",
+        "computerName": "SERVER05",
+        "objectUid": "f585ac4f-9ddf-41ca-8bc4-06fa860ca72c",
+        "objectName": "SERVER05"
+      },
+      "lastActivation": {
+        "instanceUid": "adcaaeea-786f-43ac-82f9-841fc131b317",
+        "time": "2025-10-27T14:46:58.8643208+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "990b5563-f04e-4c68-a7e4-bedfb900b831",
+      "alarmTemplateUid": "3d10c789-c78c-4f2f-968e-77af41249391",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "db602a2d-8090-6029-9864-504c8a0662cd",
+        "type": "BackupProxy",
+        "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+        "locationUid": "04e2ccb7-b22d-4cbf-8079-4cf5dc26f90e",
+        "managementAgentUid": "2ae3f40c-d39c-4501-a12a-934845e665d0",
+        "computerName": "PAVMSVM84",
+        "objectUid": "6188468c-58aa-4e61-bbff-aa9c46270392",
+        "objectName": "pavmsvprx99.medabil.com.br"
+      },
+      "lastActivation": {
+        "instanceUid": "6f051c29-5dd5-4490-bfde-5900760f65cf",
+        "time": "2025-10-27T18:28:04.7523377+00:00",
+        "status": "Resolved",
+        "message": "Object for which alarm has been triggered is no longer present in the infrastructure or has been excluded from monitoring.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "0a41296a-1bee-43dd-9272-66cc4aa82b8c",
+      "alarmTemplateUid": "ada28dce-1d53-4b86-82a2-82d01c59b904",
+      "repeatCount": 2,
+      "object": {
+        "instanceUid": "58180fad-ca29-6b11-9528-13d592164ce2",
+        "type": "BackupServer",
+        "organizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+        "locationUid": "ee6e3e7c-4d18-4745-837b-4687dfc15b8a",
+        "managementAgentUid": "22ba0c22-9e21-4297-8889-7500a5abd455",
+        "computerName": "VMSBKP50",
+        "objectUid": "141c0ff6-a829-4292-878c-977a548d6da1",
+        "objectName": "VMSBKP50"
+      },
+      "lastActivation": {
+        "instanceUid": "c3614c58-9be3-4f87-96d5-490bed9f45ab",
+        "time": "2025-10-30T14:56:49.9026821+00:00",
+        "status": "Warning",
+        "message": "The licensed workloads threshold has been exceeded by 9.29% (72 workloads).\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "14564140-505c-49a4-8ba5-02b9f4f413a0",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 11,
+      "object": {
+        "instanceUid": "a8d28fff-819e-458f-84de-f4bfe88f4636",
+        "type": "BackupServerJob",
+        "organizationUid": "b80612de-af9c-4bef-abed-3cdd7a432ca4",
+        "locationUid": "56d2c625-19ea-468a-bab8-80cc73567a20",
+        "managementAgentUid": "97fb21ef-34f3-496e-8c92-5c9aedbfda48",
+        "computerName": "PUL-VEEAM",
+        "objectUid": "a8d28fff-819e-458f-84de-f4bfe88f4636",
+        "objectName": "PUL-BKP-SQL"
+      },
+      "lastActivation": {
+        "instanceUid": "94fe7930-4ded-4841-9664-455616d0998e",
+        "time": "2025-10-01T02:17:41.6800000+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"PUL-BKP-SQL\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "b01377b7-5846-4925-ae13-9534653fcff7",
+      "alarmTemplateUid": "54931004-53df-45fb-a9e8-3cae9327e761",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "72bb9d21-9480-6f26-8711-a2d3a10f5b97",
+        "type": "BackupServerJob",
+        "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+        "locationUid": "f4085019-ef16-4605-8d2c-80d5528d640f",
+        "managementAgentUid": null,
+        "computerName": "CNXSRV4503",
+        "objectUid": "23563b63-1670-49da-8836-1e4a4e408dad",
+        "objectName": "BCK_CNXSRV09"
+      },
+      "lastActivation": {
+        "instanceUid": "a75f6054-9cf1-429c-88e2-2a1e283b60ba",
+        "time": "2025-10-25T18:09:27.1615216+00:00",
+        "status": "Resolved",
+        "message": "Resolved by zerogroup.local\\zg_adm_daniel\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "71d54ee4-668e-4102-a8d7-64791c897512",
+      "alarmTemplateUid": "4e648f83-cdcb-4fc6-af4d-09df04aad391",
+      "repeatCount": 2,
+      "object": {
+        "instanceUid": "4d5d3212-308d-676c-86fe-948c28ed5216",
+        "type": "BackupServerJob",
+        "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+        "locationUid": "04e2ccb7-b22d-4cbf-8079-4cf5dc26f90e",
+        "managementAgentUid": "2ae3f40c-d39c-4501-a12a-934845e665d0",
+        "computerName": "PAVMSVM84",
+        "objectUid": "ed995e49-3ece-413b-a0be-7c1e953fe5db",
+        "objectName": "Medabil-BK171"
+      },
+      "lastActivation": {
+        "instanceUid": "5f8eb47b-eb0c-4ce2-ab5e-b40ea305303c",
+        "time": "2025-10-30T14:56:06.8371193+00:00",
+        "status": "Resolved",
+        "message": "Alarm has been disabled.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "3269b993-11ef-4b6f-8feb-2ef757725fe3",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 5,
+      "object": {
+        "instanceUid": "b5032a1f-3464-4ab5-b5a3-1f070195ae6a",
+        "type": "BackupServerJob",
+        "organizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+        "locationUid": "ee6e3e7c-4d18-4745-837b-4687dfc15b8a",
+        "managementAgentUid": "22ba0c22-9e21-4297-8889-7500a5abd455",
+        "computerName": "VMSBKP50",
+        "objectUid": "b5032a1f-3464-4ab5-b5a3-1f070195ae6a",
+        "objectName": "GEDORE-TAPE"
+      },
+      "lastActivation": {
+        "instanceUid": "91ec876e-8f35-4044-97d1-37db2ab68ada",
+        "time": "2025-10-28T14:47:33.5686531+00:00",
+        "status": "Resolved",
+        "message": "Resolved by zerogroup.local\\zg_adm_daniel\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "a08f2b46-d409-48eb-8555-842f22f46d05",
+      "alarmTemplateUid": "54931004-53df-45fb-a9e8-3cae9327e761",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "0b81215f-1c28-63ed-8bc9-2c52b96f235f",
+        "type": "BackupServerJob",
+        "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+        "locationUid": "f4085019-ef16-4605-8d2c-80d5528d640f",
+        "managementAgentUid": "3a163e99-a2ff-4da6-824e-7dfa93e35e13",
+        "computerName": "CNXSRV12",
+        "objectUid": "65e82322-679c-4d0b-921d-ae6b8bc16cb2",
+        "objectName": "BCK_CNXSRV09"
+      },
+      "lastActivation": {
+        "instanceUid": "3b6ed3f6-4c8b-4a77-aea4-ebf3c8f17887",
+        "time": "2025-10-28T14:48:50.7294199+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"BCK_CNXSRV09\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "f0cf0d10-cfee-489d-843a-b9fa5782ff2d",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 2,
+      "object": {
+        "instanceUid": "e0c864f3-a193-40e4-9656-2f1f6bf71839",
+        "type": "BackupServerJob",
+        "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+        "locationUid": "f4085019-ef16-4605-8d2c-80d5528d640f",
+        "managementAgentUid": "3a163e99-a2ff-4da6-824e-7dfa93e35e13",
+        "computerName": "CNXSRV12",
+        "objectUid": "e0c864f3-a193-40e4-9656-2f1f6bf71839",
+        "objectName": "COPY_BKP_VMS_GV1E"
+      },
+      "lastActivation": {
+        "instanceUid": "9cf39e24-8b71-480c-b215-df1ce4a75cfa",
+        "time": "2025-10-25T18:09:27.1629922+00:00",
+        "status": "Resolved",
+        "message": "Resolved by zerogroup.local\\zg_adm_daniel\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "d0543533-ed18-4a50-8edb-5ad07289ca37",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 2,
+      "object": {
+        "instanceUid": "f7fd4c74-817d-4035-82c1-7536ac4da3de",
+        "type": "BackupServerJob",
+        "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+        "locationUid": "f4085019-ef16-4605-8d2c-80d5528d640f",
+        "managementAgentUid": "3a163e99-a2ff-4da6-824e-7dfa93e35e13",
+        "computerName": "CNXSRV12",
+        "objectUid": "f7fd4c74-817d-4035-82c1-7536ac4da3de",
+        "objectName": "COPY_BKP_FS_GV1E"
+      },
+      "lastActivation": {
+        "instanceUid": "e5454e72-474c-4e49-b637-cd6663ea2db0",
+        "time": "2025-10-25T18:09:27.1639054+00:00",
+        "status": "Resolved",
+        "message": "Resolved by zerogroup.local\\zg_adm_daniel\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "ac822e6e-7b3f-4f01-879e-9b2351c1ff7f",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 2,
+      "object": {
+        "instanceUid": "39ae7981-9dbe-4e2b-a5c0-f9802fe65378",
+        "type": "BackupServerJob",
+        "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+        "locationUid": "f4085019-ef16-4605-8d2c-80d5528d640f",
+        "managementAgentUid": "3a163e99-a2ff-4da6-824e-7dfa93e35e13",
+        "computerName": "CNXSRV12",
+        "objectUid": "39ae7981-9dbe-4e2b-a5c0-f9802fe65378",
+        "objectName": "COPY_BKP_VMS2_GV1E"
+      },
+      "lastActivation": {
+        "instanceUid": "d0fefe1c-3d84-4d68-b2ef-8fc27cfe170a",
+        "time": "2025-10-25T18:09:27.1646259+00:00",
+        "status": "Resolved",
+        "message": "Resolved by zerogroup.local\\zg_adm_daniel\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "e5afafee-176d-414d-b452-b86d05950644",
+      "alarmTemplateUid": "149ccd2b-6006-4791-9576-595e084bb642",
+      "repeatCount": 12,
+      "object": {
+        "instanceUid": "f4cc8283-c125-60af-aa93-bba181d26ea8",
+        "type": "BackupRepository",
+        "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+        "locationUid": "f4085019-ef16-4605-8d2c-80d5528d640f",
+        "managementAgentUid": "3a163e99-a2ff-4da6-824e-7dfa93e35e13",
+        "computerName": "CNXSRV12",
+        "objectUid": "52f39c19-ef93-40c9-bf4d-b8612acc91fc",
+        "objectName": "Gaveta1E"
+      },
+      "lastActivation": {
+        "instanceUid": "de4642fb-cfc1-4cb5-a618-4f45144f6630",
+        "time": "2025-10-30T21:16:35.0441583+00:00",
+        "status": "Acknowledged",
+        "message": "Acknowledged by zerogroup.local\\zg_daniel\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "1fb508be-380c-496f-80b9-2204e20dfccb",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "fa4a4a67-d328-424a-b9b0-c2a8dc2b23ef",
+        "type": "BackupServerJob",
+        "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+        "locationUid": "f4085019-ef16-4605-8d2c-80d5528d640f",
+        "managementAgentUid": "3a163e99-a2ff-4da6-824e-7dfa93e35e13",
+        "computerName": "CNXSRV12",
+        "objectUid": "fa4a4a67-d328-424a-b9b0-c2a8dc2b23ef",
+        "objectName": "COPY_BKP_WSUS_GV1E"
+      },
+      "lastActivation": {
+        "instanceUid": "69a5c61d-cddc-48e1-bdb8-91ad9b81baf8",
+        "time": "2025-10-25T18:09:27.1660962+00:00",
+        "status": "Resolved",
+        "message": "Resolved by zerogroup.local\\zg_adm_daniel\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "d480a007-6e9c-4297-aafb-881a50e85308",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "15c266ef-55bc-49a6-8112-09a5aba323e5",
+        "type": "BackupServerJob",
+        "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+        "locationUid": "f4085019-ef16-4605-8d2c-80d5528d640f",
+        "managementAgentUid": "3a163e99-a2ff-4da6-824e-7dfa93e35e13",
+        "computerName": "CNXSRV12",
+        "objectUid": "15c266ef-55bc-49a6-8112-09a5aba323e5",
+        "objectName": "COPY_BKP_ORACLE_GV1E"
+      },
+      "lastActivation": {
+        "instanceUid": "1f4b294a-6dea-48c3-9544-bc148611f5b0",
+        "time": "2025-10-25T18:09:27.1666970+00:00",
+        "status": "Resolved",
+        "message": "Resolved by zerogroup.local\\zg_adm_daniel\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "59f6f6b9-8ad4-4fe3-816a-bfc5ca2258ab",
+      "alarmTemplateUid": "149ccd2b-6006-4791-9576-595e084bb642",
+      "repeatCount": 2,
+      "object": {
+        "instanceUid": "8eeb9831-e50e-60ed-8262-ffd1c70e79e4",
+        "type": "BackupRepository",
+        "organizationUid": "edbc45f9-12df-4f21-a245-83dc34c40676",
+        "locationUid": "34c900d6-acf0-4fd2-a857-2c5e8609e849",
+        "managementAgentUid": null,
+        "computerName": "IBMBRBKP01",
+        "objectUid": "4ea15343-0fe1-43d2-8056-36de114dc535",
+        "objectName": "Repo-Temp-Canoas"
+      },
+      "lastActivation": {
+        "instanceUid": "fcd21bb5-ec6e-4062-b8d2-8a6647e11fba",
+        "time": "2025-10-06T00:35:51.4530000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "21ff406e-fca7-45fd-9d4a-3ebcf058b4bf",
+      "alarmTemplateUid": "4e648f83-cdcb-4fc6-af4d-09df04aad391",
+      "repeatCount": 2,
+      "object": {
+        "instanceUid": "1881f453-cc81-400d-8987-527479094e33",
+        "type": "BackupServerJob",
+        "organizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+        "locationUid": "ee6e3e7c-4d18-4745-837b-4687dfc15b8a",
+        "managementAgentUid": "22ba0c22-9e21-4297-8889-7500a5abd455",
+        "computerName": "VMSBKP50",
+        "objectUid": "1881f453-cc81-400d-8987-527479094e33",
+        "objectName": "APL07NW02"
+      },
+      "lastActivation": {
+        "instanceUid": "5e037feb-efcd-44fa-8bb3-7f957b724c58",
+        "time": "2025-10-30T14:56:06.8375655+00:00",
+        "status": "Resolved",
+        "message": "Alarm has been disabled.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "b33879f7-107e-4401-9a79-8612e3109ceb",
+      "alarmTemplateUid": "6595053e-4c6c-4308-9552-dd1ff9c9c740",
+      "repeatCount": 9,
+      "object": {
+        "instanceUid": "79bb0124-23f6-4f8a-af02-b5c27e2becdd",
+        "type": "Company",
+        "organizationUid": "79bb0124-23f6-4f8a-af02-b5c27e2becdd",
+        "locationUid": null,
+        "managementAgentUid": null,
+        "computerName": null,
+        "objectUid": "79bb0124-23f6-4f8a-af02-b5c27e2becdd",
+        "objectName": "Pellenz"
+      },
+      "lastActivation": {
+        "instanceUid": "5bd7053e-eb68-4479-986a-b6753ee57355",
+        "time": "2025-10-19T03:55:58.4770000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "33187d01-56d7-4bbd-aa39-d545ce82df62",
+      "alarmTemplateUid": "8d8c21a0-59ae-4a1c-8edd-c5a448c9e623",
+      "repeatCount": 23,
+      "object": {
+        "instanceUid": "e7902647-376a-45f8-8d48-48e482d06efa",
+        "type": "BackupServerJob",
+        "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+        "locationUid": "f4085019-ef16-4605-8d2c-80d5528d640f",
+        "managementAgentUid": null,
+        "computerName": "CNXSRV4503",
+        "objectUid": "e7902647-376a-45f8-8d48-48e482d06efa",
+        "objectName": "SureBackup - Teste AD"
+      },
+      "lastActivation": {
+        "instanceUid": "4d6ed83a-a2d7-49a9-8d7d-248a890dbdce",
+        "time": "2025-10-07T21:20:46.7500000+00:00",
+        "status": "Resolved",
+        "message": "Job session for \"SureBackup - Teste AD\" finished with success.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "281053c7-2035-40a2-8145-426da10b402f",
+      "alarmTemplateUid": "3d10c789-c78c-4f2f-968e-77af41249391",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "d9d3fae6-987b-6149-b7cf-bdc4c2e22114",
+        "type": "BackupProxy",
+        "organizationUid": "b10da2f7-8cc8-427d-8a94-3bf5ab1b1c5f",
+        "locationUid": "490f9bdd-59bd-4e3c-93e0-d7b1894b2699",
+        "managementAgentUid": "8cda8201-9040-4858-9270-0186f1677f46",
+        "computerName": "ECO01",
+        "objectUid": "0a5d0744-35a5-430b-8469-b18941228ad5",
+        "objectName": "EVO02.STELLADESIGN.LOCAL"
+      },
+      "lastActivation": {
+        "instanceUid": "986b6812-ab5f-4b76-9977-9b3b3e96d4e7",
+        "time": "2025-09-29T13:44:39.2730000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "377d19ba-0b59-49f9-b8a0-3e8db0236581",
+      "alarmTemplateUid": "149ccd2b-6006-4791-9576-595e084bb642",
+      "repeatCount": 2,
+      "object": {
+        "instanceUid": "2c94032b-676c-6a10-bf0b-fdb3f6fdfd24",
+        "type": "BackupRepository",
+        "organizationUid": "b10da2f7-8cc8-427d-8a94-3bf5ab1b1c5f",
+        "locationUid": "490f9bdd-59bd-4e3c-93e0-d7b1894b2699",
+        "managementAgentUid": "8cda8201-9040-4858-9270-0186f1677f46",
+        "computerName": "ECO01",
+        "objectUid": "fb5af227-9ffc-4e14-8538-72c1aa3f92d3",
+        "objectName": "Repositório Itajaí"
+      },
+      "lastActivation": {
+        "instanceUid": "052559e6-0bb0-4fd7-b106-66225d7faad1",
+        "time": "2025-11-20T02:19:03.7326907+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "e2353e08-38a3-4c7f-9851-dcaeb73a8bb5",
+      "alarmTemplateUid": "4e648f83-cdcb-4fc6-af4d-09df04aad391",
+      "repeatCount": 3,
+      "object": {
+        "instanceUid": "7e56aedd-9c21-4bb5-af39-eab3dc523055",
+        "type": "BackupServerJob",
+        "organizationUid": "05f50002-d1db-4377-a216-8ed5aa524ae7",
+        "locationUid": "483bbeb3-8d1e-40d9-a868-b1437e6b39a1",
+        "managementAgentUid": "ecadbfa2-1a50-42c0-9757-e5dc7101114a",
+        "computerName": "SAANHSRV54",
+        "objectUid": "7e56aedd-9c21-4bb5-af39-eab3dc523055",
+        "objectName": "Replication_Srv_Linux_NAS"
+      },
+      "lastActivation": {
+        "instanceUid": "065a5b1b-a072-4fc7-b59a-bb1fda1a53af",
+        "time": "2025-10-30T14:56:06.8379272+00:00",
+        "status": "Resolved",
+        "message": "Alarm has been disabled.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "c8611aa8-3a08-43b4-8f58-88d0ee01b191",
+      "alarmTemplateUid": "4e648f83-cdcb-4fc6-af4d-09df04aad391",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "897ce216-2a89-4942-973f-67a235248b98",
+        "type": "BackupServerJob",
+        "organizationUid": "05f50002-d1db-4377-a216-8ed5aa524ae7",
+        "locationUid": "483bbeb3-8d1e-40d9-a868-b1437e6b39a1",
+        "managementAgentUid": "ecadbfa2-1a50-42c0-9757-e5dc7101114a",
+        "computerName": "SAANHSRV54",
+        "objectUid": "897ce216-2a89-4942-973f-67a235248b98",
+        "objectName": "Replication_FS_ANH_NAS"
+      },
+      "lastActivation": {
+        "instanceUid": "4d2b8f9d-220d-4d89-87ed-63120dae525b",
+        "time": "2025-10-30T14:56:06.8383446+00:00",
+        "status": "Resolved",
+        "message": "Alarm has been disabled.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "ff67ac50-9376-4088-b2f0-8c1c0aace14a",
+      "alarmTemplateUid": "4e648f83-cdcb-4fc6-af4d-09df04aad391",
+      "repeatCount": 2,
+      "object": {
+        "instanceUid": "2e32eca3-d5f0-481f-8bdb-db51b841f5a3",
+        "type": "BackupServerJob",
+        "organizationUid": "05f50002-d1db-4377-a216-8ed5aa524ae7",
+        "locationUid": "483bbeb3-8d1e-40d9-a868-b1437e6b39a1",
+        "managementAgentUid": "ecadbfa2-1a50-42c0-9757-e5dc7101114a",
+        "computerName": "SAANHSRV54",
+        "objectUid": "2e32eca3-d5f0-481f-8bdb-db51b841f5a3",
+        "objectName": "Replication_Srv_Windows_NAS"
+      },
+      "lastActivation": {
+        "instanceUid": "7acb7fad-903f-4082-836b-93372a98934f",
+        "time": "2025-10-30T14:56:06.8387238+00:00",
+        "status": "Resolved",
+        "message": "Alarm has been disabled.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "8a8c2076-86b3-433f-8379-5bbf34d6eab4",
+      "alarmTemplateUid": "4e648f83-cdcb-4fc6-af4d-09df04aad391",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "470f6561-972a-405b-913d-93aafc0ff4a7",
+        "type": "BackupServerJob",
+        "organizationUid": "05f50002-d1db-4377-a216-8ed5aa524ae7",
+        "locationUid": "483bbeb3-8d1e-40d9-a868-b1437e6b39a1",
+        "managementAgentUid": "ecadbfa2-1a50-42c0-9757-e5dc7101114a",
+        "computerName": "SAANHSRV54",
+        "objectUid": "470f6561-972a-405b-913d-93aafc0ff4a7",
+        "objectName": "Replication_Srv_Windows_NAS_Job2"
+      },
+      "lastActivation": {
+        "instanceUid": "1a7c84de-344a-4b74-901e-b79c9cb28c1a",
+        "time": "2025-10-30T14:56:06.8390626+00:00",
+        "status": "Resolved",
+        "message": "Alarm has been disabled.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "a6e5d23d-bbcf-4539-8dde-1e4ceef15fc4",
+      "alarmTemplateUid": "4926a46f-2b62-4b5e-9649-a9131f24d732",
+      "repeatCount": 10,
+      "object": {
+        "instanceUid": "5edbbd6d-d596-616f-8672-f51194e69899",
+        "type": "BackupRepository",
+        "organizationUid": "0a83513d-a2b4-47ee-8253-ed13516d45c0",
+        "locationUid": null,
+        "managementAgentUid": "158aa2bf-2fd5-4a89-b35e-10d27266c9f0",
+        "computerName": "VMSVCC28",
+        "objectUid": "c496eb74-3046-4b31-aee6-30ac2e00a092",
+        "objectName": "ZBX_VLXREPO62_REPO02"
+      },
+      "lastActivation": {
+        "instanceUid": "c3f23c1f-561b-4660-b809-edad5b914b15",
+        "time": "2025-10-27T02:28:55.3688053+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "e755bb60-7512-448c-ab19-765fd00c2379",
+      "alarmTemplateUid": "7867ef1e-542c-4710-9644-a71c4023f83e",
+      "repeatCount": 4,
+      "object": {
+        "instanceUid": "3772a9a0-7a8e-4647-a6f1-47140d97351a",
+        "type": "Company",
+        "organizationUid": "3772a9a0-7a8e-4647-a6f1-47140d97351a",
+        "locationUid": null,
+        "managementAgentUid": null,
+        "computerName": null,
+        "objectUid": "3772a9a0-7a8e-4647-a6f1-47140d97351a",
+        "objectName": "Imec"
+      },
+      "lastActivation": {
+        "instanceUid": "f51a139e-d065-41c7-8059-3df212012786",
+        "time": "2025-10-30T14:56:06.9036981+00:00",
+        "status": "Resolved",
+        "message": "Alarm has been disabled.\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "4ee3782e-5d1f-4181-b6b6-5ccc9e414723",
+      "alarmTemplateUid": "05b88987-f9d5-414a-b812-7bb9490439ce",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "865ca3d6-398b-4c4c-a0ed-84485def21af",
+        "type": "BackupServerJob",
+        "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+        "locationUid": "f4085019-ef16-4605-8d2c-80d5528d640f",
+        "managementAgentUid": "3a163e99-a2ff-4da6-824e-7dfa93e35e13",
+        "computerName": "CNXSRV12",
+        "objectUid": "865ca3d6-398b-4c4c-a0ed-84485def21af",
+        "objectName": "COPY_BKP_AD_GV1E"
+      },
+      "lastActivation": {
+        "instanceUid": "ed7cb72f-9840-4fa8-a701-2a5b0d665dc3",
+        "time": "2025-10-25T18:09:27.1680498+00:00",
+        "status": "Resolved",
+        "message": "Resolved by zerogroup.local\\zg_adm_daniel\r\n",
+        "remark": "\r\n"
+      },
+      "area": "vspc"
+    },
+    {
+      "instanceUid": "d8b377c0-1007-4907-a88d-10ef492cbef7",
+      "alarmTemplateUid": "3d10c789-c78c-4f2f-968e-77af41249391",
+      "repeatCount": 1,
+      "object": {
+        "instanceUid": "f732f820-86ac-6c69-862e-09e1dc5e1936",
+        "type": "BackupProxy",
+        "organizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+        "locationUid": "ee6e3e7c-4d18-4745-837b-4687dfc15b8a",
+        "managementAgentUid": "22ba0c22-9e21-4297-8889-7500a5abd455",
+        "computerName": "VMSBKP50",
+        "objectUid": "51421ac4-88e2-4bd5-abf9-dc45cb149ce1",
+        "objectName": "vmsbkpp55.gedore.local"
+      },
+      "lastActivation": {
+        "instanceUid": "e8947d5b-1019-4139-8af9-fe0120342eb4",
+        "time": "2025-09-11T05:06:50.2330000+00:00",
+        "status": "Resolved",
+        "message": "All metrics are back to normal.\r\n",
+        "remark": "The alarm has been automatically resolved.\r\n"
+      },
+      "area": "vspc"
+    }
+  ]
+}
