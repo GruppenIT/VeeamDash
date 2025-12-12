@@ -1,0 +1,33 @@
+Protected Data
+Panel 	Collected Metric 	Description
+Protected VMs 	vspc.statistic.protected_data_vm_total_count 	Number of protected virtual machines.
+Protected VMs (Hyper-V) 	vspc.statistic.protected_data_vm_hyperv_count 	Number of protected Microsoft Hyper-V virtual machines.
+Protected VMs (vSphere) 	vspc.statistic.protected_data_vm_vsphere_count 	Number of protected VMware vSphere virtual machines.
+Protected VMs (AHV) 	vspc.statistic.protected_data_vm_ahv_count 	Number of protected AHV virtual machines.
+Protected VMs (AWS) 	vspc.statistic.protected_data_vm_aws_count 	Number of protected AWS virtual machines.
+Protected VMs (Azure) 	vspc.statistic.protected_data_vm_azure_count 	Number of protected Azure virtual machines.
+Protected VMs (Google Cloud) 	vspc.statistic.protected_data_vm_googlecloud_count 	Number of protected Google Cloud virtual machines.
+Protected servers managed by VSPC 	vspc.statistic.protected_data_computers_managed_by_vspc_servers_count 	Number of protected servers managed by Veeam Service Provider Console.
+Protected workstations managed by VSPC 	vspc.statistic.protected_data_computers_managed_by_vspc_workstations_count 	Number of protected workstations managed by Veeam Service Provider Console.
+Protected servers managed by VBR 	vspc.statistic.protected_data_computers_managed_by_vbr_servers_count 	Number of protected servers managed by Veeam Backup & Replication.
+Protected workstations managed by VBR 	vspc.statistic.protected_data_computers_managed_by_vbr_workstations_count 	Number of protected workstations managed by Veeam Backup & Replication.
+Protected file shares 	vspc.statistic.protected_data_file_shares_count 	Number of protected file shares.
+Data size of protected file shares 	vspc.statistic.protected_data_file_shares_amount_data_size 	Total data size of protected file shares.
+Protected AWS EFS shares 	vspc.statistic.protected_data_aws_efs_count 	Number of protected AWS EFS shares.
+Protected AWS FSx shares 	vspc.statistic.protected_data_aws_fsx_count 	Number of protected AWS FSx shares.
+Protected Azure file shares 	vspc.statistic.protected_data_azure_count 	Number of protected Azure file shares.
+Protected object storages 	vspc.statistic.protected_data_object_storages_count 	Number of protected object storages.
+Data size of protected object storages 	vspc.statistic.protected_data_object_storages_data_size 	Total data size of protected object storages.
+Protected AWS databases 	vspc.statistic.protected_data_database_aws_count 	Number of protected AWS databases.
+Protected Azure databases 	vspc.statistic.protected_data_database_azure_count 	Number of protected Azure databases.
+Protected Google Cloud databases 	vspc.statistic.protected_data_database_google_cloud_count 	Number of protected Google Cloud databases.
+Protected Google Spanner instances 	vspc.statistic.protected_data_database_google_spanner_count 	Number of protected Google Spanner instances.
+Protected Azure Cosmos DB instances 	vspc.statistic.protected_data_database_azure_cosmos_count 	Number of protected Azure Cosmos DB instances.
+Protected AWS DynamoDB tables 	vspc.statistic.protected_data_database_aws_dynamodb_count 	Number of protected AWS DynamoDB tables.
+Protected AWS Redshift clusters 	vspc.statistic.protected_data_database_aws_redshift_count 	Number of protected AWS Redshift clusters.
+Protected AWS networks 	vspc.statistic.protected_data_network_aws_count 	Number of protected AWS networks.
+Protected Azure networks 	vspc.statistic.protected_data_network_azure_count 	Number of protected Azure networks.
+Protected Microsoft 365 users 	vspc.statistic.protected_data_microsoft365_users_count 	Number of protected Microsoft 365 users.
+Protected Microsoft 365 groups 	vspc.statistic.protected_data_microsoft365_groups_count 	Number of protected Microsoft 365 groups.
+Protected Microsoft 365 sites 	vspc.statistic.protected_data_microsoft365_sites_count 	Number of protected Microsoft 365 sites.
+Protected Microsoft 365 teams 	vspc.statistic.protected_data_microsoft365_teams_count 	Number of protected Microsoft 365 teams.
