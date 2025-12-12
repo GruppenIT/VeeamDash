@@ -3,7 +3,8 @@ import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { DashboardHeader } from "@/components/dashboard-header";
 import { ProtectedDataOverview } from "@/components/protected-data-overview";
-import type { VeeamCompany, DashboardMetrics } from "@shared/schema";
+import { DataPlatformScorecard } from "@/components/data-platform-scorecard";
+import type { VeeamCompany, DashboardMetrics, DataPlatformScorecard as ScorecardType } from "@shared/schema";
 
 export default function Dashboard() {
   const [, setLocation] = useLocation();
@@ -16,6 +17,11 @@ export default function Dashboard() {
 
   const { data: metrics, isLoading: metricsLoading } = useQuery<DashboardMetrics>({
     queryKey: [`/api/dashboard/metrics/${selectedCompany}`],
+    enabled: !!selectedCompany,
+  });
+
+  const { data: scorecard, isLoading: scorecardLoading } = useQuery<ScorecardType>({
+    queryKey: ['/api/scorecard', selectedCompany],
     enabled: !!selectedCompany,
   });
 
@@ -65,13 +71,23 @@ export default function Dashboard() {
       />
 
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-        {metricsLoading ? (
+        {metricsLoading || scorecardLoading ? (
           <div className="text-center py-12" data-testid="loading-metrics">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
             <p className="text-muted-foreground">Carregando métricas...</p>
           </div>
-        ) : metrics ? (
-          <ProtectedDataOverview workloads={metrics.protectedWorkloads} />
+        ) : metrics && scorecard ? (
+          <>
+            <DataPlatformScorecard
+              overallScore={scorecard.overallScore}
+              status={scorecard.status}
+              statusMessage={scorecard.statusMessage}
+              rpoOverview={scorecard.rpoOverview}
+              jobSessions={scorecard.jobSessions}
+              platformHealth={scorecard.platformHealth}
+            />
+            <ProtectedDataOverview workloads={metrics.protectedWorkloads} />
+          </>
         ) : (
           <div className="text-center py-12 text-muted-foreground">
             <p>Selecione um cliente para visualizar os dados</p>

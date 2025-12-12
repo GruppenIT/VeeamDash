@@ -5,6 +5,7 @@ import type {
   BackupFailure,
   DashboardMetrics,
   ProtectedWorkload,
+  DataPlatformScorecard,
 } from "@shared/schema";
 
 interface VeeamConfig {
@@ -304,6 +305,153 @@ export class VeeamService {
       monthlySuccessRates: [],
       recentFailures: [],
       protectedWorkloads: this.getDemoProtectedWorkloads(),
+    };
+  }
+
+  async getDataPlatformScorecard(companyId: string): Promise<DataPlatformScorecard> {
+    if (!this.isConfigured()) {
+      return this.getDemoScorecard();
+    }
+
+    try {
+      console.log(`[VeeamService] Fetching scorecard for company: ${companyId}`);
+
+      const [vms, jobs, backupServers] = await Promise.all([
+        this.fetchAllPages<any>('/api/v3/protectedWorkloads/virtualMachines'),
+        this.fetchAllPages<any>('/api/v3/infrastructure/backupServers/jobs'),
+        this.fetchAllPages<any>('/api/v3/infrastructure/backupServers'),
+      ]);
+
+      // Filter by company
+      const companyVMs = vms.filter((vm: any) => vm.organizationUid === companyId);
+      const companyJobs = jobs.filter((job: any) => job.organizationUid === companyId);
+
+      // Calculate RPO Overview (VMs with backup in last 24 hours)
+      const now = new Date();
+      let rpoOk = 0;
+      let rpoViolation = 0;
+      
+      for (const vm of companyVMs) {
+        const lastBackup = vm.latestRestorePointDate;
+        if (lastBackup) {
+          const backupTime = new Date(lastBackup);
+          const ageHours = (now.getTime() - backupTime.getTime()) / (1000 * 60 * 60);
+          if (ageHours <= 24) {
+            rpoOk++;
+          } else {
+            rpoViolation++;
+          }
+        } else {
+          rpoViolation++;
+        }
+      }
+      
+      const rpoTotal = rpoOk + rpoViolation;
+      const rpoPercentage = rpoTotal > 0 ? Math.round((rpoOk / rpoTotal) * 100) : 100;
+
+      // Calculate Job Sessions Overview
+      let jobsOk = 0;
+      let jobsIssue = 0;
+      
+      for (const job of companyJobs) {
+        const status = job.status;
+        if (status === 'Success' || status === 'Running' || status === 'Idle') {
+          jobsOk++;
+        } else {
+          jobsIssue++;
+        }
+      }
+      
+      const jobsTotal = jobsOk + jobsIssue;
+      const jobsPercentage = jobsTotal > 0 ? Math.round((jobsOk / jobsTotal) * 100) : 100;
+
+      // Calculate Platform Health (backup servers status)
+      let healthyServers = 0;
+      let unhealthyServers = 0;
+      
+      for (const server of backupServers) {
+        if (server.status === 'Healthy') {
+          healthyServers++;
+        } else {
+          unhealthyServers++;
+        }
+      }
+      
+      const healthTotal = healthyServers + unhealthyServers;
+      const healthPercentage = healthTotal > 0 ? Math.round((healthyServers / healthTotal) * 100) : 100;
+
+      // Calculate overall score (weighted average)
+      const overallScore = Math.round((rpoPercentage + jobsPercentage + healthPercentage) / 3 * 10) / 10;
+
+      // Determine status
+      let status: 'Well Done' | 'Needs Attention' | 'Critical';
+      let statusMessage: string;
+      
+      if (overallScore >= 90) {
+        status = 'Well Done';
+        statusMessage = 'Your Data Platform Status Score is above 90%.';
+      } else if (overallScore >= 70) {
+        status = 'Needs Attention';
+        statusMessage = 'Your Data Platform Status Score needs attention.';
+      } else {
+        status = 'Critical';
+        statusMessage = 'Your Data Platform Status Score is critical.';
+      }
+
+      console.log(`[VeeamService] Scorecard - RPO: ${rpoPercentage}%, Jobs: ${jobsPercentage}%, Health: ${healthPercentage}%, Overall: ${overallScore}%`);
+
+      return {
+        overallScore,
+        status,
+        statusMessage,
+        rpoOverview: {
+          percentage: rpoPercentage,
+          okCount: rpoOk,
+          issueCount: rpoViolation,
+          title: 'RPO Overview (24 Hours)',
+        },
+        jobSessions: {
+          percentage: jobsPercentage,
+          okCount: jobsOk,
+          issueCount: jobsIssue,
+          title: 'Job Sessions Overview (24 ...)',
+        },
+        platformHealth: {
+          percentage: healthPercentage,
+          okCount: healthyServers,
+          issueCount: unhealthyServers,
+          title: 'Platform Health State',
+        },
+      };
+    } catch (error) {
+      console.error('Error fetching scorecard from Veeam:', error);
+      return this.getDemoScorecard();
+    }
+  }
+
+  private getDemoScorecard(): DataPlatformScorecard {
+    return {
+      overallScore: 94.3,
+      status: 'Well Done',
+      statusMessage: 'Your Data Platform Status Score is above 90%.',
+      rpoOverview: {
+        percentage: 86,
+        okCount: 1452,
+        issueCount: 234,
+        title: 'RPO Overview (24 Hours)',
+      },
+      jobSessions: {
+        percentage: 97,
+        okCount: 58,
+        issueCount: 2,
+        title: 'Job Sessions Overview (24 ...)',
+      },
+      platformHealth: {
+        percentage: 100,
+        okCount: 2,
+        issueCount: 0,
+        title: 'Platform Health State',
+      },
     };
   }
 }
