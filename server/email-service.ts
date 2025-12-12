@@ -202,11 +202,11 @@ export class EmailService {
         <table role="presentation" cellspacing="0" cellpadding="0" width="100%" style="margin-bottom: 30px;">
           <tr>
             <td style="padding: 20px; background-color: #e8f5e9; border-radius: 8px; text-align: center;">
-              <p style="margin: 0 0 10px 0; font-size: 14px; color: #2e7d32;">
-                📎 Relatório em PDF anexo
+              <p style="margin: 0 0 10px 0; font-size: 14px; color: #2e7d32; font-weight: 600;">
+                Relatorio em PDF anexo
               </p>
               <p style="margin: 0; font-size: 12px; color: #666666;">
-                Abra o arquivo PDF em anexo para ver o relatório completo
+                Abra o arquivo PDF em anexo para ver o relatorio completo
               </p>
             </td>
           </tr>

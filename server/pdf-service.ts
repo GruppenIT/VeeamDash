@@ -153,7 +153,16 @@ export class PDFService {
     doc.rect(margin, y, pageWidth - 2 * margin, 1).fill(this.colors.primary);
     y += 20;
 
-    const metrics = data.metrics;
+    const metrics = {
+      totalBackups: data.metrics.totalBackups ?? 0,
+      successRate: data.metrics.successRate ?? 0,
+      activeJobs: data.metrics.activeJobs ?? 0,
+      storageUsedGB: data.metrics.storageUsedGB ?? 0,
+      healthStatus: data.metrics.healthStatus ?? "unknown",
+      repositories: data.metrics.repositories ?? [],
+      protectedWorkloads: data.metrics.protectedWorkloads ?? [],
+      recentFailures: data.metrics.recentFailures ?? [],
+    };
     const cardWidth = (pageWidth - 2 * margin - 30) / 2;
     const cardHeight = 80;
 
@@ -254,7 +263,8 @@ export class PDFService {
     doc.rect(margin, y, pageWidth - 2 * margin, 1).fill(this.colors.primary);
     y += 30;
 
-    const workloads = data.metrics.protectedWorkloads || [];
+    const workloads: ProtectedWorkload[] = data.metrics.protectedWorkloads ?? [];
+    const recentFailures = data.metrics.recentFailures ?? [];
 
     const tableHeaders = ["Tipo", "Quantidade", "Tamanho (GB)"];
     const colWidths = [220, 120, 120];
@@ -308,7 +318,7 @@ export class PDFService {
 
     y += 80;
 
-    if (data.metrics.recentFailures && data.metrics.recentFailures.length > 0) {
+    if (recentFailures.length > 0) {
       doc.fillColor(this.colors.secondary)
         .fontSize(16)
         .font("Helvetica-Bold")
@@ -316,7 +326,7 @@ export class PDFService {
 
       y += 25;
 
-      data.metrics.recentFailures.slice(0, 5).forEach((failure) => {
+      recentFailures.slice(0, 5).forEach((failure) => {
         doc.rect(margin, y, pageWidth - 2 * margin, 40).fill("#fef2f2");
         doc.rect(margin, y, 4, 40).fill(this.colors.error);
 

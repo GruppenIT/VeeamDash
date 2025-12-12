@@ -23,9 +23,13 @@ Aplicação web profissional para monitoramento de infraestrutura de backup atra
 - **Tabela de Falhas**: Lista de jobs que falharam recentemente
 
 ### Agendamento de Relatórios
-- Modal para configurar envio automático de relatórios por e-mail
-- Frequência: Semanal ou Mensal
+- Página dedicada `/agendamentos` para gerenciar envio automático de relatórios
+- Frequência: Diária, Semanal ou Mensal
 - Configuração de dia e horário de envio
+- Múltiplos destinatários por agendamento
+- Geração automática de PDF com métricas do dashboard
+- Envio de e-mail via Microsoft Graph API (M365)
+- Histórico de execuções com status de sucesso/erro
 - Persistência em banco de dados PostgreSQL
 
 ## Arquitetura Técnica
@@ -207,6 +211,51 @@ VEEAM_API_URL=https://vspc-server.exemplo.com:1280
 
 **Porta padrão**: 1280 (HTTPS)
 
+## Configuração de E-mail (Microsoft 365)
+
+Para habilitar o envio automático de relatórios por e-mail, é necessário configurar uma aplicação no Azure AD com permissões do Microsoft Graph.
+
+### Criar Aplicação no Azure AD
+
+1. Acesse o [Azure Portal](https://portal.azure.com)
+2. Vá em **Azure Active Directory** > **App registrations**
+3. Clique em **New registration**
+4. Configure:
+   - **Name**: Veeam Dashboard Reports
+   - **Supported account types**: Single tenant
+5. Após criar, anote o **Application (client) ID** e **Directory (tenant) ID**
+6. Vá em **Certificates & secrets** > **New client secret**
+7. Anote o **Value** do secret gerado
+
+### Configurar Permissões
+
+1. Vá em **API permissions** > **Add a permission**
+2. Selecione **Microsoft Graph** > **Application permissions**
+3. Adicione: `Mail.Send`
+4. Clique em **Grant admin consent**
+
+### Variáveis de Ambiente M365
+
+Configure as seguintes variáveis no `.env`:
+
+```env
+M365_TENANT_ID=seu-tenant-id
+M365_CLIENT_ID=seu-client-id
+M365_CLIENT_SECRET=seu-client-secret
+M365_SENDER_EMAIL=remetente@seudominio.com
+```
+
+**Importante**: O e-mail remetente (`M365_SENDER_EMAIL`) deve ser uma conta válida no tenant configurado e ter licença para envio de e-mails.
+
+### Testar Configuração
+
+Após configurar as variáveis, reinicie a aplicação:
+```bash
+pm2 restart veeam-dashboard
+```
+
+O sistema mostrará nos logs se a configuração foi bem-sucedida ao iniciar.
+
 ## Banco de Dados
 
 ### Schema
@@ -217,18 +266,33 @@ VEEAM_API_URL=https://vspc-server.exemplo.com:1280
 - `password` (text): Senha hasheada com bcrypt (10 rounds)
 - `name` (text): Nome completo
 
-**Tabela: email_schedules**
+**Tabela: report_schedules**
 - `id` (varchar, PK): UUID gerado automaticamente
-- `email` (text): Destinatário do relatório
-- `frequency` (text): 'weekly' ou 'monthly'
-- `dayOfWeek` (integer): 0-6 (Domingo-Sábado)
-- `dayOfMonth` (integer): 1-31
-- `hour` (integer): 0-23
-- `minute` (integer): 0, 15, 30, 45
+- `name` (text): Nome do agendamento
 - `companyId` (text): ID da empresa Veeam
 - `companyName` (text): Nome da empresa
-- `userId` (varchar, FK): Referência ao usuário
+- `frequency` (text): 'daily', 'weekly' ou 'monthly'
+- `dayOfWeek` (integer, nullable): 0-6 (Domingo-Sábado) para frequência semanal
+- `dayOfMonth` (integer, nullable): 1-31 para frequência mensal
+- `hour` (integer): 0-23
+- `minute` (integer): 0, 15, 30, 45
+- `isActive` (boolean): Se o agendamento está ativo
+- `userId` (varchar, FK): Referência ao usuário criador
 - `createdAt` (timestamp): Data de criação
+
+**Tabela: schedule_recipients**
+- `id` (varchar, PK): UUID gerado automaticamente
+- `scheduleId` (varchar, FK): Referência ao agendamento
+- `email` (text): E-mail do destinatário
+
+**Tabela: schedule_runs**
+- `id` (varchar, PK): UUID gerado automaticamente
+- `scheduleId` (varchar, FK): Referência ao agendamento
+- `status` (text): 'running', 'success' ou 'failed'
+- `recipientCount` (integer): Número de destinatários
+- `errorMessage` (text, nullable): Mensagem de erro se falhou
+- `startedAt` (timestamp): Início da execução
+- `completedAt` (timestamp, nullable): Fim da execução
 
 ### Migrations
 

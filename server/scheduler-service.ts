@@ -6,7 +6,7 @@ import type { ReportSchedule, ScheduleRecipient } from "@shared/schema";
 
 export class SchedulerService {
   private cronJob: cron.ScheduledTask | null = null;
-  private isRunning = false;
+  private executingSchedules: Set<string> = new Set();
 
   start() {
     if (this.cronJob) {
@@ -30,13 +30,6 @@ export class SchedulerService {
   }
 
   private async checkAndExecuteSchedules() {
-    if (this.isRunning) {
-      console.log("[Scheduler] Previous execution still running, skipping");
-      return;
-    }
-
-    this.isRunning = true;
-
     try {
       const now = new Date();
       const currentHour = now.getHours();
@@ -46,7 +39,14 @@ export class SchedulerService {
 
       const activeSchedules = await storage.getActiveSchedules();
 
+      const executionPromises: Promise<void>[] = [];
+
       for (const schedule of activeSchedules) {
+        if (this.executingSchedules.has(schedule.id)) {
+          console.log(`[Scheduler] Schedule ${schedule.id} already executing, skipping`);
+          continue;
+        }
+
         const shouldRun = this.shouldScheduleRun(
           schedule,
           currentHour,
@@ -57,13 +57,22 @@ export class SchedulerService {
 
         if (shouldRun) {
           console.log(`[Scheduler] Executing schedule: ${schedule.name} (${schedule.id})`);
-          await this.executeSchedule(schedule);
+          executionPromises.push(this.executeScheduleWithLock(schedule));
         }
       }
+
+      await Promise.allSettled(executionPromises);
     } catch (error) {
       console.error("[Scheduler] Error checking schedules:", error);
+    }
+  }
+
+  private async executeScheduleWithLock(schedule: ReportSchedule): Promise<void> {
+    this.executingSchedules.add(schedule.id);
+    try {
+      await this.executeSchedule(schedule);
     } finally {
-      this.isRunning = false;
+      this.executingSchedules.delete(schedule.id);
     }
   }
 
