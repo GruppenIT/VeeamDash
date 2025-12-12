@@ -561,6 +561,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Manual run of a schedule
+  app.post("/api/report-schedules/:id/run", requireAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const schedule = await storage.getReportScheduleById(id);
+      
+      if (!schedule) {
+        return res.status(404).json({ message: "Agendamento não encontrado" });
+      }
+
+      // Check if user owns this schedule
+      if (schedule.userId !== req.session.userId) {
+        return res.status(403).json({ message: "Acesso negado" });
+      }
+
+      // Import and execute scheduler
+      const { schedulerService } = await import("./scheduler-service");
+      const result = await schedulerService.executeManually(id);
+
+      if (result.success) {
+        return res.json({ message: result.message });
+      } else {
+        return res.status(400).json({ message: result.message });
+      }
+    } catch (error) {
+      console.error("Manual run error:", error);
+      return res.status(500).json({ message: "Erro ao executar agendamento" });
+    }
+  });
+
   // Get run history for a schedule
   app.get("/api/report-schedules/:id/runs", requireAuth, async (req, res) => {
     try {

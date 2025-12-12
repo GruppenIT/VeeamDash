@@ -16,7 +16,9 @@ import {
   Calendar,
   AlertTriangle,
   X,
-  History
+  History,
+  Send,
+  Loader2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -220,6 +222,26 @@ export default function Schedules() {
     },
   });
 
+  const runMutation = useMutation({
+    mutationFn: async (id: string) => {
+      return apiRequest("POST", `/api/report-schedules/${id}/run`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/report-schedules"] });
+      toast({
+        title: "Relatório enviado",
+        description: "O relatório foi gerado e enviado com sucesso.",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Erro ao enviar relatório",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
   const onSubmit = (data: ScheduleFormData) => {
     createMutation.mutate(data);
   };
@@ -340,6 +362,21 @@ export default function Schedules() {
                       </TableCell>
                       <TableCell>
                         <div className="flex justify-end gap-1">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => runMutation.mutate(schedule.id)}
+                            disabled={runMutation.isPending}
+                            title="Enviar agora"
+                            className="text-primary hover:text-primary"
+                            data-testid={`button-run-${schedule.id}`}
+                          >
+                            {runMutation.isPending ? (
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                            ) : (
+                              <Send className="w-4 h-4" />
+                            )}
+                          </Button>
                           <Button
                             variant="ghost"
                             size="icon"
