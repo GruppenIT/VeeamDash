@@ -308,13 +308,13 @@ export class VeeamService {
     };
   }
 
-  async getDataPlatformScorecard(companyId: string, periodDays: number = 7): Promise<DataPlatformScorecard> {
+  async getDataPlatformScorecard(companyId: string): Promise<DataPlatformScorecard> {
     if (!this.isConfigured()) {
-      return this.getDemoScorecard(periodDays);
+      return this.getDemoScorecard();
     }
 
     try {
-      console.log(`[VeeamService] Fetching scorecard for company: ${companyId}, period: ${periodDays} days`);
+      console.log(`[VeeamService] Fetching scorecard for company: ${companyId}`);
 
       // Fetch jobs and backup servers
       const [jobs, backupServers] = await Promise.all([
@@ -324,65 +324,10 @@ export class VeeamService {
       
       console.log(`[VeeamService] Fetched ${jobs.length} jobs total`);
 
-      // Filter by company and period
-      const now = new Date();
-      const periodStart = new Date(now.getTime() - (periodDays * 24 * 60 * 60 * 1000));
+      // Filter by company
+      const companyJobs = jobs.filter((job: any) => job.organizationUid === companyId);
       
-      // Helper to extract date from various job date fields
-      const extractLastRunDate = (job: any): Date | null => {
-        // Try multiple possible date fields in order of preference
-        const candidates = [
-          job.lastRun,
-          job.lastActiveDate,
-          job.lastRunTime,
-          job.lastSessionEnd,
-          job.endTime,
-        ];
-        
-        for (const candidate of candidates) {
-          if (!candidate) continue;
-          
-          // If it's a string (ISO date), parse directly
-          if (typeof candidate === 'string') {
-            const date = new Date(candidate);
-            if (!isNaN(date.getTime())) return date;
-          }
-          
-          // If it's an object, try common date properties
-          if (typeof candidate === 'object') {
-            const dateStr = candidate.endTime || candidate.startTime || candidate.date || candidate.time;
-            if (dateStr) {
-              const date = new Date(dateStr);
-              if (!isNaN(date.getTime())) return date;
-            }
-          }
-        }
-        
-        return null;
-      };
-      
-      // First get all jobs for this company (unfiltered by date)
-      const allCompanyJobs = jobs.filter((job: any) => job.organizationUid === companyId);
-      
-      // Log sample job to understand date structure
-      if (allCompanyJobs.length > 0) {
-        const sample = allCompanyJobs[0];
-        console.log(`[VeeamService] Sample job keys:`, Object.keys(sample).join(', '));
-        console.log(`[VeeamService] Sample job lastRun:`, JSON.stringify(sample.lastRun));
-        console.log(`[VeeamService] Sample job lastActiveDate:`, sample.lastActiveDate);
-      }
-      
-      const companyJobs = allCompanyJobs.filter((job: any) => {
-        // Filter by job date within period
-        const jobDate = extractLastRunDate(job);
-        if (jobDate && !isNaN(jobDate.getTime())) {
-          return jobDate >= periodStart;
-        }
-        
-        return true; // Include jobs without valid date (always show current status)
-      });
-      
-      console.log(`[VeeamService] Jobs filtered: ${allCompanyJobs.length} total -> ${companyJobs.length} within ${periodDays} days`);
+      console.log(`[VeeamService] Company has ${companyJobs.length} jobs`);
 
       // Calculate Job Sessions Overview
       let jobsOk = 0;
@@ -434,7 +379,7 @@ export class VeeamService {
         statusMessage = 'Your Data Platform Status Score is critical.';
       }
 
-      console.log(`[VeeamService] Scorecard - Jobs: ${companyJobs.length}, Servers: ${companyServers.length}, Period: ${periodDays} days`);
+      console.log(`[VeeamService] Scorecard - Jobs: ${companyJobs.length}, Servers: ${companyServers.length}`);
       console.log(`[VeeamService] Scorecard - Jobs: ${jobsPercentage}% (${jobsOk}/${jobsTotal}), Health: ${healthPercentage}% (${healthyServers}/${healthTotal}), Overall: ${overallScore}%`);
 
       return {
@@ -445,7 +390,7 @@ export class VeeamService {
           percentage: jobsPercentage,
           okCount: jobsOk,
           issueCount: jobsIssue,
-          title: `Job Sessions Overview (${periodDays} days)`,
+          title: 'Job Sessions Overview',
         },
         platformHealth: {
           percentage: healthPercentage,
@@ -453,15 +398,14 @@ export class VeeamService {
           issueCount: unhealthyServers,
           title: 'Platform Health State',
         },
-        periodDays,
       };
     } catch (error) {
       console.error('Error fetching scorecard from Veeam:', error);
-      return this.getDemoScorecard(periodDays);
+      return this.getDemoScorecard();
     }
   }
 
-  private getDemoScorecard(periodDays: number = 7): DataPlatformScorecard {
+  private getDemoScorecard(): DataPlatformScorecard {
     return {
       overallScore: 98.5,
       status: 'Well Done',
@@ -470,7 +414,7 @@ export class VeeamService {
         percentage: 97,
         okCount: 58,
         issueCount: 2,
-        title: `Job Sessions Overview (${periodDays} days)`,
+        title: 'Job Sessions Overview',
       },
       platformHealth: {
         percentage: 100,
@@ -478,7 +422,6 @@ export class VeeamService {
         issueCount: 0,
         title: 'Platform Health State',
       },
-      periodDays,
     };
   }
 }

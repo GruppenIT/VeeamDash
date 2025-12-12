@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Shield, LogOut, Mail, User, Check, ChevronsUpDown, Calendar } from "lucide-react";
+import { Shield, LogOut, Mail, User, Check, ChevronsUpDown } from "lucide-react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,13 +23,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import type { VeeamCompany } from "@shared/schema";
@@ -38,8 +31,6 @@ interface DashboardHeaderProps {
   companies: VeeamCompany[];
   selectedCompany: string;
   onCompanyChange: (companyId: string) => void;
-  selectedPeriod: number;
-  onPeriodChange: (period: number) => void;
   userName: string;
   onLogout: () => void;
   onScheduleClick: () => void;
@@ -49,8 +40,6 @@ export function DashboardHeader({
   companies,
   selectedCompany,
   onCompanyChange,
-  selectedPeriod,
-  onPeriodChange,
   userName,
   onLogout,
   onScheduleClick,
@@ -99,20 +88,6 @@ export function DashboardHeader({
               <Mail className="w-4 h-4 mr-2" />
               Agendar Relatório
             </Button>
-
-            <Select
-              value={selectedPeriod.toString()}
-              onValueChange={(value) => onPeriodChange(parseInt(value))}
-            >
-              <SelectTrigger className="w-[130px]" data-testid="select-period">
-                <Calendar className="w-4 h-4 mr-2" />
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="7">7 dias</SelectItem>
-                <SelectItem value="30">30 dias</SelectItem>
-              </SelectContent>
-            </Select>
 
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>

@@ -117,5 +117,4 @@ export interface DataPlatformScorecard {
   statusMessage: string;
   jobSessions: ScorecardMetric;
   platformHealth: ScorecardMetric;
-  periodDays: number;
 }
