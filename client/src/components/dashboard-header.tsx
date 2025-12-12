@@ -1,13 +1,20 @@
-import { Shield, LogOut, Mail, User } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Shield, LogOut, Mail, User, Check, ChevronsUpDown, Search } from "lucide-react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
 import type { VeeamCompany } from "@shared/schema";
 
 interface DashboardHeaderProps {
@@ -37,6 +45,7 @@ export function DashboardHeader({
   onScheduleClick,
 }: DashboardHeaderProps) {
   const [, setLocation] = useLocation();
+  const [open, setOpen] = useState(false);
   
   const initials = userName
     .split(" ")
@@ -44,6 +53,15 @@ export function DashboardHeader({
     .join("")
     .toUpperCase()
     .slice(0, 2);
+
+  // Sort companies alphabetically
+  const sortedCompanies = useMemo(() => {
+    return [...companies].sort((a, b) => 
+      a.name.localeCompare(b.name, 'pt-BR', { sensitivity: 'base' })
+    );
+  }, [companies]);
+
+  const selectedCompanyData = companies.find((c) => c.instanceUid === selectedCompany);
 
   return (
     <header className="border-b bg-background sticky top-0 z-50">
@@ -71,22 +89,57 @@ export function DashboardHeader({
               Agendar Relatório
             </Button>
 
-            <Select value={selectedCompany} onValueChange={onCompanyChange}>
-              <SelectTrigger className="w-[200px]" data-testid="select-company">
-                <SelectValue placeholder="Selecione o cliente" />
-              </SelectTrigger>
-              <SelectContent>
-                {companies.map((company) => (
-                  <SelectItem 
-                    key={company.instanceUid} 
-                    value={company.instanceUid}
-                    data-testid={`select-company-${company.instanceUid}`}
-                  >
-                    {company.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={open}
+                  className="w-[220px] justify-between"
+                  data-testid="select-company"
+                >
+                  <span className="truncate">
+                    {selectedCompanyData?.name || "Selecione o cliente"}
+                  </span>
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[280px] p-0" align="end">
+                <Command>
+                  <CommandInput 
+                    placeholder="Pesquisar cliente..." 
+                    data-testid="input-search-company"
+                  />
+                  <CommandList>
+                    <CommandEmpty>Nenhum cliente encontrado.</CommandEmpty>
+                    <CommandGroup>
+                      {sortedCompanies.map((company) => (
+                        <CommandItem
+                          key={company.instanceUid}
+                          value={company.name}
+                          onSelect={() => {
+                            onCompanyChange(company.instanceUid);
+                            setOpen(false);
+                          }}
+                          className="cursor-pointer"
+                          data-testid={`select-company-${company.instanceUid}`}
+                        >
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              selectedCompany === company.instanceUid
+                                ? "opacity-100"
+                                : "opacity-0"
+                            )}
+                          />
+                          {company.name}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
