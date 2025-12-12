@@ -1,0 +1,81 @@
+root@vlxvrpt29:/opt/veeam-dashboard# # Testar diferentes cálculos com o endpoint /backups
+curl -X 'GET' \
+  'https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/computersManagedByBackupServer/backups?limit=500' \
+  -H 'accept: application/json' \
+  -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' \
+  -k -s | python3 -c "
+import sys, json
+
+data = json.load(sys.stdin)
+backups = data.get('data', [])
+print(f'Total backups: {len(backups)}')
+
+gedore_uid = 'dd4d0261-abdf-4738-b395-fc1c30882bac'
+
+# Listar todos os computers do endpoint /computersManagedByBackupServer para pegar o mapeamento
+# Por agora, vou usar os backupAgentUid que pertencem à Gedore (precisamos cruzar)
+
+# Vou calcular diferentes métricas para TODOS os backups primeiro
+def tb(bytes): return bytes / (1024**4)
+
+# Método 1: Soma de usedSourceSize de todos os backups (único por backupAgentUid)
+agents_used = {}
+agents_provisioned = {}
+for b in backups:
+    agent = b['backupAgentUid']
+    # Pegar o maior valor por agent (mais recente geralmente tem mais dados)
+    if agent not in agents_used or b['usedSourceSize'] > agents_used[agent]:
+        agents_used[agent] = b['usedSourceSize'] or 0
+        agents_provisioned[agent] = b['provisionedSourceSize'] or 0
+
+print(f'\\nMétodo 1 - usedSourceSize (único por agent, max):')
+print(f'  Total: {tb(sum(agents_used.values())):.2f} TB')
+
+# Método 2: provisionedSourceSize (único por agent)
+print(f'\\nMétodo 2 - provisionedSourceSize (único por agent):')
+print(f'  Total: {tb(sum(agents_provisioned.values())):.2f} TB')
+
+# Método 3: usedSourceSize apenas de jobKind=Backup (sem Copy)
+agents_backup_only = {}
+for b in backups:
+    if b['jobKind'] == 'Backup':
+        agent = b['backupAgentUid']
+        if agent not in agents_backup_only:
+            agents_backup_only[agent] = b['usedSourceSize'] or 0
+
+print(f'\\nMétodo 3 - usedSourceSize (apenas Backup, sem Copy):')
+print(f'  Total: {tb(sum(agents_backup_only.values())):.2f} TB')
+
+# Listar por agent para debug
+print(f'\\n--- Breakdown por agent (usedSourceSize, jobKind=Backup) ---')
+for agent, size in sorted(agents_backup_only.items(), key=lambda x: -x[1])[:15]:
+    print(f'  {agent}: {tb(size):.3f} TB')
+"
+Total backups: 31
+
+Método 1 - usedSourceSize (único por agent, max):
+  Total: 11.13 TB
+
+Método 2 - provisionedSourceSize (único por agent):
+  Total: 24.22 TB
+
+Método 3 - usedSourceSize (apenas Backup, sem Copy):
+  Total: 10.62 TB
+
+--- Breakdown por agent (usedSourceSize, jobKind=Backup) ---
+  37393150-3536-5242-4c31-343430575836: 3.728 TB
+  4c4c4544-004d-3910-804c-c3c04f535932: 2.967 TB
+  44454c4c-4e00-1053-8034-b7c04f314433: 1.227 TB
+  4c4c4544-0035-5810-8036-b6c04f4a3534: 0.447 TB
+  4c4c4544-0043-3110-804b-c7c04f343234: 0.382 TB
+  9a533d42-386e-143e-09f2-eb664255b012: 0.376 TB
+  c75d65af-03e2-414e-8ab0-952f96a92dfa: 0.275 TB
+  4c4c4544-004d-5010-8035-c2c04f365731: 0.187 TB
+  4c4c4544-0033-5810-8035-cac04f375a32: 0.167 TB
+  4c4c4544-0031-4b10-8034-b9c04f365133: 0.146 TB
+  6cc52f42-fc32-4c64-9022-fd0b402ceb06: 0.145 TB
+  922c4d56-55e4-d128-d345-4c575bdf0828: 0.126 TB
+  4c4c4544-0035-4710-8046-cac04f514d32: 0.100 TB
+  4c4c4544-0036-4a10-805a-b3c04f525032: 0.096 TB
+  aab51edd-fb66-4252-a5e2-9d67e2f057f5: 0.094 TB
+root@vlxvrpt29:/opt/veeam-dashboard#
