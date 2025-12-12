@@ -240,7 +240,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Collect session snapshots for all companies
+  // Collect session snapshots for all companies (authenticated)
   app.post("/api/session-snapshots/collect-all", requireAuth, async (req, res) => {
     try {
       const companies = await veeamService.getCompanies();
@@ -258,6 +258,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return res.json({ collected: results.length, results });
     } catch (error) {
       console.error("Collect all snapshots error:", error);
+      return res.status(500).json({ message: "Erro ao coletar snapshots" });
+    }
+  });
+
+  // Internal endpoint for cron job - uses API key via header only
+  app.post("/api/internal/collect-snapshots", async (req, res) => {
+    try {
+      const apiKey = req.headers['x-api-key'];
+      const expectedKey = process.env.INTERNAL_API_KEY || process.env.SESSION_SECRET;
+      
+      if (!apiKey || apiKey !== expectedKey) {
+        console.warn(`[Security] Invalid API key attempt from ${req.ip}`);
+        return res.status(401).json({ message: "Chave de API inválida" });
+      }
+
+      const companies = await veeamService.getCompanies();
+      const results = [];
+      
+      for (const company of companies) {
+        try {
+          const result = await veeamService.collectSessionSnapshot(company.instanceUid);
+          results.push({ company: company.name, success: true, result });
+        } catch (error) {
+          results.push({ company: company.name, success: false, error: String(error) });
+        }
+      }
+      
+      console.log(`[Cron] Collected snapshots for ${results.length} companies`);
+      return res.json({ collected: results.length, results });
+    } catch (error) {
+      console.error("Internal collect snapshots error:", error);
       return res.status(500).json({ message: "Erro ao coletar snapshots" });
     }
   });
