@@ -316,45 +316,73 @@ export class VeeamService {
     try {
       console.log(`[VeeamService] Fetching scorecard for company: ${companyId}, period: ${periodDays} days`);
 
+      // Fetch jobs and backup servers
       const [jobs, backupServers] = await Promise.all([
         this.fetchAllPages<any>('/api/v3/infrastructure/backupServers/jobs'),
         this.fetchAllPages<any>('/api/v3/infrastructure/backupServers'),
       ]);
+      
+      console.log(`[VeeamService] Fetched ${jobs.length} jobs total`);
 
       // Filter by company and period
       const now = new Date();
       const periodStart = new Date(now.getTime() - (periodDays * 24 * 60 * 60 * 1000));
       
-      // Helper to extract date from lastRun (can be string or object with endTime/startTime)
+      // Helper to extract date from various job date fields
       const extractLastRunDate = (job: any): Date | null => {
-        const lastRun = job.lastRun || job.lastActiveDate;
-        if (!lastRun) return null;
+        // Try multiple possible date fields in order of preference
+        const candidates = [
+          job.lastRun,
+          job.lastActiveDate,
+          job.lastRunTime,
+          job.lastSessionEnd,
+          job.endTime,
+        ];
         
-        // If it's a string (ISO date), parse directly
-        if (typeof lastRun === 'string') {
-          return new Date(lastRun);
-        }
-        
-        // If it's an object, try endTime, startTime, or any date-like property
-        if (typeof lastRun === 'object') {
-          const dateStr = lastRun.endTime || lastRun.startTime || lastRun.date;
-          if (dateStr) return new Date(dateStr);
+        for (const candidate of candidates) {
+          if (!candidate) continue;
+          
+          // If it's a string (ISO date), parse directly
+          if (typeof candidate === 'string') {
+            const date = new Date(candidate);
+            if (!isNaN(date.getTime())) return date;
+          }
+          
+          // If it's an object, try common date properties
+          if (typeof candidate === 'object') {
+            const dateStr = candidate.endTime || candidate.startTime || candidate.date || candidate.time;
+            if (dateStr) {
+              const date = new Date(dateStr);
+              if (!isNaN(date.getTime())) return date;
+            }
+          }
         }
         
         return null;
       };
       
-      const companyJobs = jobs.filter((job: any) => {
-        if (job.organizationUid !== companyId) return false;
-        
-        // Filter by lastRun date within period
-        const lastRunDate = extractLastRunDate(job);
-        if (lastRunDate && !isNaN(lastRunDate.getTime())) {
-          return lastRunDate >= periodStart;
+      // First get all jobs for this company (unfiltered by date)
+      const allCompanyJobs = jobs.filter((job: any) => job.organizationUid === companyId);
+      
+      // Log sample job to understand date structure
+      if (allCompanyJobs.length > 0) {
+        const sample = allCompanyJobs[0];
+        console.log(`[VeeamService] Sample job keys:`, Object.keys(sample).join(', '));
+        console.log(`[VeeamService] Sample job lastRun:`, JSON.stringify(sample.lastRun));
+        console.log(`[VeeamService] Sample job lastActiveDate:`, sample.lastActiveDate);
+      }
+      
+      const companyJobs = allCompanyJobs.filter((job: any) => {
+        // Filter by job date within period
+        const jobDate = extractLastRunDate(job);
+        if (jobDate && !isNaN(jobDate.getTime())) {
+          return jobDate >= periodStart;
         }
         
-        return true; // Include jobs without valid lastRun date
+        return true; // Include jobs without valid date (always show current status)
       });
+      
+      console.log(`[VeeamService] Jobs filtered: ${allCompanyJobs.length} total -> ${companyJobs.length} within ${periodDays} days`);
 
       // Calculate Job Sessions Overview
       let jobsOk = 0;
