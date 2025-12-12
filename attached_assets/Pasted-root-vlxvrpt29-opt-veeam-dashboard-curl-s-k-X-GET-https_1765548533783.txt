@@ -1,0 +1,57 @@
+root@vlxvrpt29:/opt/veeam-dashboard# curl -s -k -X 'GET' \
+  'https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/computersManagedByBackupServer?organizationUidFilter=dd4d0261-abdf-4738-b395-fc1c30882bac&limit=500' \
+  -H 'accept: application/json' \
+  -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' | python3 -c "
+import sys, json
+
+data = json.load(sys.stdin)
+computers = data.get('data', [])
+
+# Mostrar TODOS os campos de UM computer para entender a estrutura
+print('=== EXEMPLO DE UM COMPUTER (todos os campos) ===')
+if computers:
+    for key, value in computers[0].items():
+        print(f'{key}: {value}')
+
+print()
+print('=== AGRUPAMENTO POR STATUS/TYPE ===')
+
+# Agrupar por status ou outros campos relevantes
+by_status = {}
+by_type = {}
+unique_by_uid = {}
+
+for c in computers:
+    uid = c['instanceUid']
+    status = c.get('status', 'N/A')
+    ctype = c.get('type', c.get('platformType', 'N/A'))
+
+    if uid not in unique_by_uid:
+        unique_by_uid[uid] = c
+
+    by_status[status] = by_status.get(status, 0) + 1
+    by_type[ctype] = by_type.get(ctype, 0) + 1
+
+print(f'Por status: {by_status}')
+print(f'Por type: {by_type}')
+print(f'Total únicos por instanceUid: {len(unique_by_uid)}')
+"
+=== EXEMPLO DE UM COMPUTER (todos os campos) ===
+instanceUid: 4c4c4544-0035-5810-8036-b6c04f4a3534
+sourceInstanceUid: 6bff1892-7263-46d9-bdf4-03c0b6dd7e72
+backupServerUid: df9f2837-1ecb-4652-9d13-5757c1c60d42
+protectionGroups: ['730dc485-84c2-4a9d-86e7-2e35d1d5a0be', 'e3fd3d90-9876-472e-a212-c2d03d11509c']
+organizationUid: 17b99579-ab3f-47d9-91a3-1d27f1ddfa69
+name: MHU069230.unimed-ners.net
+ipAddresses: ['10.29.2.68']
+guestOs: Microsoft Windows 11 (24H2, 64-bit)
+platformType: Windows
+operationMode: Server
+latestRestorePointDate: 2025-12-11T23:30:26.1830000+00:00
+malwareState: Unverified
+
+=== AGRUPAMENTO POR STATUS/TYPE ===
+Por status: {'N/A': 26}
+Por type: {'Windows': 22, 'Linux': 4}
+Total únicos por instanceUid: 18
+root@vlxvrpt29:/opt/veeam-dashboard#
