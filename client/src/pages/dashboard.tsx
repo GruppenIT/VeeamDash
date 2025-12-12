@@ -7,7 +7,8 @@ import { ProtectedDataOverview } from "@/components/protected-data-overview";
 import { DataPlatformScorecard } from "@/components/data-platform-scorecard";
 import { SessionStatesCalendar } from "@/components/session-states-calendar";
 import { MonthlyCharts } from "@/components/monthly-charts";
-import type { VeeamCompany, DashboardMetrics, DataPlatformScorecard as ScorecardType, SessionStatesData, MonthlyChartData } from "@shared/schema";
+import { AlarmsTable } from "@/components/alarms-table";
+import type { VeeamCompany, DashboardMetrics, DataPlatformScorecard as ScorecardType, SessionStatesData, MonthlyChartData, VeeamAlarm } from "@shared/schema";
 
 export default function Dashboard() {
   const [, setLocation] = useLocation();
@@ -35,6 +36,11 @@ export default function Dashboard() {
 
   const { data: monthlyStats, isLoading: monthlyStatsLoading } = useQuery<MonthlyChartData[]>({
     queryKey: ['/api/monthly-stats', selectedCompany],
+    enabled: !!selectedCompany,
+  });
+
+  const { data: alarms, isLoading: alarmsLoading } = useQuery<VeeamAlarm[]>({
+    queryKey: ['/api/alarms', selectedCompany],
     enabled: !!selectedCompany,
   });
 
@@ -100,6 +106,10 @@ export default function Dashboard() {
             <SessionStatesCalendar 
               data={sessionStates || { days: [], hasData: false }} 
               isLoading={sessionStatesLoading} 
+            />
+            <AlarmsTable 
+              alarms={alarms || []} 
+              isLoading={alarmsLoading} 
             />
           </>
         ) : !selectedCompany ? (
