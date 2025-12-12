@@ -201,4 +201,5 @@ export interface FailedJob {
   lastRun: string;
   lastResult: string;
   description: string;
+  lastSessionMessage: string;
 }

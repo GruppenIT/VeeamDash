@@ -690,9 +690,12 @@ export class VeeamService {
     try {
       console.log(`[VeeamService] Fetching failed jobs for company: ${companyId}`);
       
-      const jobs = await this.fetchAllPages<any>('/api/v3/infrastructure/backupServers/jobs');
+      const [jobs, sessions] = await Promise.all([
+        this.fetchAllPages<any>('/api/v3/infrastructure/backupServers/jobs'),
+        this.fetchAllPages<any>('/api/v3/infrastructure/backupServers/jobs/sessions'),
+      ]);
       
-      console.log(`[VeeamService] Total jobs fetched: ${jobs.length}`);
+      console.log(`[VeeamService] Total jobs fetched: ${jobs.length}, sessions: ${sessions.length}`);
       
       const companyJobs = jobs.filter((job: any) => job.organizationUid === companyId);
       
@@ -703,15 +706,25 @@ export class VeeamService {
           const status = job.status?.toLowerCase() || '';
           return status === 'failed' || status === 'warning' || status === 'error';
         })
-        .map((job: any): FailedJob => ({
-          instanceUid: job.instanceUid || '',
-          name: job.name || '',
-          type: job.type || job.jobType || '',
-          status: job.status || '',
-          lastRun: job.lastRun || '',
-          lastResult: job.lastResult || job.status || '',
-          description: job.description || '',
-        }));
+        .map((job: any): FailedJob => {
+          const jobSessions = sessions
+            .filter((s: any) => s.jobUid === job.instanceUid)
+            .sort((a: any, b: any) => new Date(b.endTime || 0).getTime() - new Date(a.endTime || 0).getTime());
+          
+          const lastSession = jobSessions[0];
+          const lastSessionMessage = lastSession?.message || lastSession?.bottleneck || '';
+          
+          return {
+            instanceUid: job.instanceUid || '',
+            name: job.name || '',
+            type: job.type || job.jobType || '',
+            status: job.status || '',
+            lastRun: job.lastRun || '',
+            lastResult: job.lastResult || job.status || '',
+            description: job.description || '',
+            lastSessionMessage,
+          };
+        });
       
       failedJobs.sort((a: FailedJob, b: FailedJob) => {
         const dateA = new Date(a.lastRun || 0);
@@ -737,7 +750,8 @@ export class VeeamService {
         status: 'Failed',
         lastRun: new Date(Date.now() - 3600000).toISOString(),
         lastResult: 'Failed',
-        description: 'Erro de conexão com o storage. Verifique a rede.',
+        description: 'Created by ADMIN at 14/12/2022 07:10.',
+        lastSessionMessage: 'Failed to connect to storage. Error: Connection timeout after 30 seconds. Check network connectivity.',
       },
       {
         instanceUid: 'demo-failed-2',
@@ -746,7 +760,8 @@ export class VeeamService {
         status: 'Warning',
         lastRun: new Date(Date.now() - 7200000).toISOString(),
         lastResult: 'Warning',
-        description: 'Backup concluído com avisos. Algumas VMs foram ignoradas.',
+        description: 'Created by ADMIN at 29/08/2024 16:54.',
+        lastSessionMessage: 'Backup completed with warnings. 2 VMs were skipped due to CBT issues. VM: SQL-01, VM: SQL-02.',
       },
       {
         instanceUid: 'demo-failed-3',
@@ -755,7 +770,8 @@ export class VeeamService {
         status: 'Failed',
         lastRun: new Date(Date.now() - 86400000).toISOString(),
         lastResult: 'Failed',
-        description: 'Falha na replicação. Timeout de conexão com o host de destino.',
+        description: 'Created by ADMIN at 15/01/2024 10:30.',
+        lastSessionMessage: 'Replication failed. Host connection timeout: Unable to reach destination host dc-replica.local after 120 seconds.',
       },
     ];
   }

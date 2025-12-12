@@ -93,7 +93,7 @@ export function FailedJobsTable({ jobs, isLoading }: FailedJobsTableProps) {
                   <TableHead>Nome do Job</TableHead>
                   <TableHead>Tipo</TableHead>
                   <TableHead className="w-[140px]">Última Execução</TableHead>
-                  <TableHead>Descrição</TableHead>
+                  <TableHead>Erro da Última Sessão</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -124,7 +124,7 @@ export function FailedJobsTable({ jobs, isLoading }: FailedJobsTableProps) {
                       </TableCell>
                       <TableCell>
                         <p className="text-sm whitespace-pre-wrap">
-                          {job.description || '-'}
+                          {job.lastSessionMessage || '-'}
                         </p>
                       </TableCell>
                     </TableRow>
