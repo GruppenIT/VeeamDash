@@ -1,0 +1,66 @@
+root@vlxvrpt29:/opt/veeam-dashboard# curl -s -k -X 'GET' \
+  'https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/computersManagedByBackupServer/backups?limit=500' \
+  -H 'accept: application/json' \
+  -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' | python3 -c "
+import sys, json
+
+# Os 8 computers EXATAMENTE da Gedore (organizationUid = dd4d0261-abdf-4738-b395-fc1c30882bac)
+gedore_8_computers = {
+    '4c4c4544-0033-5610-8047-c6c04f323634',  # NOTEBOOK-3440.gedore.local
+    '4c4c4544-0033-5810-8035-cac04f375a32',  # DSKGEDORE254.gedore.local
+    '4c4c4544-0035-4710-8046-cac04f514d32',  # DSK000134.gedore.local
+    '4c4c4544-0043-3110-804b-c7c04f343234',  # DSK004258.gedore.local
+    '4c4c4544-004c-4c10-8043-b6c04f4a3634',  # NOTE-3450.gedore.local
+    '4c4c4544-0036-4a10-805a-b3c04f525032',  # DSK000229.gedore.local
+    '4c4c4544-0031-4b10-8034-b9c04f365133',  # DSK001437.gedore.local
+    '4c4c4544-004b-4c10-8043-b4c04f4a3634',  # NB004985.gedore.local
+}
+
+def tb(b): return b / (1024**4)
+
+data = json.load(sys.stdin)
+backups = data.get('data', [])
+
+# Filtrar backups dos 8 computers da Gedore
+gedore_backups = [b for b in backups if b['backupAgentUid'] in gedore_8_computers]
+print(f'Backups dos 8 computers Gedore: {len(gedore_backups)}')
+
+# Por agent, pegar apenas jobKind=Backup (não Copy)
+agents = {}
+for b in gedore_backups:
+    if b['jobKind'] == 'Backup':
+        agent = b['backupAgentUid']
+        if agent not in agents:
+            agents[agent] = {
+                'used': b['usedSourceSize'] or 0,
+                'prov': b['provisionedSourceSize'] or 0,
+                'name': b['jobName']
+            }
+
+print(f'\\nComputers com backup: {len(agents)}')
+print(f'\\n--- CÁLCULOS ---')
+print(f'usedSourceSize: {tb(sum(a[\"used\"] for a in agents.values())):.2f} TB')
+print(f'provisionedSourceSize: {tb(sum(a[\"prov\"] for a in agents.values())):.2f} TB')
+
+print(f'\\n--- BREAKDOWN ---')
+for agent, info in sorted(agents.items(), key=lambda x: -x[1]['used']):
+    print(f'{info[\"name\"]}: used={tb(info[\"used\"]):.3f} TB, prov={tb(info[\"prov\"]):.3f} TB')
+"
+Backups dos 8 computers Gedore: 9
+
+Computers com backup: 8
+
+--- CÁLCULOS ---
+usedSourceSize: 1.05 TB
+provisionedSourceSize: 1.97 TB
+
+--- BREAKDOWN ---
+GEDORE-DESKTOPS-1xDia: used=0.382 TB, prov=0.466 TB
+GEDORE-DESKTOPS-1xDia: used=0.167 TB, prov=0.233 TB
+GEDORE-DESKTOPS-1xDia: used=0.146 TB, prov=0.233 TB
+GEDORE-DESKTOPS-1xDia: used=0.100 TB, prov=0.109 TB
+GEDORE-DESKTOPS-1xDia: used=0.096 TB, prov=0.233 TB
+GEDORE-DESKTOPS-IMAGEM: used=0.060 TB, prov=0.233 TB
+GEDORE-DESKTOPS-IMAGEM: used=0.052 TB, prov=0.233 TB
+GEDORE-DESKTOPS-IMAGEM: used=0.051 TB, prov=0.233 TB
+root@vlxvrpt29:/opt/veeam-dashboard#
