@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -18,7 +18,8 @@ import {
   X,
   History,
   Send,
-  Loader2
+  Loader2,
+  Pencil
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -111,6 +112,7 @@ export default function Schedules() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [editingSchedule, setEditingSchedule] = useState<ScheduleWithRecipients | null>(null);
   const [deleteScheduleId, setDeleteScheduleId] = useState<string | null>(null);
   const [historyScheduleId, setHistoryScheduleId] = useState<string | null>(null);
 
@@ -141,6 +143,20 @@ export default function Schedules() {
   });
 
   const frequency = form.watch("frequency");
+
+  useEffect(() => {
+    if (editingSchedule) {
+      form.reset({
+        name: editingSchedule.name,
+        companyId: editingSchedule.companyId,
+        frequency: editingSchedule.frequency as "daily" | "weekly" | "monthly",
+        dayOfWeek: editingSchedule.dayOfWeek?.toString() || "1",
+        dayOfMonth: editingSchedule.dayOfMonth?.toString() || "1",
+        hour: editingSchedule.hour.toString(),
+        recipients: editingSchedule.recipients.map(r => r.email).join(", "),
+      });
+    }
+  }, [editingSchedule, form]);
 
   const createMutation = useMutation({
     mutationFn: async (data: ScheduleFormData) => {
@@ -175,6 +191,46 @@ export default function Schedules() {
     onError: (error: Error) => {
       toast({
         title: "Erro ao criar agendamento",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: async (data: ScheduleFormData & { id: string }) => {
+      const emails = data.recipients
+        .split(",")
+        .map((e) => e.trim())
+        .filter((e) => e.length > 0);
+
+      const company = companies?.find((c) => c.instanceUid === data.companyId);
+
+      return apiRequest("PATCH", `/api/report-schedules/${data.id}`, {
+        name: data.name,
+        companyId: data.companyId,
+        companyName: company?.name || "Cliente",
+        frequency: data.frequency,
+        dayOfWeek: data.frequency === "weekly" ? parseInt(data.dayOfWeek || "1") : null,
+        dayOfMonth: data.frequency === "monthly" ? parseInt(data.dayOfMonth || "1") : null,
+        hour: parseInt(data.hour),
+        minute: 0,
+        recipients: emails,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/report-schedules"] });
+      setIsFormOpen(false);
+      setEditingSchedule(null);
+      form.reset();
+      toast({
+        title: "Agendamento atualizado",
+        description: "O agendamento foi atualizado com sucesso.",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Erro ao atualizar agendamento",
         description: error.message,
         variant: "destructive",
       });
@@ -243,7 +299,36 @@ export default function Schedules() {
   });
 
   const onSubmit = (data: ScheduleFormData) => {
-    createMutation.mutate(data);
+    if (editingSchedule) {
+      updateMutation.mutate({ ...data, id: editingSchedule.id });
+    } else {
+      createMutation.mutate(data);
+    }
+  };
+
+  const handleOpenNewSchedule = () => {
+    setEditingSchedule(null);
+    form.reset({
+      name: "",
+      companyId: "",
+      frequency: "weekly",
+      dayOfWeek: "1",
+      dayOfMonth: "1",
+      hour: "8",
+      recipients: "",
+    });
+    setIsFormOpen(true);
+  };
+
+  const handleEditSchedule = (schedule: ScheduleWithRecipients) => {
+    setEditingSchedule(schedule);
+    setIsFormOpen(true);
+  };
+
+  const handleCloseForm = () => {
+    setIsFormOpen(false);
+    setEditingSchedule(null);
+    form.reset();
   };
 
   const formatFrequency = (schedule: ScheduleWithRecipients) => {
@@ -286,7 +371,7 @@ export default function Schedules() {
             </div>
 
             <Button
-              onClick={() => setIsFormOpen(true)}
+              onClick={handleOpenNewSchedule}
               data-testid="button-new-schedule"
             >
               <Plus className="w-4 h-4 mr-2" />
@@ -380,6 +465,15 @@ export default function Schedules() {
                           <Button
                             variant="ghost"
                             size="icon"
+                            onClick={() => handleEditSchedule(schedule)}
+                            title="Editar"
+                            data-testid={`button-edit-${schedule.id}`}
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
                             onClick={() => setHistoryScheduleId(schedule.id)}
                             title="Ver histórico"
                             data-testid={`button-history-${schedule.id}`}
@@ -427,7 +521,7 @@ export default function Schedules() {
               <p className="text-muted-foreground mb-6 text-center max-w-md">
                 Você ainda não possui agendamentos de relatórios. Crie um novo agendamento para receber relatórios automáticos por e-mail.
               </p>
-              <Button onClick={() => setIsFormOpen(true)} data-testid="button-create-first">
+              <Button onClick={handleOpenNewSchedule} data-testid="button-create-first">
                 <Plus className="w-4 h-4 mr-2" />
                 Criar Primeiro Agendamento
               </Button>
@@ -436,12 +530,16 @@ export default function Schedules() {
         )}
       </main>
 
-      <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+      <Dialog open={isFormOpen} onOpenChange={(open) => !open && handleCloseForm()}>
         <DialogContent className="max-w-lg">
           <DialogHeader>
-            <DialogTitle>Novo Agendamento de Relatório</DialogTitle>
+            <DialogTitle>
+              {editingSchedule ? "Editar Agendamento" : "Novo Agendamento de Relatório"}
+            </DialogTitle>
             <DialogDescription>
-              Configure o envio automático de relatórios de backup por e-mail
+              {editingSchedule 
+                ? "Altere as configurações do agendamento de relatório"
+                : "Configure o envio automático de relatórios de backup por e-mail"}
             </DialogDescription>
           </DialogHeader>
 
@@ -650,17 +748,21 @@ export default function Schedules() {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => setIsFormOpen(false)}
+                  onClick={handleCloseForm}
                   data-testid="button-cancel"
                 >
                   Cancelar
                 </Button>
                 <Button
                   type="submit"
-                  disabled={createMutation.isPending}
+                  disabled={createMutation.isPending || updateMutation.isPending}
                   data-testid="button-save-schedule"
                 >
-                  {createMutation.isPending ? "Salvando..." : "Salvar Agendamento"}
+                  {(createMutation.isPending || updateMutation.isPending) 
+                    ? "Salvando..." 
+                    : editingSchedule 
+                      ? "Salvar Alterações" 
+                      : "Salvar Agendamento"}
                 </Button>
               </DialogFooter>
             </form>
