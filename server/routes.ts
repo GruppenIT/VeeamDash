@@ -317,6 +317,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get active alarms for a company
+  app.get("/api/alarms/:companyId", requireAuth, async (req, res) => {
+    try {
+      const { companyId } = req.params;
+      const alarms = await veeamService.getActiveAlarms(companyId);
+      return res.json(alarms);
+    } catch (error) {
+      console.error("Get alarms error:", error);
+      return res.status(500).json({ message: "Erro ao buscar alarmes" });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;
