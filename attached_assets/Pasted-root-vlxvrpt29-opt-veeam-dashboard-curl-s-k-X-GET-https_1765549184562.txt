@@ -1,0 +1,59 @@
+root@vlxvrpt29:/opt/veeam-dashboard# curl -s -k -X 'GET' \
+  'https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/computersManagedByBackupServer/restorePoints/latest?limit=500' \
+  -H 'accept: application/json' \
+  -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' | python3 -c "
+import sys, json
+
+def tb(b): return b / (1024**4)
+
+data = json.load(sys.stdin)
+points = data.get('data', [])
+
+print(f'Total latest restore points: {len(points)}')
+print()
+
+# Mostrar campos de um exemplo
+if points:
+    print('=== CAMPOS DE UM RESTORE POINT ===')
+    for k, v in points[0].items():
+        print(f'{k}: {v}')
+
+# Calcular diferentes somas
+total_size = sum(p.get('size', 0) or 0 for p in points)
+total_source = sum(p.get('sourceSize', 0) or 0 for p in points)
+total_prov = sum(p.get('provisionedSourceSize', 0) or 0 for p in points)
+total_used = sum(p.get('usedSourceSize', 0) or 0 for p in points)
+
+print()
+print('=== TOTAIS (TODOS os computers) ===')
+print(f'size: {tb(total_size):.2f} TB')
+print(f'sourceSize: {tb(total_source):.2f} TB')
+print(f'provisionedSourceSize: {tb(total_prov):.2f} TB')
+print(f'usedSourceSize: {tb(total_used):.2f} TB')
+"
+Total latest restore points: 18
+
+=== CAMPOS DE UM RESTORE POINT ===
+instanceUid: f998629f-4d57-4244-8dbd-fd7af32523bc
+backupAgentUid: 4c4c4544-0036-4a10-805a-b3c04f525032
+backupUid: c7ce98e7-43a6-42ed-a442-7362c9cfa2f8
+jobUid: d0381ecb-1a5e-4eb9-b18c-fb2a0d2133c2
+repositoryUid: 2148c5db-77ce-43ed-93a5-2bb2c104685c
+size: 4620161024
+provisionedSourceSize: 256058623488
+usedSourceSize: 105576475648
+incrementRawDataSize: 8894068457
+sourceSize: 256058623488
+cpuCores: 0
+memory: 0
+targetType: Local
+backupCreationTime: 2025-12-11T16:01:12.0000000+00:00
+fileCreationTime: 2025-12-11T16:00:42.9930000+00:00
+malwareState: Clean
+
+=== TOTAIS (TODOS os computers) ===
+size: 0.36 TB
+sourceSize: 23.54 TB
+provisionedSourceSize: 23.54 TB
+usedSourceSize: 10.18 TB
+root@vlxvrpt29:/opt/veeam-dashboard#
