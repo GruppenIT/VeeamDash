@@ -312,6 +312,11 @@ Para suporte com a API do Veeam: https://helpcenter.veeam.com/docs/vac/rest/
 
 ## Changelog
 
+### v1.2.0 (2024-12-12)
+- **✨ Novo**: Tabela "Jobs com Falha" exibindo jobs com status Failed/Warning
+- **🔧 Fix**: Correção do endpoint de failed jobs - agora usa dados direto do endpoint de jobs (API Veeam não tem endpoint global de sessions)
+- **📊 Dashboard**: Jobs com falha exibidos abaixo do calendário de estados de sessão
+
 ### v1.1.0 (2024-11-14)
 - **🔒 Segurança**: Implementado hash de senhas com bcrypt (10 rounds)
 - **✨ Novo**: Painel "Protected Data Overview" com gráfico donut e tabela de workloads

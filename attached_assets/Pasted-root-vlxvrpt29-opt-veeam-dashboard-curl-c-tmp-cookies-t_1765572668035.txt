@@ -1,0 +1,49 @@
+root@vlxvrpt29:/opt/veeam-dashboard# curl -c /tmp/cookies.txt -X POST http://localhost:5000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"login@sistema.com","password":"admin"}' && \
+curl -b /tmp/cookies.txt "http://localhost:5000/api/failed-jobs/dd4d0261-abdf-4738-b395-fc1c30882bac" | jq .
+{"success":true,"user":{"id":"645fd3aa-b44a-43bc-9986-33850aba587a","username":"login@sistema.com","name":"Administrador Sistema"}}  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1823  100  1823    0     0    798      0  0:00:02  0:00:02 --:--:--   798
+[
+  {
+    "instanceUid": "ceff6e15-ad91-41df-94c0-edc718c37d0c",
+    "name": "GEDORE-1x6Horas-SQL",
+    "type": "BackupVm",
+    "status": "Warning",
+    "lastRun": "2025-12-12T15:13:27.3670000+00:00",
+    "lastResult": "Warning",
+    "description": "Created by VMSBKP50\\Administrador at 14/12/2022 07:10.",
+    "lastSessionMessage": "Processing APL09NW01C.gedore.local.\r\nAPL09NW01C.gedore.local:\r\nFailed to retrieve SQL server databases information required to perform transaction logs backup.\r\n"
+  },
+  {
+    "instanceUid": "b5032a1f-3464-4ab5-b5a3-1f070195ae6a",
+    "name": "GEDORE-TAPE",
+    "type": "BackupToTape",
+    "status": "Warning",
+    "lastRun": "2025-12-08T07:55:02.6730000+00:00",
+    "lastResult": "Warning",
+    "description": "Created by VMSBKP50\\grp_baas at 29/08/2024 16:54.",
+    "lastSessionMessage": "TapeDrive alert: [000084L7] The tape drive is due for routine cleaning:.  Wait for the current operation to finish. Then use a cleaning cartridge. Check the tape drive user manual for device specific cleaning instructions.\r\nTapeDrive alert: [000087L7] The tape drive is due for routine cleaning:.  Wait for the current operation to finish. Then use a cleaning cartridge. Check the tape drive user manual for device specific cleaning instructions.\r\n"
+  },
+  {
+    "instanceUid": "ee6ba352-8a2d-46fc-bf89-23c7fa1ad461",
+    "name": "GEDORE-DESKTOPS-IMAGEM",
+    "type": "AgentBackupJob",
+    "status": "Failed",
+    "lastRun": "2025-07-11T18:30:56.5900000+00:00",
+    "lastResult": "Failed",
+    "description": "Created by VMSBKP50\\grp_baas at 15/01/2024 10:30.",
+    "lastSessionMessage": "Processing NB004721.gedore.local Error: Failed to connect to 10.4.10.55:11731.\r\nProcessing NOTE-3450.gedore.local Error: Failed to connect to NOTE-3450.gedore.local:11731.\r\nProcessing THINCLIENTBLUE.gedore.local Error: Failed to connect to 10.4.10.73:11731.\r\nProcessing NOTEBOOK-3440.gedore.local Error: Failed to connect to 10.4.10.65:11731.\r\n"
+  }
+]
+root@vlxvrpt29:/opt/veeam-dashboard# pm2 logs veeam-dashboard --lines 20 | grep -i "VeeamService.*failed\|Jobs with issues"
+0|veeam-da | 2025-12-12T20:30:48:     at async VeeamService.getFailedJobs (file:///opt/veeam-dashboard/dist/index.js:702:32)
+0|veeam-da | 2025-12-12T20:30:56:     at async VeeamService.getFailedJobs (file:///opt/veeam-dashboard/dist/index.js:702:32)
+0|veeam-da | 2025-12-12T20:40:45:     at async VeeamService.getFailedJobs (file:///opt/veeam-dashboard/dist/index.js:702:32)
+0|veeam-da | 2025-12-12T20:40:45: [VeeamService] Fetching failed jobs for company: dd4d0261-abdf-4738-b395-fc1c30882bac
+0|veeam-da | 2025-12-12T20:51:19: [VeeamService] Fetching failed jobs for company: dd4d0261-abdf-4738-b395-fc1c30882bac
+0|veeam-da | 2025-12-12T20:51:21: [VeeamService] Jobs with issues: 3
+0|veeam-da | 2025-12-12T20:51:21: [VeeamService] Failed jobs returned: 3
+^C
+root@vlxvrpt29:/opt/veeam-dashboard#
