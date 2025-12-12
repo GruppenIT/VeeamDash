@@ -149,11 +149,32 @@ export class VeeamService {
         sum + (vm.usedSourceSize || 0), 0);
       const vmTotalSizeTB = vmTotalSizeBytes / (1024 ** 4);
 
-      // VB365 and Computers API don't return size information
-      const vb365TotalSizeTB = 0;
-      const computersTotalSizeTB = 0;
+      // Fetch backup sizes for computers (in parallel, max 10 concurrent)
+      let computersTotalSizeBytes = 0;
+      if (companyComputers.length > 0) {
+        console.log(`[VeeamService] Fetching backup sizes for ${companyComputers.length} computers...`);
+        const backupPromises = companyComputers.map((computer: any) =>
+          this.fetchVeeamAPI<any>(
+            `/api/v3/protectedWorkloads/computersManagedByBackupServer/${computer.instanceUid}/backups?limit=100`
+          ).catch(() => ({ data: [] }))
+        );
+        
+        const backupResults = await Promise.all(backupPromises);
+        
+        for (const result of backupResults) {
+          const backups = result.data || [];
+          for (const backup of backups) {
+            computersTotalSizeBytes += backup.usedSourceSize || 0;
+          }
+        }
+        console.log(`[VeeamService] Computers total size: ${(computersTotalSizeBytes / (1024 ** 4)).toFixed(2)} TB`);
+      }
+      const computersTotalSizeTB = computersTotalSizeBytes / (1024 ** 4);
 
-      console.log(`[VeeamService] Sizes - VMs: ${vmTotalSizeTB.toFixed(1)} TB (usedSourceSize), VB365: N/A, Computers: N/A`);
+      // VB365 API doesn't return size information
+      const vb365TotalSizeTB = 0;
+
+      console.log(`[VeeamService] Sizes - VMs: ${vmTotalSizeTB.toFixed(1)} TB, Computers: ${computersTotalSizeTB.toFixed(2)} TB, VB365: N/A`);
 
       return [
         {
