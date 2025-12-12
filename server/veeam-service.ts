@@ -365,11 +365,12 @@ export class VeeamService {
       const jobsTotal = jobsOk + jobsIssue;
       const jobsPercentage = jobsTotal > 0 ? Math.round((jobsOk / jobsTotal) * 100) : 100;
 
-      // Calculate Platform Health (backup servers status)
+      // Calculate Platform Health (backup servers status for this company)
+      const companyServers = backupServers.filter((s: any) => s.organizationUid === companyId);
       let healthyServers = 0;
       let unhealthyServers = 0;
       
-      for (const server of backupServers) {
+      for (const server of companyServers) {
         if (server.status === 'Healthy') {
           healthyServers++;
         } else {
@@ -398,7 +399,8 @@ export class VeeamService {
         statusMessage = 'Your Data Platform Status Score is critical.';
       }
 
-      console.log(`[VeeamService] Scorecard - RPO: ${rpoPercentage}%, Jobs: ${jobsPercentage}%, Health: ${healthPercentage}%, Overall: ${overallScore}%`);
+      console.log(`[VeeamService] Scorecard - VMs: ${companyVMs.length}, Jobs: ${companyJobs.length}, Servers: ${companyServers.length}`);
+      console.log(`[VeeamService] Scorecard - RPO: ${rpoPercentage}% (${rpoOk}/${rpoTotal}), Jobs: ${jobsPercentage}% (${jobsOk}/${jobsTotal}), Health: ${healthPercentage}% (${healthyServers}/${healthTotal}), Overall: ${overallScore}%`);
 
       return {
         overallScore,
