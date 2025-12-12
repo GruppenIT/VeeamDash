@@ -1,0 +1,87 @@
+root@vlxvrpt29:/opt/veeam-dashboard# # Cruzar backups com computers da Gedore
+curl -s -k -X 'GET' \
+  'https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/computersManagedByBackupServer/backups?limit=500' \
+  -H 'accept: application/json' \
+  -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' | python3 -c "
+import sys, json
+
+# Computers da Gedore (únicos)
+gedore_computers = {
+    '4c4c4544-0035-5810-8036-b6c04f4a3534',
+    '37393150-3536-5242-4c31-343430575836',
+    '9a533d42-386e-143e-09f2-eb664255b012',
+    '6cc52f42-fc32-4c64-9022-fd0b402ceb06',
+    '922c4d56-55e4-d128-d345-4c575bdf0828',
+    '4c4c4544-0033-5610-8047-c6c04f323634',
+    '4c4c4544-0033-5810-8035-cac04f375a32',
+    '4c4c4544-0035-4710-8046-cac04f514d32',
+    '4c4c4544-0043-3110-804b-c7c04f343234',
+    '4c4c4544-004c-4c10-8043-b6c04f4a3634',
+    '4c4c4544-0036-4a10-805a-b3c04f525032',
+    '4c4c4544-0031-4b10-8034-b9c04f365133',
+    '4c4c4544-004b-4c10-8043-b4c04f4a3634',
+    '44454c4c-4e00-1053-8034-b7c04f314433',
+    'aab51edd-fb66-4252-a5e2-9d67e2f057f5',
+    '4c4c4544-004d-5010-8035-c2c04f365731',
+    '4c4c4544-004d-3910-804c-c3c04f535932',
+    'c75d65af-03e2-414e-8ab0-952f96a92dfa'
+}
+
+def tb(b): return b / (1024**4)
+
+data = json.load(sys.stdin)
+backups = data.get('data', [])
+
+# Filtrar apenas backups da Gedore
+gedore_backups = [b for b in backups if b['backupAgentUid'] in gedore_computers]
+print(f'Backups da Gedore: {len(gedore_backups)} de {len(backups)} total')
+
+# Método 1: usedSourceSize único por agent (jobKind=Backup)
+agents_backup = {}
+for b in gedore_backups:
+    if b['jobKind'] == 'Backup':
+        agent = b['backupAgentUid']
+        if agent not in agents_backup:
+            agents_backup[agent] = {
+                'used': b['usedSourceSize'] or 0,
+                'prov': b['provisionedSourceSize'] or 0,
+                'name': b['jobName']
+            }
+
+print(f'\\nComputers únicos com Backup: {len(agents_backup)}')
+print(f'\\n--- MÉTODOS DE CÁLCULO ---')
+print(f'Método 1 - usedSourceSize (jobKind=Backup): {tb(sum(a[\"used\"] for a in agents_backup.values())):.2f} TB')
+print(f'Método 2 - provisionedSourceSize (jobKind=Backup): {tb(sum(a[\"prov\"] for a in agents_backup.values())):.2f} TB')
+
+print(f'\\n--- BREAKDOWN POR COMPUTER ---')
+for agent, info in sorted(agents_backup.items(), key=lambda x: -x[1]['used']):
+    print(f'  {info[\"name\"]}: used={tb(info[\"used\"]):.3f} TB, prov={tb(info[\"prov\"]):.3f} TB')
+"
+Backups da Gedore: 31 de 31 total
+
+Computers únicos com Backup: 18
+
+--- MÉTODOS DE CÁLCULO ---
+Método 1 - usedSourceSize (jobKind=Backup): 10.62 TB
+Método 2 - provisionedSourceSize (jobKind=Backup): 23.54 TB
+
+--- BREAKDOWN POR COMPUTER ---
+  AgentBackup-SUN075-Diario: used=3.728 TB, prov=10.916 TB
+  BKP_SQL: used=2.967 TB, prov=4.182 TB
+  BKP_ORACLE: used=1.227 TB, prov=3.782 TB
+  HU-AgentBackup-Windows-Imagens-Endoscopia: used=0.447 TB, prov=0.910 TB
+  GEDORE-DESKTOPS-1xDia: used=0.382 TB, prov=0.466 TB
+  Backup Site Stella e Feed - Wih: used=0.376 TB, prov=0.420 TB
+  Backup File Server: used=0.275 TB, prov=0.439 TB
+  BKP_AD: used=0.187 TB, prov=0.455 TB
+  GEDORE-DESKTOPS-1xDia: used=0.167 TB, prov=0.233 TB
+  GEDORE-DESKTOPS-1xDia: used=0.146 TB, prov=0.233 TB
+  PAVMSTS85: used=0.145 TB, prov=0.146 TB
+  BKP-Miolo-Questor: used=0.126 TB, prov=0.195 TB
+  GEDORE-DESKTOPS-1xDia: used=0.100 TB, prov=0.109 TB
+  GEDORE-DESKTOPS-1xDia: used=0.096 TB, prov=0.233 TB
+  BCK_CNXSRV09: used=0.094 TB, prov=0.124 TB
+  GEDORE-DESKTOPS-IMAGEM: used=0.060 TB, prov=0.233 TB
+  GEDORE-DESKTOPS-IMAGEM: used=0.052 TB, prov=0.233 TB
+  GEDORE-DESKTOPS-IMAGEM: used=0.051 TB, prov=0.233 TB
+root@vlxvrpt29:/opt/veeam-dashboard#
