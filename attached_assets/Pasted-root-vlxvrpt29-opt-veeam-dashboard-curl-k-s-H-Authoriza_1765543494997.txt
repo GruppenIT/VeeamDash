@@ -1,0 +1,61 @@
+root@vlxvrpt29:/opt/veeam-dashboard# curl -k -s -H "Authorization: Bearer $(cat /opt/veeam-dashboard/.env | grep VEEAM_API_KEY | cut -d'=' -f2)" \
+  "https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/vb365ProtectedObjects?limit=500&offset=0" | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+items = data.get('data', [])
+gedore_uid = 'dd4d0261-abdf-4738-b395-fc1c30882bac'
+gedore_count = len([obj for obj in items if obj.get('organizationUid') == gedore_uid])
+print(f'Página 1 (0-500): Gedore = {gedore_count}')
+" && \
+curl -k -s -H "Authorization: Bearer $(cat /opt/veeam-dashboard/.env | grep VEEAM_API_KEY | cut -d'=' -f2)" \
+  "https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/vb365ProtectedObjects?limit=500&offset=500" | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+items = data.get('data', [])
+gedore_uid = 'dd4d0261-abdf-4738-b395-fc1c30882bac'
+gedore_count = len([obj for obj in items if obj.get('organizationUid') == gedore_uid])
+print(f'Página 2 (500-1000): Gedore = {gedore_count}')
+" && \
+curl -k -s -H "Authorization: Bearer $(cat /opt/veeam-dashboard/.env | grep VEEAM_API_KEY | cut -d'=' -f2)" \
+  "https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/vb365ProtectedObjects?limit=500&offset=1000" | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+items = data.get('data', [])
+gedore_uid = 'dd4d0261-abdf-4738-b395-fc1c30882bac'
+gedore_count = len([obj for obj in items if obj.get('organizationUid') == gedore_uid])
+print(f'Página 3 (1000-1500): Gedore = {gedore_count}')
+" && \
+curl -k -s -H "Authorization: Bearer $(cat /opt/veeam-dashboard/.env | grep VEEAM_API_KEY | cut -d'=' -f2)" \
+  "https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/vb365ProtectedObjects?limit=500&offset=1500" | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+items = data.get('data', [])
+gedore_uid = 'dd4d0261-abdf-4738-b395-fc1c30882bac'
+gedore_count = len([obj for obj in items if obj.get('organizationUid') == gedore_uid])
+print(f'Página 4 (1500-2000): Gedore = {gedore_count}')
+" && \
+curl -k -s -H "Authorization: Bearer $(cat /opt/veeam-dashboard/.env | grep VEEAM_API_KEY | cut -d'=' -f2)" \
+  "https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/vb365ProtectedObjects?limit=500&offset=2000" | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+items = data.get('data', [])
+gedore_uid = 'dd4d0261-abdf-4738-b395-fc1c30882bac'
+gedore_count = len([obj for obj in items if obj.get('organizationUid') == gedore_uid])
+print(f'Página 5 (2000-2500): Gedore = {gedore_count}')
+" && \
+curl -k -s -H "Authorization: Bearer $(cat /opt/veeam-dashboard/.env | grep VEEAM_API_KEY | cut -d'=' -f2)" \
+  "https://vspc.gruppen.com.br:1280/api/v3/protectedWorkloads/vb365ProtectedObjects?limit=500&offset=2500" | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+items = data.get('data', [])
+gedore_uid = 'dd4d0261-abdf-4738-b395-fc1c30882bac'
+gedore_count = len([obj for obj in items if obj.get('organizationUid') == gedore_uid])
+print(f'Página 6 (2500-3000): Gedore = {gedore_count}')
+"
+Página 1 (0-500): Gedore = 306
+Página 2 (500-1000): Gedore = 250
+Página 3 (1000-1500): Gedore = 342
+Página 4 (1500-2000): Gedore = 261
+Página 5 (2000-2500): Gedore = 311
+Página 6 (2500-3000): Gedore = 96
+root@vlxvrpt29:/opt/veeam-dashboard#
