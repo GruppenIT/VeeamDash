@@ -1,0 +1,94 @@
+root@vlxvrpt29:/opt/veeam-dashboard# # Buscar todos os jobs e filtrar por Gedore
+curl -s -k 'https://vspc.gruppen.com.br:1280/api/v3/infrastructure/backupServers/jobs?limit=500' -H 'Authorization: 29d2e2df861afa6d5V7dccRog0EAexwTo9djCoaeY6UF3oiQwnFGv2KHmT3bCAu0kTvXUMOG6uMhlYkU69hwy9CiBhIDViYPRNmI577aFhY1Al8KJGm7qOQw6EH87dTH' | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+jobs = [j for j in data['data'] if j.get('organizationUid') == 'dd4d0261-abdf-4738-b395-fc1c30882bac']
+print(f'Total jobs for Gedore: {len(jobs)}')
+# Contar por status
+statuses = {}
+for j in jobs:
+    s = j.get('status', 'Unknown')
+    statuses[s] = statuses.get(s, 0) + 1
+print(f'Status breakdown: {statuses}')
+# Mostrar um exemplo
+if jobs:
+    print(json.dumps(jobs[0], indent=2))
+"
+Total jobs for Gedore: 16
+Status breakdown: {'Running': 4, 'Warning': 2, 'Success': 9, 'Failed': 1}
+{
+  "instanceUid": "60c44b7a-2350-4d2d-8173-a76959e6464d",
+  "uniqueUid": "1f8663a0-1ef2-60b8-af78-e59e5d0c8f92",
+  "name": "GEDORE-1x6Horas-SQL SQL Server Transaction Log Backup",
+  "description": "Automatically created SQL Server transaction log backup job",
+  "createdBy": "VMSBKP50\\grp_baas",
+  "creationTime": "2023-09-14T19:19:54.3470000+00:00",
+  "backupServerUid": "141c0ff6-a829-4292-878c-977a548d6da1",
+  "locationUid": "ee6e3e7c-4d18-4745-837b-4687dfc15b8a",
+  "siteUid": "1484e82a-75ba-4ba5-a183-8a18ed586dee",
+  "organizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+  "mappedOrganizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+  "status": "Running",
+  "type": "SqlLogBackup",
+  "lastRun": "2025-12-12T15:01:09.8130000+00:00",
+  "lastEndTime": null,
+  "lastDuration": 941,
+  "processingRate": 0.0,
+  "avgDuration": 21587,
+  "transferredData": 0,
+  "backupChainSize": 0,
+  "bottleneck": "None",
+  "isEnabled": true,
+  "scheduleType": "Continuously",
+  "failureMessage": null,
+  "targetType": "Local",
+  "destination": "FLXREPO121_REPO01",
+  "retentionLimit": 7,
+  "retentionLimitType": "RestorePoints",
+  "isGfsOptionEnabled": false,
+  "lastSessionTasks": [
+    {
+      "instanceUid": "9126b3b7-225c-4743-a236-a044babe501f",
+      "objectUid": "889ec36c-f026-4902-9215-9fa234714aaf",
+      "objectName": "VMSAPL20.gedore.local",
+      "totalObjects": null,
+      "processedObjects": null,
+      "readDataSize": 38367744,
+      "transferredDataSize": 13189744,
+      "startTime": "2025-12-12T15:01:34.6830000+00:00",
+      "endTime": "2025-12-12T15:16:50.6830000+00:00",
+      "duration": 916,
+      "failureMessages": [],
+      "status": "Pending"
+    },
+    {
+      "instanceUid": "2730d343-70e3-49c8-b2d2-0d359509ae79",
+      "objectUid": "7315554d-1089-4e75-b6ec-274fa42b0d3d",
+      "objectName": "APL09NW01B.gedore.local",
+      "totalObjects": null,
+      "processedObjects": null,
+      "readDataSize": 8133633024,
+      "transferredDataSize": 1351897024,
+      "startTime": "2025-12-12T15:01:31.7030000+00:00",
+      "endTime": "2025-12-12T15:16:50.7030000+00:00",
+      "duration": 919,
+      "failureMessages": [],
+      "status": "Pending"
+    },
+    {
+      "instanceUid": "368d7537-8a21-4486-a884-6bf56eb959b1",
+      "objectUid": "745e22f6-67ae-4724-b081-cdb0418bcfaa",
+      "objectName": "APL09NW01C.gedore.local",
+      "totalObjects": null,
+      "processedObjects": null,
+      "readDataSize": null,
+      "transferredDataSize": null,
+      "startTime": "2025-12-12T15:01:38.3430000+00:00",
+      "endTime": "2025-12-12T15:16:51.3430000+00:00",
+      "duration": 913,
+      "failureMessages": [],
+      "status": "Pending"
+    }
+  ]
+}
+root@vlxvrpt29:/opt/veeam-dashboard#
