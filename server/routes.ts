@@ -4,8 +4,9 @@ import session from "express-session";
 import bcrypt from "bcrypt";
 import { storage } from "./storage";
 import { veeamService } from "./veeam-service";
-import { insertUserSchema, insertEmailScheduleSchema } from "@shared/schema";
+import { insertUserSchema, insertEmailScheduleSchema, insertReportScheduleSchema, insertScheduleRecipientSchema } from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
+import { z } from "zod";
 
 declare module "express-session" {
   interface SessionData {
@@ -338,6 +339,250 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Get failed jobs error:", error);
       return res.status(500).json({ message: "Erro ao buscar jobs com falha" });
+    }
+  });
+
+  // =====================
+  // REPORT SCHEDULES API
+  // =====================
+
+  // Create a new report schedule with recipients
+  app.post("/api/report-schedules", requireAuth, async (req, res) => {
+    try {
+      const { recipients, ...scheduleData } = req.body;
+      
+      const validation = insertReportScheduleSchema.safeParse({
+        ...scheduleData,
+        userId: req.session.userId,
+      });
+
+      if (!validation.success) {
+        return res.status(400).json({
+          message: fromZodError(validation.error).toString(),
+        });
+      }
+
+      // Validate recipients
+      if (!recipients || !Array.isArray(recipients) || recipients.length === 0) {
+        return res.status(400).json({
+          message: "Pelo menos um destinatário é obrigatório",
+        });
+      }
+
+      const emailSchema = z.string().email();
+      for (const email of recipients) {
+        const emailValidation = emailSchema.safeParse(email);
+        if (!emailValidation.success) {
+          return res.status(400).json({
+            message: `E-mail inválido: ${email}`,
+          });
+        }
+      }
+
+      // Create the schedule
+      const schedule = await storage.createReportSchedule(validation.data);
+
+      // Add recipients
+      for (const email of recipients) {
+        await storage.addScheduleRecipient({
+          scheduleId: schedule.id,
+          email,
+        });
+      }
+
+      const scheduleRecipients = await storage.getScheduleRecipients(schedule.id);
+
+      return res.json({
+        ...schedule,
+        recipients: scheduleRecipients,
+      });
+    } catch (error) {
+      console.error("Create report schedule error:", error);
+      return res.status(500).json({ message: "Erro ao criar agendamento de relatório" });
+    }
+  });
+
+  // Get all report schedules for the current user
+  app.get("/api/report-schedules", requireAuth, async (req, res) => {
+    try {
+      const schedules = await storage.getReportSchedules(req.session.userId!);
+      
+      // Fetch recipients for each schedule
+      const schedulesWithRecipients = await Promise.all(
+        schedules.map(async (schedule) => {
+          const recipients = await storage.getScheduleRecipients(schedule.id);
+          return {
+            ...schedule,
+            recipients,
+          };
+        })
+      );
+
+      return res.json(schedulesWithRecipients);
+    } catch (error) {
+      console.error("Get report schedules error:", error);
+      return res.status(500).json({ message: "Erro ao buscar agendamentos" });
+    }
+  });
+
+  // Get a single report schedule by ID
+  app.get("/api/report-schedules/:id", requireAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const schedule = await storage.getReportScheduleById(id);
+      
+      if (!schedule) {
+        return res.status(404).json({ message: "Agendamento não encontrado" });
+      }
+
+      // Check if user owns this schedule
+      if (schedule.userId !== req.session.userId) {
+        return res.status(403).json({ message: "Acesso negado" });
+      }
+
+      const recipients = await storage.getScheduleRecipients(schedule.id);
+      const runs = await storage.getScheduleRuns(schedule.id);
+
+      return res.json({
+        ...schedule,
+        recipients,
+        runs,
+      });
+    } catch (error) {
+      console.error("Get report schedule error:", error);
+      return res.status(500).json({ message: "Erro ao buscar agendamento" });
+    }
+  });
+
+  // Update a report schedule
+  app.patch("/api/report-schedules/:id", requireAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { recipients, ...updateData } = req.body;
+
+      const schedule = await storage.getReportScheduleById(id);
+      
+      if (!schedule) {
+        return res.status(404).json({ message: "Agendamento não encontrado" });
+      }
+
+      // Check if user owns this schedule
+      if (schedule.userId !== req.session.userId) {
+        return res.status(403).json({ message: "Acesso negado" });
+      }
+
+      // Update schedule
+      const updated = await storage.updateReportSchedule(id, updateData);
+
+      // Update recipients if provided
+      if (recipients && Array.isArray(recipients)) {
+        // Validate emails
+        const emailSchema = z.string().email();
+        for (const email of recipients) {
+          const emailValidation = emailSchema.safeParse(email);
+          if (!emailValidation.success) {
+            return res.status(400).json({
+              message: `E-mail inválido: ${email}`,
+            });
+          }
+        }
+
+        // Delete old recipients and add new ones
+        await storage.deleteScheduleRecipients(id);
+        for (const email of recipients) {
+          await storage.addScheduleRecipient({
+            scheduleId: id,
+            email,
+          });
+        }
+      }
+
+      const updatedRecipients = await storage.getScheduleRecipients(id);
+
+      return res.json({
+        ...updated,
+        recipients: updatedRecipients,
+      });
+    } catch (error) {
+      console.error("Update report schedule error:", error);
+      return res.status(500).json({ message: "Erro ao atualizar agendamento" });
+    }
+  });
+
+  // Delete a report schedule
+  app.delete("/api/report-schedules/:id", requireAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const schedule = await storage.getReportScheduleById(id);
+      
+      if (!schedule) {
+        return res.status(404).json({ message: "Agendamento não encontrado" });
+      }
+
+      // Check if user owns this schedule
+      if (schedule.userId !== req.session.userId) {
+        return res.status(403).json({ message: "Acesso negado" });
+      }
+
+      await storage.deleteReportSchedule(id);
+
+      return res.json({ success: true, message: "Agendamento excluído com sucesso" });
+    } catch (error) {
+      console.error("Delete report schedule error:", error);
+      return res.status(500).json({ message: "Erro ao excluir agendamento" });
+    }
+  });
+
+  // Toggle schedule active status
+  app.patch("/api/report-schedules/:id/toggle", requireAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const schedule = await storage.getReportScheduleById(id);
+      
+      if (!schedule) {
+        return res.status(404).json({ message: "Agendamento não encontrado" });
+      }
+
+      // Check if user owns this schedule
+      if (schedule.userId !== req.session.userId) {
+        return res.status(403).json({ message: "Acesso negado" });
+      }
+
+      const updated = await storage.updateReportSchedule(id, {
+        isActive: !schedule.isActive,
+      });
+
+      return res.json(updated);
+    } catch (error) {
+      console.error("Toggle report schedule error:", error);
+      return res.status(500).json({ message: "Erro ao alterar status do agendamento" });
+    }
+  });
+
+  // Get run history for a schedule
+  app.get("/api/report-schedules/:id/runs", requireAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const schedule = await storage.getReportScheduleById(id);
+      
+      if (!schedule) {
+        return res.status(404).json({ message: "Agendamento não encontrado" });
+      }
+
+      // Check if user owns this schedule
+      if (schedule.userId !== req.session.userId) {
+        return res.status(403).json({ message: "Acesso negado" });
+      }
+
+      const runs = await storage.getScheduleRuns(id);
+
+      return res.json(runs);
+    } catch (error) {
+      console.error("Get schedule runs error:", error);
+      return res.status(500).json({ message: "Erro ao buscar histórico de execuções" });
     }
   });
 

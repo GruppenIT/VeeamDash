@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Shield, LogOut, Mail, User, Check, ChevronsUpDown } from "lucide-react";
+import { Shield, LogOut, Calendar, User, Check, ChevronsUpDown } from "lucide-react";
 import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import {
@@ -81,12 +81,12 @@ export function DashboardHeader({
             <Button
               variant="outline"
               size="sm"
-              onClick={onScheduleClick}
+              onClick={() => setLocation("/agendamentos")}
               className="hidden sm:flex"
-              data-testid="button-schedule-report"
+              data-testid="button-schedules"
             >
-              <Mail className="w-4 h-4 mr-2" />
-              Agendar Relatório
+              <Calendar className="w-4 h-4 mr-2" />
+              Agendamentos
             </Button>
 
             <Popover open={open} onOpenChange={setOpen}>
