@@ -1,0 +1,60 @@
+root@vlxvrpt29:/opt/veeam-dashboard# # 1. Parar aplicação
+pm2 stop veeam-dashboard
+
+# 2. Fazer backup
+sudo cp -r /opt/veeam-dashboard /opt/veeam-dashboard-backup
+
+# 3. Copiar os arquivos acima para /opt/veeam-dashboard/
+
+# 4. Instalar dependências
+cd /opt/veeam-dashboard
+sudo npm install
+
+# 5. Aplicar migrações do banco
+sudo npm run db:push
+
+# 6. Configurar .env (adicionar variáveis M365)
+sudo nano .env
+
+# 7. Reiniciar
+pm2 start veeam-dashboard
+[PM2] Applying action stopProcessId on app [veeam-dashboard](ids: [ 0 ])
+[PM2] [veeam-dashboard](0) ✓
+┌────┬────────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name               │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ veeam-dashboard    │ default     │ 1.0.0   │ fork    │ 0        │ 0      │ 34   │ stopped   │ 0%       │ 0b       │ root     │ disabled │
+└────┴────────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+
+up to date, audited 519 packages in 3s
+
+65 packages are looking for funding
+  run `npm fund` for details
+
+9 vulnerabilities (3 low, 5 moderate, 1 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+> rest-express@1.0.0 db:push
+> drizzle-kit push
+
+No config path provided, using default 'drizzle.config.ts'
+Reading config file '/opt/veeam-dashboard/drizzle.config.ts'
+Using 'pg' driver for database querying
+[✓] Pulling schema from database...
+[i] No changes detected
+[PM2] Applying action restartProcessId on app [veeam-dashboard](ids: [ 0 ])
+[PM2] [veeam-dashboard](0) ✓
+[PM2] Process successfully started
+┌────┬────────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name               │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼────────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 0  │ veeam-dashboard    │ default     │ 1.0.0   │ fork    │ 1212317  │ 0s     │ 34   │ online    │ 0%       │ 3.1mb    │ root     │ disabled │
+└────┴────────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘
+root@vlxvrpt29:/opt/veeam-dashboard#
