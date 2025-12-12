@@ -50,9 +50,9 @@ export class PDFService {
         margin: 50,
         bufferPages: true,
         info: {
-          Title: `Relatorio de Backup - ${data.companyName}`,
+          Title: `Relatório de Backup - ${data.companyName}`,
           Author: "Gruppen IT Security",
-          Subject: "Relatorio de Backup - BaaS",
+          Subject: "Relatório de Backup - BaaS",
         },
       });
 
@@ -106,7 +106,7 @@ export class PDFService {
     doc.fillColor(this.colors.primary)
       .fontSize(36)
       .font("Helvetica-Bold")
-      .text("Relatorio de Backup", margin, centerY, { align: "center" });
+      .text("Relatório de Backup", margin, centerY, { align: "center" });
 
     doc.fillColor(this.colors.secondary)
       .fontSize(24)
@@ -116,7 +116,7 @@ export class PDFService {
     doc.fillColor(this.colors.muted)
       .fontSize(14)
       .text(
-        `Gerado em ${data.generatedAt.toLocaleDateString("pt-BR")} as ${data.generatedAt.toLocaleTimeString("pt-BR")}`,
+        `Gerado em ${data.generatedAt.toLocaleDateString("pt-BR")} às ${data.generatedAt.toLocaleTimeString("pt-BR")}`,
         margin,
         centerY + 90,
         { align: "center" }
@@ -128,14 +128,14 @@ export class PDFService {
       .fontSize(10)
       .font("Helvetica")
       .text(
-        "Relatorio gerado pela plataforma de BaaS da Gruppen IT Security.",
+        "Relatório gerado pela plataforma de BaaS da Gruppen IT Security.",
         margin,
         pageHeight - 160,
         { align: "center" }
       );
 
     doc.text(
-      "As informacoes contidas neste documento sao confidenciais.",
+      "As informações contidas neste documento são confidenciais.",
       margin,
       pageHeight - 145,
       { align: "center" }
@@ -197,7 +197,7 @@ export class PDFService {
     doc.fillColor(this.colors.secondary)
       .fontSize(16)
       .font("Helvetica-Bold")
-      .text("Status de Saude", margin, y);
+      .text("Status de Saúde", margin, y);
 
     y += 25;
 
@@ -258,7 +258,7 @@ export class PDFService {
     const pageWidth = doc.page.width;
     let y = margin;
 
-    this.addHeader(doc, "Repositorios de Armazenamento");
+    this.addHeader(doc, "Repositórios de Armazenamento");
     y += 80;
 
     const repositories = data.metrics.repositories ?? [];
@@ -267,7 +267,7 @@ export class PDFService {
       doc.fillColor(this.colors.muted)
         .fontSize(12)
         .font("Helvetica")
-        .text("Nenhum repositorio encontrado.", margin, y);
+        .text("Nenhum repositório encontrado.", margin, y);
       return;
     }
 
@@ -430,7 +430,7 @@ export class PDFService {
         .fontSize(8)
         .font("Helvetica")
         .text(
-          `Pagina ${i + 1} de ${pageCount}`,
+          `Página ${i + 1} de ${pageCount}`,
           margin,
           pageHeight - 30,
           { align: "center", width: pageWidth - 2 * margin }
@@ -453,9 +453,9 @@ export class PDFService {
 
   private getHealthLabel(status: string): string {
     switch (status) {
-      case "healthy": return "Saudavel";
-      case "warning": return "Atencao";
-      case "critical": return "Critico";
+      case "healthy": return "Saudável";
+      case "warning": return "Atenção";
+      case "critical": return "Crítico";
       default: return "Desconhecido";
     }
   }

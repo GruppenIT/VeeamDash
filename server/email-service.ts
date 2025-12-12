@@ -220,23 +220,23 @@ export class EmailService {
         </p>
         
         <p style="color: #444444; font-size: 15px; line-height: 1.7; margin: 0 0 20px 0;">
-          E com grande satisfacao que apresentamos o <strong>Relatorio de Backup</strong> da sua empresa <strong>${companyName}</strong>, referente a data <strong>${date}</strong>.
+          É com grande satisfação que apresentamos o <strong>Relatório de Backup</strong> da sua empresa <strong>${companyName}</strong>, referente à data <strong>${date}</strong>.
         </p>
 
         <p style="color: #444444; font-size: 15px; line-height: 1.7; margin: 0 0 20px 0;">
-          Este documento foi elaborado pela nossa equipe tecnica e contem informacoes detalhadas sobre o status dos seus backups, incluindo:
+          Este documento foi elaborado pela nossa equipe técnica e contém informações detalhadas sobre o status dos seus backups, incluindo:
         </p>
 
         <ul style="color: #444444; font-size: 15px; line-height: 1.8; margin: 0 0 25px 20px; padding: 0;">
-          <li>Metricas gerais de backup (total, taxa de sucesso, jobs ativos)</li>
-          <li>Status de saude da infraestrutura de backup</li>
-          <li>Utilizacao dos repositorios de armazenamento</li>
+          <li>Métricas gerais de backup (total, taxa de sucesso, jobs ativos)</li>
+          <li>Status de saúde da infraestrutura de backup</li>
+          <li>Utilização dos repositórios de armazenamento</li>
           <li>Dados protegidos (VMs, computadores, Microsoft 365)</li>
-          <li>Eventuais falhas que requerem atencao</li>
+          <li>Eventuais falhas que requerem atenção</li>
         </ul>
 
         <p style="color: #444444; font-size: 15px; line-height: 1.7; margin: 0 0 30px 0;">
-          Recomendamos a leitura atenta do relatorio em anexo. Caso identifique alguma inconsistencia ou tenha duvidas sobre os dados apresentados, nossa equipe de suporte esta a disposicao para auxiliar.
+          Recomendamos a leitura atenta do relatório em anexo. Caso identifique alguma inconsistência ou tenha dúvidas sobre os dados apresentados, nossa equipe de suporte está à disposição para auxiliar.
         </p>
 
         <!-- Attachment Notice -->
@@ -244,10 +244,10 @@ export class EmailService {
           <tr>
             <td style="padding: 20px; background-color: #e8f5e9; border-radius: 8px; border-left: 4px solid #00B336;">
               <p style="margin: 0 0 8px 0; font-size: 15px; color: #1a1a1a; font-weight: 600;">
-                Relatorio em PDF anexo
+                Relatório em PDF anexo
               </p>
               <p style="margin: 0; font-size: 13px; color: #666666;">
-                Abra o arquivo PDF em anexo para visualizar o relatorio completo com graficos e detalhes.
+                Abra o arquivo PDF em anexo para visualizar o relatório completo com gráficos e detalhes.
               </p>
             </td>
           </tr>
@@ -269,7 +269,7 @@ export class EmailService {
           Enviado pela plataforma de BaaS da <strong>Gruppen IT Security</strong>
         </p>
         <p style="color: #888888; font-size: 11px; margin: 0;">
-          As informacoes contidas neste e-mail sao confidenciais e destinadas exclusivamente ao destinatario.
+          As informações contidas neste e-mail são confidenciais e destinadas exclusivamente ao destinatário.
         </p>
       </td>
     </tr>
