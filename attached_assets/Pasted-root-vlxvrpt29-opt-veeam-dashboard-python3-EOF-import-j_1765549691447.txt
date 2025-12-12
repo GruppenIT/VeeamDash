@@ -1,0 +1,72 @@
+root@vlxvrpt29:/opt/veeam-dashboard# python3 << 'EOF'
+import json
+
+GEDORE_UID = 'dd4d0261-abdf-4738-b395-fc1c30882bac'
+
+def tb(b): return b / (1024**4)
+
+# Carregar VMs
+with open('/tmp/gedore_vms.json') as f:
+    all_vms = json.load(f).get('data', [])
+
+# Agrupar por organizationUid
+by_org = {}
+for vm in all_vms:
+    org = vm.get('organizationUid', 'N/A')
+    if org not in by_org:
+        by_org[org] = []
+    by_org[org].append(vm)
+
+print('=== VMs por organizationUid ===')
+for org, vms in by_org.items():
+    unique = len(set(v['instanceUid'] for v in vms))
+    is_gedore = '(GEDORE)' if org == GEDORE_UID else ''
+    print(f'{org} {is_gedore}: {unique} VMs')
+
+# VMs exatamente da Gedore
+gedore_exact_vms = [v for v in all_vms if v.get('organizationUid') == GEDORE_UID]
+gedore_exact_uids = set(v['instanceUid'] for v in gedore_exact_vms)
+print(f'\nVMs exatamente da Gedore: {len(gedore_exact_uids)}')
+
+# Agora calcular o tamanho usando backups
+all_backups = []
+for fn in ['/tmp/vm1.json', '/tmp/vm2.json', '/tmp/vm3.json']:
+    with open(fn) as f:
+        data = json.load(f)
+        all_backups.extend(data.get('data', []))
+
+# Filtrar backups das VMs exatas da Gedore
+gedore_backups = [b for b in all_backups if b['virtualMachineUid'] in gedore_exact_uids and b['backupType'] == 'Backup']
+print(f'Backups das {len(gedore_exact_uids)} VMs Gedore: {len(gedore_backups)}')
+
+total = sum(b.get('totalRestorePointSize', 0) for b in gedore_backups)
+print(f'\ntotalRestorePointSize: {tb(total):.2f} TB')
+EOF
+=== VMs por organizationUid ===
+b17b3348-4ecf-4e30-b214-1d79cd91f4f7 : 40 VMs
+0d80a047-a432-4dd6-8064-d31d68550804 : 2 VMs
+dd4d0261-abdf-4738-b395-fc1c30882bac (GEDORE): 112 VMs
+b80612de-af9c-4bef-abed-3cdd7a432ca4 : 5 VMs
+939c8ac2-e3ee-4269-a6b8-3a7e98766d00 : 6 VMs
+3f21557c-d158-4701-9049-e3dcd428ceb2 : 16 VMs
+a6b4717e-8a05-4e2e-81e6-5561912b6a30 : 2 VMs
+b10da2f7-8cc8-427d-8a94-3bf5ab1b1c5f : 31 VMs
+79bb0124-23f6-4f8a-af02-b5c27e2becdd : 7 VMs
+5f396da0-621a-4239-ab4e-91e26b6ac612 : 31 VMs
+422a2d56-f10c-4bf4-8063-9ecaf6fddac7 : 17 VMs
+dba4a8b8-9d00-444c-a4fc-b1e15bdc92c6 : 25 VMs
+bc4c8a68-8782-4a47-a469-f1e54b2a9baf : 17 VMs
+f466448b-54f3-4541-9ff0-7d29bb1b901e : 11 VMs
+f8a69f83-d6be-44de-817c-81e28abc9047 : 24 VMs
+05f50002-d1db-4377-a216-8ed5aa524ae7 : 53 VMs
+216e1db0-be59-4d40-acb8-cc4aba9307a2 : 5 VMs
+3526445b-15b4-4cd5-9e04-b7104bf9d4af : 15 VMs
+9c4c1e17-76d0-473e-b931-8d997bb088f7 : 4 VMs
+04fd8917-b145-43a8-ae08-3a10d92ae616 : 19 VMs
+17b99579-ab3f-47d9-91a3-1d27f1ddfa69 : 58 VMs
+
+VMs exatamente da Gedore: 112
+Backups das 112 VMs Gedore: 120
+
+totalRestorePointSize: 154.17 TB
+root@vlxvrpt29:/opt/veeam-dashboard#
