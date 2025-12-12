@@ -21,12 +21,18 @@ export function ProtectedDataOverview({ workloads }: ProtectedDataOverviewProps)
     value: w.quantity,
   }));
 
-  const formatSize = (sizeGB: number): string => {
+  const formatSize = (sizeGB: number, showNA: boolean = false): string => {
+    if (sizeGB === 0 && showNA) {
+      return 'N/A';
+    }
     if (sizeGB >= 1024) {
       return `${(sizeGB / 1024).toFixed(1)} TB`;
     }
     return `${sizeGB.toFixed(1)} GB`;
   };
+
+  // Workloads that may not have size data from the API
+  const workloadsWithoutSizeData = ['Microsoft 365 Objects', 'Computers', 'Cloud Instances'];
 
   return (
     <Card>
@@ -101,7 +107,7 @@ export function ProtectedDataOverview({ workloads }: ProtectedDataOverviewProps)
                       {workload.quantity.toLocaleString()}
                     </td>
                     <td className="text-right py-3" data-testid={`size-${workload.name.toLowerCase().replace(/\s+/g, '-')}`}>
-                      {formatSize(workload.sizeGB)}
+                      {formatSize(workload.sizeGB, workloadsWithoutSizeData.includes(workload.name))}
                     </td>
                   </tr>
                 ))}

@@ -142,15 +142,15 @@ export class VeeamService {
       
       console.log(`[VeeamService] Filtered - VMs: ${companyVMs.length}, VB365: ${companyVB365.length}`);
 
+      // Use usedSourceSize for VMs (represents actual used disk space)
       const vmTotalSizeBytes = companyVMs.reduce((sum: number, vm: any) => 
-        sum + (vm.totalRestorePointSize || 0), 0);
+        sum + (vm.usedSourceSize || 0), 0);
       const vmTotalSizeTB = vmTotalSizeBytes / (1024 ** 4);
 
-      const vb365TotalSizeBytes = companyVB365.reduce((sum: number, obj: any) => 
-        sum + (obj.totalRestorePointSize || 0), 0);
-      const vb365TotalSizeTB = vb365TotalSizeBytes / (1024 ** 4);
+      // VB365 API doesn't return size information, so we'll show 0
+      const vb365TotalSizeTB = 0;
 
-      console.log(`[VeeamService] Sizes - VMs: ${vmTotalSizeTB.toFixed(1)} TB, VB365: ${vb365TotalSizeTB.toFixed(1)} TB`);
+      console.log(`[VeeamService] Sizes - VMs: ${vmTotalSizeTB.toFixed(1)} TB (usedSourceSize), VB365: N/A`);
 
       return [
         {
