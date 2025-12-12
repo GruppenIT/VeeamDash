@@ -130,33 +130,36 @@ export class VeeamService {
     try {
       console.log(`[VeeamService] Fetching protected workloads for company: ${companyId}`);
       
-      const [vms, vb365Objects] = await Promise.all([
+      const [vms, vb365Objects, computers] = await Promise.all([
         this.fetchAllPages<any>('/api/v3/protectedWorkloads/virtualMachines'),
         this.fetchAllPages<any>('/api/v3/protectedWorkloads/vb365ProtectedObjects'),
+        this.fetchAllPages<any>('/api/v3/protectedWorkloads/computersManagedByBackupServer'),
       ]);
 
-      console.log(`[VeeamService] Total VMs fetched: ${vms.length}, VB365: ${vb365Objects.length}`);
+      console.log(`[VeeamService] Total fetched - VMs: ${vms.length}, VB365: ${vb365Objects.length}, Computers: ${computers.length}`);
       
       const companyVMs = vms.filter((vm: any) => vm.organizationUid === companyId);
       const companyVB365 = vb365Objects.filter((obj: any) => obj.organizationUid === companyId);
+      const companyComputers = computers.filter((c: any) => c.organizationUid === companyId);
       
-      console.log(`[VeeamService] Filtered - VMs: ${companyVMs.length}, VB365: ${companyVB365.length}`);
+      console.log(`[VeeamService] Filtered - VMs: ${companyVMs.length}, VB365: ${companyVB365.length}, Computers: ${companyComputers.length}`);
 
       // Use usedSourceSize for VMs (represents actual used disk space)
       const vmTotalSizeBytes = companyVMs.reduce((sum: number, vm: any) => 
         sum + (vm.usedSourceSize || 0), 0);
       const vmTotalSizeTB = vmTotalSizeBytes / (1024 ** 4);
 
-      // VB365 API doesn't return size information, so we'll show 0
+      // VB365 and Computers API don't return size information
       const vb365TotalSizeTB = 0;
+      const computersTotalSizeTB = 0;
 
-      console.log(`[VeeamService] Sizes - VMs: ${vmTotalSizeTB.toFixed(1)} TB (usedSourceSize), VB365: N/A`);
+      console.log(`[VeeamService] Sizes - VMs: ${vmTotalSizeTB.toFixed(1)} TB (usedSourceSize), VB365: N/A, Computers: N/A`);
 
       return [
         {
           name: 'Computers',
-          quantity: 0,
-          sizeGB: 0,
+          quantity: companyComputers.length,
+          sizeGB: computersTotalSizeTB * 1024,
           color: '#00B4D8',
         },
         {

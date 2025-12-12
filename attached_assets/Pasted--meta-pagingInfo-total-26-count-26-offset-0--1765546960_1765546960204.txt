@@ -1,0 +1,488 @@
+{
+  "meta": {
+    "pagingInfo": {
+      "total": 26,
+      "count": 26,
+      "offset": 0
+    }
+  },
+  "data": [
+    {
+      "instanceUid": "4c4c4544-0035-5810-8036-b6c04f4a3534",
+      "sourceInstanceUid": "6bff1892-7263-46d9-bdf4-03c0b6dd7e72",
+      "backupServerUid": "df9f2837-1ecb-4652-9d13-5757c1c60d42",
+      "protectionGroups": [
+        "730dc485-84c2-4a9d-86e7-2e35d1d5a0be",
+        "e3fd3d90-9876-472e-a212-c2d03d11509c"
+      ],
+      "organizationUid": "17b99579-ab3f-47d9-91a3-1d27f1ddfa69",
+      "name": "MHU069230.unimed-ners.net",
+      "ipAddresses": [
+        "10.29.2.68"
+      ],
+      "guestOs": "Microsoft Windows 11 (24H2, 64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-11T23:30:26.1830000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "37393150-3536-5242-4c31-343430575836",
+      "sourceInstanceUid": "612efd01-8264-484a-a233-d4c94eba38eb",
+      "backupServerUid": "df9f2837-1ecb-4652-9d13-5757c1c60d42",
+      "protectionGroups": [
+        "730dc485-84c2-4a9d-86e7-2e35d1d5a0be",
+        "e3fd3d90-9876-472e-a212-c2d03d11509c"
+      ],
+      "organizationUid": "17b99579-ab3f-47d9-91a3-1d27f1ddfa69",
+      "name": "SUN075.unimed-ners.net",
+      "ipAddresses": [
+        "10.0.0.75"
+      ],
+      "guestOs": "Microsoft Windows Server 2019 (1809, 64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-11T21:30:13.5670000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "37393150-3536-5242-4c31-343430575836",
+      "sourceInstanceUid": "612efd01-8264-484a-a233-d4c94eba38eb",
+      "backupServerUid": "df9f2837-1ecb-4652-9d13-5757c1c60d42",
+      "protectionGroups": [
+        "730dc485-84c2-4a9d-86e7-2e35d1d5a0be",
+        "e3fd3d90-9876-472e-a212-c2d03d11509c"
+      ],
+      "organizationUid": "17b99579-ab3f-47d9-91a3-1d27f1ddfa69",
+      "name": "SUN075.unimed-ners.net",
+      "ipAddresses": [
+        "10.0.0.75"
+      ],
+      "guestOs": "Microsoft Windows Server 2019 (1809, 64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-11T21:30:13.5670000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "9a533d42-386e-143e-09f2-eb664255b012",
+      "sourceInstanceUid": "6d51a3b8-a66b-4df4-a020-eba85c218422",
+      "backupServerUid": "0a81103a-90bb-41e4-a0db-8d93a8cdf0c9",
+      "protectionGroups": [
+        "33fe07e8-2e6e-4f7e-8704-55d2cb3f0d0f"
+      ],
+      "organizationUid": "b10da2f7-8cc8-427d-8a94-3bf5ab1b1c5f",
+      "name": "stellaweb01",
+      "ipAddresses": [
+        "138.0.29.126"
+      ],
+      "guestOs": "Ubuntu 16.04.7 LTS",
+      "platformType": "Linux",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-12T02:01:11.0000000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "6cc52f42-fc32-4c64-9022-fd0b402ceb06",
+      "sourceInstanceUid": "6bf4a82d-9c18-4920-849a-d964d4a5e5ef",
+      "backupServerUid": "362f49c2-ecdc-4128-bf60-5988c3599d3a",
+      "protectionGroups": [
+        "56d339c6-149e-4387-b0c7-e16fa11a7c66"
+      ],
+      "organizationUid": "b17b3348-4ecf-4e30-b214-1d79cd91f4f7",
+      "name": "pavmsts85.medabil.com.br",
+      "ipAddresses": [
+        "10.51.0.85"
+      ],
+      "guestOs": "Microsoft Windows Server 2016 (1607, 64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-10T22:00:25.2800000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "922c4d56-55e4-d128-d345-4c575bdf0828",
+      "sourceInstanceUid": "f2648e6b-3b81-41f9-8098-c551dff71fb4",
+      "backupServerUid": "c12531f7-7268-461b-a8be-9ee34adf2165",
+      "protectionGroups": [
+        "79a5d280-d50a-4766-9e36-756e6b5a8a13"
+      ],
+      "organizationUid": "dba4a8b8-9d00-444c-a4fc-b1e15bdc92c6",
+      "name": "vmsquestor.miolo.local",
+      "ipAddresses": [
+        "10.0.7.100"
+      ],
+      "guestOs": "Microsoft Windows Server 2016 (1607, 64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-11T22:00:23.2730000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "922c4d56-55e4-d128-d345-4c575bdf0828",
+      "sourceInstanceUid": "f2648e6b-3b81-41f9-8098-c551dff71fb4",
+      "backupServerUid": "c12531f7-7268-461b-a8be-9ee34adf2165",
+      "protectionGroups": [
+        "79a5d280-d50a-4766-9e36-756e6b5a8a13"
+      ],
+      "organizationUid": "dba4a8b8-9d00-444c-a4fc-b1e15bdc92c6",
+      "name": "vmsquestor.miolo.local",
+      "ipAddresses": [
+        "10.0.7.100"
+      ],
+      "guestOs": "Microsoft Windows Server 2016 (1607, 64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-11T22:00:23.2730000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "4c4c4544-0033-5610-8047-c6c04f323634",
+      "sourceInstanceUid": "315c99ab-647f-46c7-bd1e-4b1ff424f1e6",
+      "backupServerUid": "141c0ff6-a829-4292-878c-977a548d6da1",
+      "protectionGroups": [
+        "934a35c2-0561-459e-a243-8ac5a37b18f5"
+      ],
+      "organizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+      "name": "NOTEBOOK-3440.gedore.local",
+      "ipAddresses": [
+        "10.4.10.65"
+      ],
+      "guestOs": "Microsoft Windows 11 (23H2, 64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2024-11-11T20:00:32.4900000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "4c4c4544-0033-5810-8035-cac04f375a32",
+      "sourceInstanceUid": "5fe9965f-97d0-4cea-b927-1d9adb085cd9",
+      "backupServerUid": "141c0ff6-a829-4292-878c-977a548d6da1",
+      "protectionGroups": [
+        "dd639d31-56a9-4bb3-99bc-901720304db8"
+      ],
+      "organizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+      "name": "DSKGEDORE254.gedore.local",
+      "ipAddresses": [
+        "10.4.70.64"
+      ],
+      "guestOs": "Microsoft Windows 10 (22H2, 64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-11T16:00:42.4000000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "4c4c4544-0035-4710-8046-cac04f514d32",
+      "sourceInstanceUid": "afbebbd0-efd1-4443-bd81-3ed079562c99",
+      "backupServerUid": "141c0ff6-a829-4292-878c-977a548d6da1",
+      "protectionGroups": [
+        "02befa15-32f1-4e4c-baa1-74704149d867"
+      ],
+      "organizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+      "name": "DSK000134.gedore.local",
+      "ipAddresses": [
+        "10.4.100.80"
+      ],
+      "guestOs": "Microsoft Windows 10 (22H2, 64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-11T16:00:43.1370000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "4c4c4544-0043-3110-804b-c7c04f343234",
+      "sourceInstanceUid": "c00498f5-ad17-44b9-9bb6-1aa9c361b67b",
+      "backupServerUid": "141c0ff6-a829-4292-878c-977a548d6da1",
+      "protectionGroups": [
+        "02befa15-32f1-4e4c-baa1-74704149d867"
+      ],
+      "organizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+      "name": "DSK004258.gedore.local",
+      "ipAddresses": [
+        "10.4.140.54"
+      ],
+      "guestOs": "Microsoft Windows 11 (23H2, 64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-11T16:00:42.6500000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "4c4c4544-004c-4c10-8043-b6c04f4a3634",
+      "sourceInstanceUid": "ebfac959-6901-47a6-9724-e9c01076db42",
+      "backupServerUid": "141c0ff6-a829-4292-878c-977a548d6da1",
+      "protectionGroups": [
+        "934a35c2-0561-459e-a243-8ac5a37b18f5"
+      ],
+      "organizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+      "name": "NOTE-3450.gedore.local",
+      "ipAddresses": [
+        "10.4.10.57"
+      ],
+      "guestOs": "Microsoft Windows 11 (23H2, 64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-01-08T13:30:25.0200000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "4c4c4544-0036-4a10-805a-b3c04f525032",
+      "sourceInstanceUid": "dd9fbb0a-1ebb-4187-bc07-4cdaa00ccb02",
+      "backupServerUid": "141c0ff6-a829-4292-878c-977a548d6da1",
+      "protectionGroups": [
+        "02befa15-32f1-4e4c-baa1-74704149d867"
+      ],
+      "organizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+      "name": "DSK000229.gedore.local",
+      "ipAddresses": [
+        "10.4.70.86"
+      ],
+      "guestOs": "Microsoft Windows 10 (22H2, 64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-11T16:00:42.9930000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "4c4c4544-0031-4b10-8034-b9c04f365133",
+      "sourceInstanceUid": "0f415c40-3e19-43de-81e0-27b4cbf734d2",
+      "backupServerUid": "141c0ff6-a829-4292-878c-977a548d6da1",
+      "protectionGroups": [
+        "02befa15-32f1-4e4c-baa1-74704149d867"
+      ],
+      "organizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+      "name": "DSK001437.gedore.local",
+      "ipAddresses": [
+        "10.4.100.74"
+      ],
+      "guestOs": "Microsoft Windows 10 (22H2, 64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-11T16:00:42.8070000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "4c4c4544-004b-4c10-8043-b4c04f4a3634",
+      "sourceInstanceUid": "560cf689-9818-486c-a4f0-27a4643c1df0",
+      "backupServerUid": "141c0ff6-a829-4292-878c-977a548d6da1",
+      "protectionGroups": [
+        "934a35c2-0561-459e-a243-8ac5a37b18f5"
+      ],
+      "organizationUid": "dd4d0261-abdf-4738-b395-fc1c30882bac",
+      "name": "NB004985.gedore.local",
+      "ipAddresses": [
+        "10.4.10.56"
+      ],
+      "guestOs": "Microsoft Windows 11 (24H2, 64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-07-11T18:12:12.5800000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "44454c4c-4e00-1053-8034-b7c04f314433",
+      "sourceInstanceUid": "20b3d088-d975-4879-b619-1e6ab11082b6",
+      "backupServerUid": "f40c28eb-8262-4dbf-bf82-8f7cc1054cc3",
+      "protectionGroups": [
+        "730dc485-84c2-4a9d-86e7-2e35d1d5a0be",
+        "dcbf1baf-4d2a-4828-b5a7-7ff56a774493"
+      ],
+      "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+      "name": "oracle.icinex.br",
+      "ipAddresses": [
+        "10.0.0.150"
+      ],
+      "guestOs": "Oracle Linux Server 7.8",
+      "platformType": "Linux",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-12T07:00:26.1230000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "44454c4c-4e00-1053-8034-b7c04f314433",
+      "sourceInstanceUid": "20b3d088-d975-4879-b619-1e6ab11082b6",
+      "backupServerUid": "f40c28eb-8262-4dbf-bf82-8f7cc1054cc3",
+      "protectionGroups": [
+        "730dc485-84c2-4a9d-86e7-2e35d1d5a0be",
+        "dcbf1baf-4d2a-4828-b5a7-7ff56a774493"
+      ],
+      "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+      "name": "oracle.icinex.br",
+      "ipAddresses": [
+        "10.0.0.150"
+      ],
+      "guestOs": "Oracle Linux Server 7.8",
+      "platformType": "Linux",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-12T07:00:26.1230000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "44454c4c-4e00-1053-8034-b7c04f314433",
+      "sourceInstanceUid": "20b3d088-d975-4879-b619-1e6ab11082b6",
+      "backupServerUid": "f40c28eb-8262-4dbf-bf82-8f7cc1054cc3",
+      "protectionGroups": [
+        "730dc485-84c2-4a9d-86e7-2e35d1d5a0be",
+        "dcbf1baf-4d2a-4828-b5a7-7ff56a774493"
+      ],
+      "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+      "name": "oracle.icinex.br",
+      "ipAddresses": [
+        "10.0.0.150"
+      ],
+      "guestOs": "Oracle Linux Server 7.8",
+      "platformType": "Linux",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-12T07:00:26.1230000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "aab51edd-fb66-4252-a5e2-9d67e2f057f5",
+      "sourceInstanceUid": "268e3f39-7d52-4420-a9a5-9e1e347d98c9",
+      "backupServerUid": "f40c28eb-8262-4dbf-bf82-8f7cc1054cc3",
+      "protectionGroups": [
+        "730dc485-84c2-4a9d-86e7-2e35d1d5a0be"
+      ],
+      "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+      "name": "cnxsrvbackup",
+      "ipAddresses": [
+        "10.0.0.145"
+      ],
+      "guestOs": "Microsoft Windows Server 2019 (1809, 64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-11T21:49:13.8500000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "4c4c4544-004d-5010-8035-c2c04f365731",
+      "sourceInstanceUid": "e1519f40-8461-45be-a985-c1a05c65b522",
+      "backupServerUid": "f40c28eb-8262-4dbf-bf82-8f7cc1054cc3",
+      "protectionGroups": [
+        "730dc485-84c2-4a9d-86e7-2e35d1d5a0be"
+      ],
+      "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+      "name": "CNXSRV01.icinex.br",
+      "ipAddresses": [
+        "10.0.0.10"
+      ],
+      "guestOs": "Microsoft Windows Server 2012 R2 (64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-12T05:00:27.6930000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "4c4c4544-004d-5010-8035-c2c04f365731",
+      "sourceInstanceUid": "e1519f40-8461-45be-a985-c1a05c65b522",
+      "backupServerUid": "f40c28eb-8262-4dbf-bf82-8f7cc1054cc3",
+      "protectionGroups": [
+        "730dc485-84c2-4a9d-86e7-2e35d1d5a0be"
+      ],
+      "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+      "name": "CNXSRV01.icinex.br",
+      "ipAddresses": [
+        "10.0.0.10"
+      ],
+      "guestOs": "Microsoft Windows Server 2012 R2 (64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-12T05:00:27.6930000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "4c4c4544-004d-3910-804c-c3c04f535932",
+      "sourceInstanceUid": "f94a8b62-712a-4f42-a631-514ce4c538a3",
+      "backupServerUid": "f40c28eb-8262-4dbf-bf82-8f7cc1054cc3",
+      "protectionGroups": [
+        "113c807b-6755-46ed-be8a-cc486d789f12",
+        "730dc485-84c2-4a9d-86e7-2e35d1d5a0be"
+      ],
+      "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+      "name": "CNXSRV4390.icinex.br",
+      "ipAddresses": [
+        "10.0.0.73"
+      ],
+      "guestOs": "Microsoft Windows Server 2016 (1607, 64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-11T23:00:24.4430000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "4c4c4544-004d-3910-804c-c3c04f535932",
+      "sourceInstanceUid": "f94a8b62-712a-4f42-a631-514ce4c538a3",
+      "backupServerUid": "f40c28eb-8262-4dbf-bf82-8f7cc1054cc3",
+      "protectionGroups": [
+        "113c807b-6755-46ed-be8a-cc486d789f12",
+        "730dc485-84c2-4a9d-86e7-2e35d1d5a0be"
+      ],
+      "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+      "name": "CNXSRV4390.icinex.br",
+      "ipAddresses": [
+        "10.0.0.73"
+      ],
+      "guestOs": "Microsoft Windows Server 2016 (1607, 64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-11T23:00:24.4430000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "4c4c4544-004d-3910-804c-c3c04f535932",
+      "sourceInstanceUid": "f94a8b62-712a-4f42-a631-514ce4c538a3",
+      "backupServerUid": "f40c28eb-8262-4dbf-bf82-8f7cc1054cc3",
+      "protectionGroups": [
+        "113c807b-6755-46ed-be8a-cc486d789f12",
+        "730dc485-84c2-4a9d-86e7-2e35d1d5a0be"
+      ],
+      "organizationUid": "3526445b-15b4-4cd5-9e04-b7104bf9d4af",
+      "name": "CNXSRV4390.icinex.br",
+      "ipAddresses": [
+        "10.0.0.73"
+      ],
+      "guestOs": "Microsoft Windows Server 2016 (1607, 64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-11T23:00:24.4430000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "c75d65af-03e2-414e-8ab0-952f96a92dfa",
+      "sourceInstanceUid": "ef28888f-c844-423c-81a3-fdc69f7af243",
+      "backupServerUid": "4549f4b9-5e9c-4f74-b195-f8a2c31b2f8e",
+      "protectionGroups": [
+        "f6310392-330d-4eae-978e-ff59eaf0ea14"
+      ],
+      "organizationUid": "79bb0124-23f6-4f8a-af02-b5c27e2becdd",
+      "name": "srvfiles",
+      "ipAddresses": [
+        "192.168.10.13"
+      ],
+      "guestOs": "Microsoft Windows Server 2012 (64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-12T06:05:27.6600000+00:00",
+      "malwareState": "Unverified"
+    },
+    {
+      "instanceUid": "c75d65af-03e2-414e-8ab0-952f96a92dfa",
+      "sourceInstanceUid": "ef28888f-c844-423c-81a3-fdc69f7af243",
+      "backupServerUid": "4549f4b9-5e9c-4f74-b195-f8a2c31b2f8e",
+      "protectionGroups": [
+        "f6310392-330d-4eae-978e-ff59eaf0ea14"
+      ],
+      "organizationUid": "79bb0124-23f6-4f8a-af02-b5c27e2becdd",
+      "name": "srvfiles",
+      "ipAddresses": [
+        "192.168.10.13"
+      ],
+      "guestOs": "Microsoft Windows Server 2012 (64-bit)",
+      "platformType": "Windows",
+      "operationMode": "Server",
+      "latestRestorePointDate": "2025-12-12T06:05:27.6600000+00:00",
+      "malwareState": "Unverified"
+    }
+  ]
+}
