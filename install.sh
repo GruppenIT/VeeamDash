@@ -106,10 +106,12 @@ echo "  ✓ PM2 instalado"
 # ============================================
 echo "[8/10] Atualizando código-fonte..."
 
-# Fazer backup do .env se existir
-ENV_BACKUP=""
+# Fazer backup do .env se existir (usando cp para preservar caracteres especiais)
+ENV_BACKUP_FILE="/tmp/.env.veeam-backup.$$"
+HAS_ENV_BACKUP=false
 if [ -f "$APP_DIR/.env" ]; then
-  ENV_BACKUP=$(cat "$APP_DIR/.env")
+  cp "$APP_DIR/.env" "$ENV_BACKUP_FILE"
+  HAS_ENV_BACKUP=true
   echo "  ✓ Backup do .env realizado"
 fi
 
@@ -131,11 +133,11 @@ else
   echo "  ✓ Repositório clonado"
 fi
 
-# Restaurar .env do backup
-if [ -n "$ENV_BACKUP" ]; then
-  echo "$ENV_BACKUP" > "$APP_DIR/.env"
+# Restaurar .env do backup (usando mv para preservar caracteres especiais)
+if [ "$HAS_ENV_BACKUP" = true ] && [ -f "$ENV_BACKUP_FILE" ]; then
+  mv "$ENV_BACKUP_FILE" "$APP_DIR/.env"
   echo "  ✓ Arquivo .env restaurado"
-else
+elif [ ! -f "$APP_DIR/.env" ]; then
   # Criar .env apenas se não existir
   echo "  Criando arquivo .env..."
   cat > $APP_DIR/.env << ENV_EOF

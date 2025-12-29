@@ -112,22 +112,23 @@ A aplicação estará disponível em `http://localhost:5000`
 
 ## Instalação em Produção (Ubuntu 24.04)
 
-### 🚀 Instalação Automatizada com Nginx + SSL
+### 🚀 Instalação/Atualização Automatizada
 
-Execute o script de instalação que configura automaticamente:
+Execute o script de instalação que funciona tanto para **instalação nova** quanto para **atualização**:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/GruppenIT/VeeamDash/refs/heads/main/install.sh | sudo bash
 ```
 
-**O script realiza:**
-- ✅ **Hard reset completo** (limpa instalações anteriores)
-- ✅ PostgreSQL + Node.js 20 + PM2 + Nginx
+**O script é seguro e não-destrutivo:**
+- ✅ **Preserva arquivo .env** existente (faz backup e restaura)
+- ✅ **Preserva banco de dados** (usa apenas migrações)
+- ✅ PostgreSQL + Node.js 20 + PM2 + Nginx + Playwright
 - ✅ **Certificado SSL self-signed** para HTTPS
 - ✅ **Domínio local**: `veeamdash.zerogroup.local`
-- ✅ **Porta 443** (HTTPS) com redirect automático do HTTP
-- ✅ Build da aplicação e migração do banco
+- ✅ Build da aplicação e migração incremental do banco
 - ✅ PM2 com auto-restart configurado
+- ✅ Crontab para coleta automática de snapshots
 
 ### 🌐 Acesso Após Instalação
 
