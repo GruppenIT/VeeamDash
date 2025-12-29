@@ -103,8 +103,8 @@ export default function PrintReport() {
       `}</style>
       
       <div className="p-8">
-        {/* Banner com Logos */}
-        <div className="flex justify-center items-center gap-6 mb-8 py-6 border-b-2 border-primary">
+        {/* Banner com Logos - Fundo Preto */}
+        <div className="flex justify-center items-center gap-8 mb-8 py-6 bg-black rounded-lg">
           <img src={gruppenLogo} alt="Gruppen" className="h-10 object-contain" />
           <img src={zeroboxLogo} alt="Zerobox" className="h-10 object-contain" />
           <img src={firewall365Logo} alt="Firewall365" className="h-10 object-contain" />
@@ -197,16 +197,14 @@ export default function PrintReport() {
             
             <div className="text-sm text-muted-foreground leading-relaxed space-y-3">
               <p>
-                Este relatório é gerado automaticamente pela plataforma de monitoramento Veeam VSPC 
-                Dashboard e reflete o estado atual dos serviços de backup contratados. Os dados 
-                apresentados são coletados diretamente da infraestrutura de proteção de dados.
+                Este relatório é gerado automaticamente pela plataforma de BaaS da Gruppen it Security 
+                e reflete o estado atual dos serviços de backup contratados.
               </p>
               
               <p>
-                A <strong>Gruppen IT</strong>, através de suas marcas <strong>Zerobox</strong>, 
-                <strong> Firewall365</strong> e <strong>GSecDo</strong>, oferece soluções completas 
-                de proteção de dados, segurança da informação e infraestrutura de TI para empresas 
-                de todos os portes.
+                Nossa equipe, através das marcas <strong>Gruppen</strong>, <strong>Zerobox</strong> e 
+                <strong> Firewall365</strong>, oferecemos soluções completas de proteção de dados, 
+                segurança da informação e infraestrutura de TI para empresas de todos os portes.
               </p>
               
               <p>
@@ -228,13 +226,13 @@ export default function PrintReport() {
                 https://sistemas.gruppen.com.br
               </a>
               <p className="text-xs text-muted-foreground mt-3">
-                Gruppen IT - Soluções em Tecnologia da Informação
+                // Gruppen it Security // Tecnologia Pensada em Grupo
               </p>
             </div>
           </div>
 
           <div className="text-center mt-6 text-xs text-muted-foreground">
-            <p>Documento gerado automaticamente. Este relatório é confidencial e destinado exclusivamente ao cliente.</p>
+            <p>Documento gerado automaticamente. Este relatório é confidencial e destinado exclusivamente ao cliente {companyName}.</p>
           </div>
         </footer>
       </div>
