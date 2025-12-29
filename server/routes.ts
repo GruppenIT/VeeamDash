@@ -617,6 +617,120 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get all report data in a single request (for PDF generation)
+  app.get("/api/report/data/:companyId", requireAuth, async (req, res) => {
+    try {
+      const { companyId } = req.params;
+      
+      if (!companyId) {
+        return res.status(400).json({ message: "Company ID é obrigatório" });
+      }
+
+      console.log(`[ReportData] Fetching all data for company ${companyId}...`);
+
+      const fetchWithFallback = async <T>(
+        name: string,
+        fetcher: () => Promise<T>,
+        fallback: T
+      ): Promise<{ data: T; error: string | null }> => {
+        try {
+          const data = await fetcher();
+          return { data, error: null };
+        } catch (err) {
+          console.error(`[ReportData] Error fetching ${name}:`, err);
+          return { data: fallback, error: err instanceof Error ? err.message : String(err) };
+        }
+      };
+
+      const [companiesResult, metricsResult, scorecardResult, sessionStatesResult, monthlyStatsResult, failedJobsResult] = await Promise.all([
+        fetchWithFallback("companies", () => veeamService.getCompanies(), []),
+        fetchWithFallback("metrics", () => veeamService.getDashboardMetrics(companyId), { 
+          totalBackups: 0, successRate: 0, activeJobs: 0, storageUsedGB: 0, 
+          healthStatus: 'warning' as const, repositories: [], monthlySuccessRates: [],
+          recentFailures: [], protectedWorkloads: []
+        }),
+        fetchWithFallback("scorecard", () => veeamService.getDataPlatformScorecard(companyId), {
+          overallScore: 0, status: "Atenção" as const, statusMessage: "Dados indisponíveis",
+          jobSessions: { percentage: 0, okCount: 0, issueCount: 0, title: "Sessões de Jobs" },
+          platformHealth: { percentage: 0, okCount: 0, issueCount: 0, title: "Saúde da Plataforma" }
+        }),
+        fetchWithFallback("sessionStates", () => veeamService.getSessionStates(companyId), { days: [], hasData: false }),
+        fetchWithFallback("monthlyStats", () => veeamService.getMonthlyStats(companyId), []),
+        fetchWithFallback("failedJobs", () => veeamService.getFailedJobs(companyId), []),
+      ]);
+
+      const company = companiesResult.data.find(c => c.instanceUid === companyId);
+      const companyName = company?.name || "Cliente";
+
+      const errors = [
+        metricsResult.error && `metrics: ${metricsResult.error}`,
+        scorecardResult.error && `scorecard: ${scorecardResult.error}`,
+      ].filter(Boolean);
+
+      const hasEssentialData = !metricsResult.error && !scorecardResult.error;
+
+      console.log(`[ReportData] Data fetched for ${companyName}. Essential data: ${hasEssentialData}`);
+
+      return res.json({
+        success: hasEssentialData,
+        companyId,
+        companyName,
+        metrics: metricsResult.data,
+        scorecard: scorecardResult.data,
+        sessionStates: sessionStatesResult.data,
+        monthlyStats: monthlyStatsResult.data,
+        failedJobs: failedJobsResult.data,
+        generatedAt: new Date().toISOString(),
+        errors: errors.length > 0 ? errors : undefined,
+      });
+    } catch (error) {
+      console.error("[ReportData] Error fetching report data:", error);
+      return res.status(500).json({ 
+        success: false,
+        message: "Erro ao buscar dados do relatório",
+        error: error instanceof Error ? error.message : String(error)
+      });
+    }
+  });
+
+  // Generate PDF report via Playwright (download endpoint)
+  app.get("/api/report/pdf/:companyId", requireAuth, async (req, res) => {
+    try {
+      const { companyId } = req.params;
+      
+      if (!companyId) {
+        return res.status(400).json({ message: "Company ID é obrigatório" });
+      }
+
+      // Get company name for the filename
+      const companies = await veeamService.getCompanies();
+      const company = companies.find(c => c.instanceUid === companyId);
+      const companyName = company?.name || "Relatorio";
+      const sanitizedName = companyName.replace(/[^a-zA-Z0-9]/g, "_");
+
+      // Import and use Playwright PDF service
+      const { playwrightPdfService } = await import("./playwright-pdf-service");
+      const baseUrl = process.env.BASE_URL || `http://localhost:${process.env.PORT || 5000}`;
+      
+      console.log(`[PDF] Generating PDF for company ${companyId}...`);
+      const pdfBuffer = await playwrightPdfService.generatePdf(companyId, baseUrl);
+      
+      const filename = `Relatorio_BaaS_${sanitizedName}_${new Date().toISOString().split('T')[0]}.pdf`;
+      
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+      res.setHeader("Content-Length", pdfBuffer.length);
+      
+      return res.send(pdfBuffer);
+    } catch (error) {
+      console.error("[PDF] Error generating PDF:", error);
+      return res.status(500).json({ 
+        message: "Erro ao gerar PDF. Verifique se o Playwright está instalado corretamente.",
+        error: error instanceof Error ? error.message : String(error)
+      });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

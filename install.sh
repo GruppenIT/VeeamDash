@@ -132,13 +132,39 @@ git clone https://github.com/GruppenIT/VeeamDash.git $APP_DIR
 cd $APP_DIR
 
 # [9] Instalar dependências (incluindo devDependencies para build)
-echo "[9/11] Instalando dependências..."
+echo "[9/12] Instalando dependências..."
 # Forçar instalação de devDependencies mesmo em produção (necessário para vite/esbuild)
 npm install --include=dev --silent
 echo "  ✓ Dependências instaladas (com devDependencies para build)"
 
+# [9.5] Instalar dependências do Playwright
+echo "[9.5/12] Instalando dependências do Playwright para geração de PDF..."
+# Instalar dependências de sistema para Chromium headless
+DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+  libnss3 \
+  libxss1 \
+  libatk1.0-0 \
+  libatk-bridge2.0-0 \
+  libcups2 \
+  libdrm2 \
+  libxkbcommon0 \
+  libxcomposite1 \
+  libxdamage1 \
+  libxfixes3 \
+  libxrandr2 \
+  libgbm1 \
+  libasound2 \
+  libpango-1.0-0 \
+  libcairo2 \
+  fonts-liberation \
+  libfontconfig1 \
+  2>/dev/null || echo "  ⚠ Algumas dependências do Playwright podem já estar instaladas"
+# Baixar navegador Chromium para Playwright
+npx playwright install chromium --with-deps 2>/dev/null || npx playwright install chromium
+echo "  ✓ Playwright e Chromium instalados"
+
 # [10] Criar certificado SSL self-signed
-echo "[10/11] Criando certificado SSL self-signed..."
+echo "[10/12] Criando certificado SSL self-signed..."
 mkdir -p /etc/ssl/veeam-dashboard
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   -keyout /etc/ssl/veeam-dashboard/key.pem \
@@ -149,7 +175,7 @@ chmod 644 /etc/ssl/veeam-dashboard/cert.pem
 echo "  ✓ Certificado SSL criado"
 
 # [11] Configurar Nginx
-echo "[11/11] Configurando Nginx como reverse proxy..."
+echo "[11/12] Configurando Nginx como reverse proxy..."
 
 # Detectar IP do servidor
 SERVER_IP=$(hostname -I | awk '{print $1}')

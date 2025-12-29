@@ -1,6 +1,6 @@
 import cron from "node-cron";
 import { storage } from "./storage";
-import { pdfService } from "./pdf-service";
+import { playwrightPdfService } from "./playwright-pdf-service";
 import { emailService } from "./email-service";
 import type { ReportSchedule, ScheduleRecipient } from "@shared/schema";
 
@@ -104,7 +104,6 @@ export class SchedulerService {
       scheduleId: schedule.id,
       status: "running",
       recipientCount: 0,
-      startedAt: new Date(),
     });
 
     try {
@@ -120,7 +119,8 @@ export class SchedulerService {
       }
 
       console.log(`[Scheduler] Generating PDF for ${schedule.companyName}...`);
-      const pdfBuffer = await pdfService.generateReport(schedule.companyId, schedule.companyName);
+      const baseUrl = process.env.BASE_URL || "http://localhost:5000";
+      const pdfBuffer = await playwrightPdfService.generatePdf(schedule.companyId, baseUrl);
 
       console.log(`[Scheduler] Sending email to ${recipientEmails.length} recipients...`);
       await emailService.sendReportEmail(

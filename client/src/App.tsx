@@ -7,6 +7,7 @@ import Login from "@/pages/login";
 import Dashboard from "@/pages/dashboard";
 import Profile from "@/pages/profile";
 import Schedules from "@/pages/schedules";
+import PrintReport from "@/pages/print-report";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -16,6 +17,7 @@ function Router() {
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/profile" component={Profile} />
       <Route path="/agendamentos" component={Schedules} />
+      <Route path="/report/print/:companyId" component={PrintReport} />
       <Route component={NotFound} />
     </Switch>
   );
