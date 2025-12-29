@@ -257,6 +257,14 @@ PORT=5000
 ENV_EOF
 
 # ============================================
+# CARREGAR VARIÁVEIS DE AMBIENTE
+# ============================================
+echo "Carregando variáveis de ambiente..."
+set -a
+source $APP_DIR/.env
+set +a
+
+# ============================================
 # BUILD DA APLICAÇÃO
 # ============================================
 echo "Compilando aplicação..."
@@ -272,7 +280,6 @@ npm run db:push
 # POPULAR BANCO COM USUÁRIO PADRÃO
 # ============================================
 echo "Criando usuário padrão (login@sistema.com)..."
-# Compilar seed.ts separadamente
 npx tsx server/seed.ts
 
 # ============================================
