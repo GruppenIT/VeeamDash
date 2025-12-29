@@ -8,6 +8,11 @@ import { MonthlyCharts } from "@/components/monthly-charts";
 import { FailedJobsTable } from "@/components/failed-jobs-table";
 import type { DashboardMetrics, DataPlatformScorecard as ScorecardType, SessionStatesData, MonthlyChartData, FailedJob } from "@shared/schema";
 
+import gruppenLogo from "@assets/gruppen_1765573676765.png";
+import zeroboxLogo from "@assets/zerobox_1765573676765.png";
+import firewall365Logo from "@assets/firewall365_1765573676765.png";
+import gsecdoLogo from "@assets/gsecdo_1765573676765.png";
+
 interface ReportData {
   success: boolean;
   companyId: string;
@@ -36,8 +41,16 @@ export default function PrintReport() {
     day: "2-digit",
     month: "long",
     year: "numeric",
+  });
+
+  const reportTime = new Date().toLocaleTimeString("pt-BR", {
     hour: "2-digit",
     minute: "2-digit"
+  });
+
+  const currentMonth = new Date().toLocaleDateString("pt-BR", {
+    month: "long",
+    year: "numeric"
   });
 
   useEffect(() => {
@@ -90,19 +103,50 @@ export default function PrintReport() {
       `}</style>
       
       <div className="p-8">
-        <header className="mb-8 pb-6 border-b-2 border-primary">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-foreground">Relatório BaaS</h1>
-              <p className="text-lg text-muted-foreground mt-1">{companyName}</p>
-            </div>
-            <div className="text-right">
-              <p className="text-sm text-muted-foreground">Gerado em</p>
-              <p className="font-medium">{reportDate}</p>
-            </div>
-          </div>
+        {/* Banner com Logos */}
+        <div className="flex justify-center items-center gap-6 mb-8 py-6 border-b-2 border-primary">
+          <img src={gruppenLogo} alt="Gruppen" className="h-10 object-contain" />
+          <img src={zeroboxLogo} alt="Zerobox" className="h-10 object-contain" />
+          <img src={firewall365Logo} alt="Firewall365" className="h-10 object-contain" />
+          <img src={gsecdoLogo} alt="GSecDo" className="h-10 object-contain" />
+        </div>
+
+        {/* Cabeçalho Formal */}
+        <header className="mb-8 text-center">
+          <h1 className="text-3xl font-bold text-foreground mb-2">
+            Relatório de Backup as a Service
+          </h1>
+          <h2 className="text-xl text-primary font-semibold mb-4">
+            {companyName}
+          </h2>
+          <p className="text-muted-foreground">
+            Período de Referência: {currentMonth}
+          </p>
+          <p className="text-sm text-muted-foreground mt-1">
+            Gerado em {reportDate} às {reportTime}
+          </p>
         </header>
 
+        {/* Introdução Formal */}
+        <section className="mb-8 p-6 bg-slate-50 rounded-lg border border-slate-200">
+          <h3 className="text-lg font-semibold text-foreground mb-3">Apresentação</h3>
+          <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+            Prezado cliente,
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+            Este documento apresenta o relatório consolidado dos serviços de Backup as a Service (BaaS) 
+            prestados à <strong>{companyName}</strong>. O relatório contém informações detalhadas sobre 
+            o status de proteção dos seus dados, desempenho das rotinas de backup, e métricas de saúde 
+            da plataforma.
+          </p>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            Nosso compromisso é garantir a continuidade e segurança das suas informações através de 
+            uma infraestrutura de backup robusta e monitoramento contínuo. As métricas apresentadas 
+            refletem nosso empenho em manter os mais altos padrões de qualidade e disponibilidade.
+          </p>
+        </section>
+
+        {/* Scorecard Principal */}
         <section className="mb-8">
           <DataPlatformScorecard
             overallScore={scorecard.overallScore}
@@ -113,12 +157,14 @@ export default function PrintReport() {
           />
         </section>
 
+        {/* Protected Data Overview */}
         <section className="mb-8">
           <ProtectedDataOverview workloads={metrics.protectedWorkloads} />
         </section>
 
         <div className="page-break"></div>
 
+        {/* Gráficos Mensais */}
         <section className="mb-8">
           <MonthlyCharts 
             data={monthlyStats || []} 
@@ -126,6 +172,7 @@ export default function PrintReport() {
           />
         </section>
 
+        {/* Calendário de Estados */}
         <section className="mb-8">
           <SessionStatesCalendar 
             data={sessionStates || { days: [], hasData: false }} 
@@ -133,6 +180,7 @@ export default function PrintReport() {
           />
         </section>
 
+        {/* Tabela de Jobs com Falha */}
         <section className="mb-8">
           <FailedJobsTable 
             jobs={failedJobs || []} 
@@ -140,9 +188,54 @@ export default function PrintReport() {
           />
         </section>
 
-        <footer className="mt-12 pt-6 border-t text-center text-sm text-muted-foreground">
-          <p>Relatório gerado automaticamente pelo Veeam VSPC Dashboard</p>
-          <p className="mt-1">Powered by Zero Group</p>
+        {/* Rodapé Formal */}
+        <footer className="mt-12 pt-8 border-t-2 border-primary">
+          <div className="bg-slate-50 rounded-lg p-6 border border-slate-200">
+            <h3 className="text-lg font-semibold text-foreground mb-4 text-center">
+              Informações sobre a Prestação de Serviço
+            </h3>
+            
+            <div className="text-sm text-muted-foreground leading-relaxed space-y-3">
+              <p>
+                Este relatório é gerado automaticamente pela plataforma de monitoramento Veeam VSPC 
+                Dashboard e reflete o estado atual dos serviços de backup contratados. Os dados 
+                apresentados são coletados diretamente da infraestrutura de proteção de dados.
+              </p>
+              
+              <p>
+                A <strong>Gruppen IT</strong>, através de suas marcas <strong>Zerobox</strong>, 
+                <strong> Firewall365</strong> e <strong>GSecDo</strong>, oferece soluções completas 
+                de proteção de dados, segurança da informação e infraestrutura de TI para empresas 
+                de todos os portes.
+              </p>
+              
+              <p>
+                Nosso time de especialistas está à disposição para esclarecer dúvidas, fornecer 
+                suporte técnico e auxiliar na evolução da sua estratégia de proteção de dados.
+              </p>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-slate-300 text-center">
+              <p className="text-sm font-semibold text-foreground mb-2">
+                Central de Atendimento
+              </p>
+              <a 
+                href="https://sistemas.gruppen.com.br" 
+                className="text-primary font-medium hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                https://sistemas.gruppen.com.br
+              </a>
+              <p className="text-xs text-muted-foreground mt-3">
+                Gruppen IT - Soluções em Tecnologia da Informação
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center mt-6 text-xs text-muted-foreground">
+            <p>Documento gerado automaticamente. Este relatório é confidencial e destinado exclusivamente ao cliente.</p>
+          </div>
         </footer>
       </div>
     </div>
