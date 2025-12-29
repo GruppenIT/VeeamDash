@@ -96,58 +96,89 @@ export default function PrintReport() {
     <div className="bg-white min-h-screen print-report" data-ready={isReady}>
       <style>{`
         @media print {
-          .print-report { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-          .page-break { page-break-before: always; }
+          .print-report { 
+            -webkit-print-color-adjust: exact; 
+            print-color-adjust: exact; 
+          }
+          .page-break { 
+            page-break-before: always; 
+            break-before: page;
+          }
+          .avoid-break {
+            page-break-inside: avoid;
+            break-inside: avoid;
+          }
+        }
+        @page {
+          size: A4 landscape;
+          margin: 10mm;
         }
         .print-report { font-family: 'Inter', sans-serif; }
+        .report-page {
+          min-height: calc(100vh - 20mm);
+          display: flex;
+          flex-direction: column;
+          padding: 24px;
+        }
+        .report-page-content {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
       `}</style>
       
-      <div className="p-8">
-        {/* Banner com Logos - Fundo Preto */}
-        <div className="flex justify-center items-center gap-8 mb-8 py-6 bg-black rounded-lg">
-          <img src={gruppenLogo} alt="Gruppen" className="h-10 object-contain" />
-          <img src={zeroboxLogo} alt="Zerobox" className="h-10 object-contain" />
-          <img src={firewall365Logo} alt="Firewall365" className="h-10 object-contain" />
-          <img src={gsecdoLogo} alt="GSecDo" className="h-10 object-contain" />
+      {/* PÁGINA 1: Capa */}
+      <div className="report-page">
+        <div className="report-page-content">
+          {/* Banner com Logos - Fundo Preto */}
+          <div className="flex justify-center items-center gap-8 mb-8 py-6 bg-black rounded-lg">
+            <img src={gruppenLogo} alt="Gruppen" className="h-12 object-contain" />
+            <img src={zeroboxLogo} alt="Zerobox" className="h-12 object-contain" />
+            <img src={firewall365Logo} alt="Firewall365" className="h-12 object-contain" />
+            <img src={gsecdoLogo} alt="GSecDo" className="h-12 object-contain" />
+          </div>
+
+          {/* Cabeçalho Formal */}
+          <header className="mb-8 text-center">
+            <h1 className="text-4xl font-bold text-foreground mb-3">
+              Relatório de Backup as a Service
+            </h1>
+            <h2 className="text-2xl text-primary font-semibold mb-6">
+              {companyName}
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Período de Referência: {currentMonth}
+            </p>
+            <p className="text-sm text-muted-foreground mt-2">
+              Gerado em {reportDate} às {reportTime}
+            </p>
+          </header>
+
+          {/* Introdução Formal */}
+          <section className="max-w-4xl mx-auto p-6 bg-slate-50 rounded-lg border border-slate-200">
+            <h3 className="text-lg font-semibold text-foreground mb-3">Apresentação</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+              Prezado cliente,
+            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+              Este documento apresenta o relatório consolidado dos serviços de Backup as a Service (BaaS) 
+              prestados à <strong>{companyName}</strong>. O relatório contém informações detalhadas sobre 
+              o status de proteção dos seus dados, desempenho das rotinas de backup, e métricas de saúde 
+              da plataforma.
+            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Nosso compromisso é garantir a continuidade e segurança das suas informações através de 
+              uma infraestrutura de backup robusta e monitoramento contínuo. As métricas apresentadas 
+              refletem nosso empenho em manter os mais altos padrões de qualidade e disponibilidade.
+            </p>
+          </section>
         </div>
+      </div>
 
-        {/* Cabeçalho Formal */}
-        <header className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            Relatório de Backup as a Service
-          </h1>
-          <h2 className="text-xl text-primary font-semibold mb-4">
-            {companyName}
-          </h2>
-          <p className="text-muted-foreground">
-            Período de Referência: {currentMonth}
-          </p>
-          <p className="text-sm text-muted-foreground mt-1">
-            Gerado em {reportDate} às {reportTime}
-          </p>
-        </header>
-
-        {/* Introdução Formal */}
-        <section className="mb-8 p-6 bg-slate-50 rounded-lg border border-slate-200">
-          <h3 className="text-lg font-semibold text-foreground mb-3">Apresentação</h3>
-          <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-            Prezado cliente,
-          </p>
-          <p className="text-sm text-muted-foreground leading-relaxed mb-3">
-            Este documento apresenta o relatório consolidado dos serviços de Backup as a Service (BaaS) 
-            prestados à <strong>{companyName}</strong>. O relatório contém informações detalhadas sobre 
-            o status de proteção dos seus dados, desempenho das rotinas de backup, e métricas de saúde 
-            da plataforma.
-          </p>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            Nosso compromisso é garantir a continuidade e segurança das suas informações através de 
-            uma infraestrutura de backup robusta e monitoramento contínuo. As métricas apresentadas 
-            refletem nosso empenho em manter os mais altos padrões de qualidade e disponibilidade.
-          </p>
-        </section>
-
-        {/* Scorecard Principal */}
-        <section className="mb-8">
+      {/* PÁGINA 2: Scorecard */}
+      <div className="page-break report-page">
+        <div className="report-page-content">
           <DataPlatformScorecard
             overallScore={scorecard.overallScore}
             status={scorecard.status}
@@ -155,47 +186,55 @@ export default function PrintReport() {
             jobSessions={scorecard.jobSessions}
             platformHealth={scorecard.platformHealth}
           />
-        </section>
+        </div>
+      </div>
 
-        {/* Protected Data Overview */}
-        <section className="mb-8">
+      {/* PÁGINA 3: Protected Data Overview */}
+      <div className="page-break report-page">
+        <div className="report-page-content">
           <ProtectedDataOverview workloads={metrics.protectedWorkloads} />
-        </section>
+        </div>
+      </div>
 
-        <div className="page-break"></div>
-
-        {/* Gráficos Mensais */}
-        <section className="mb-8">
+      {/* PÁGINA 4: Gráficos Mensais */}
+      <div className="page-break report-page">
+        <div className="report-page-content">
           <MonthlyCharts 
             data={monthlyStats || []} 
             isLoading={false} 
           />
-        </section>
+        </div>
+      </div>
 
-        {/* Calendário de Estados */}
-        <section className="mb-8">
+      {/* PÁGINA 5: Session States */}
+      <div className="page-break report-page">
+        <div className="report-page-content">
           <SessionStatesCalendar 
             data={sessionStates || { days: [], hasData: false }} 
             isLoading={false} 
           />
-        </section>
+        </div>
+      </div>
 
-        {/* Tabela de Jobs com Falha */}
-        <section className="mb-8">
+      {/* PÁGINA 6: Jobs com Falha */}
+      <div className="page-break report-page">
+        <div className="report-page-content">
           <FailedJobsTable 
             jobs={failedJobs || []} 
             isLoading={false} 
           />
-        </section>
+        </div>
+      </div>
 
-        {/* Rodapé Formal */}
-        <footer className="mt-12 pt-8 border-t-2 border-primary">
-          <div className="bg-slate-50 rounded-lg p-6 border border-slate-200">
-            <h3 className="text-lg font-semibold text-foreground mb-4 text-center">
+      {/* PÁGINA 7: Rodapé Formal */}
+      <div className="page-break report-page">
+        <div className="report-page-content">
+          <div className="max-w-4xl mx-auto bg-slate-50 rounded-lg p-8 border border-slate-200">
+            <h3 className="text-xl font-semibold text-foreground mb-6 text-center">
               Informações sobre a Prestação de Serviço
             </h3>
             
-            <div className="text-sm text-muted-foreground leading-relaxed space-y-3">
+            <div className="text-base text-muted-foreground leading-relaxed space-y-4">
               <p>
                 Este relatório é gerado automaticamente pela plataforma de BaaS da Gruppen it Security 
                 e reflete o estado atual dos serviços de backup contratados.
@@ -213,28 +252,28 @@ export default function PrintReport() {
               </p>
             </div>
 
-            <div className="mt-6 pt-4 border-t border-slate-300 text-center">
-              <p className="text-sm font-semibold text-foreground mb-2">
+            <div className="mt-8 pt-6 border-t border-slate-300 text-center">
+              <p className="text-lg font-semibold text-foreground mb-3">
                 Central de Atendimento
               </p>
               <a 
                 href="https://sistemas.gruppen.com.br" 
-                className="text-primary font-medium hover:underline"
+                className="text-primary text-lg font-medium hover:underline"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 https://sistemas.gruppen.com.br
               </a>
-              <p className="text-xs text-muted-foreground mt-3">
+              <p className="text-sm text-muted-foreground mt-4">
                 // Gruppen it Security // Tecnologia Pensada em Grupo
               </p>
             </div>
           </div>
 
-          <div className="text-center mt-6 text-xs text-muted-foreground">
+          <div className="text-center mt-8 text-sm text-muted-foreground">
             <p>Documento gerado automaticamente. Este relatório é confidencial e destinado exclusivamente ao cliente {companyName}.</p>
           </div>
-        </footer>
+        </div>
       </div>
     </div>
   );
