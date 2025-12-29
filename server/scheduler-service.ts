@@ -31,11 +31,12 @@ export class SchedulerService {
 
   private async checkAndExecuteSchedules() {
     try {
-      const now = new Date();
-      const currentHour = now.getHours();
-      const currentMinute = now.getMinutes();
-      const currentDayOfWeek = now.getDay();
-      const currentDayOfMonth = now.getDate();
+      // Usar horário de Brasília (GMT-3) para agendamentos
+      const nowBrasilia = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }));
+      const currentHour = nowBrasilia.getHours();
+      const currentMinute = nowBrasilia.getMinutes();
+      const currentDayOfWeek = nowBrasilia.getDay();
+      const currentDayOfMonth = nowBrasilia.getDate();
 
       const activeSchedules = await storage.getActiveSchedules();
 

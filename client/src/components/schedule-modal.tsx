@@ -30,8 +30,7 @@ const scheduleSchema = z.object({
   frequency: z.enum(["weekly", "monthly"]),
   dayOfWeek: z.coerce.number().min(0).max(6).optional(),
   dayOfMonth: z.coerce.number().min(1).max(31).optional(),
-  hour: z.coerce.number().min(0).max(23),
-  minute: z.coerce.number().min(0).max(59),
+  time: z.string().regex(/^([01]?[0-9]|2[0-3]):([0-5][0-9])$/, "Digite um horário válido (HH:MM)"),
 });
 
 type ScheduleForm = z.infer<typeof scheduleSchema>;
@@ -54,8 +53,7 @@ export function ScheduleModal({ open, onOpenChange, companyId, companyName }: Sc
       frequency: "weekly",
       dayOfWeek: 1,
       dayOfMonth: 1,
-      hour: 8,
-      minute: 0,
+      time: "08:00",
     },
   });
 
@@ -64,8 +62,17 @@ export function ScheduleModal({ open, onOpenChange, companyId, companyName }: Sc
   const onSubmit = async (data: ScheduleForm) => {
     setIsLoading(true);
     try {
+      const [hourStr, minuteStr] = data.time.split(":");
+      const hour = parseInt(hourStr, 10);
+      const minute = parseInt(minuteStr, 10);
+
       await apiRequest("POST", "/api/schedules", {
-        ...data,
+        email: data.email,
+        frequency: data.frequency,
+        dayOfWeek: data.dayOfWeek,
+        dayOfMonth: data.dayOfMonth,
+        hour,
+        minute,
         companyId,
         companyName,
       });
@@ -225,71 +232,27 @@ export function ScheduleModal({ open, onOpenChange, companyId, companyName }: Sc
               />
             )}
 
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="hour"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Hora</FormLabel>
-                    <Select
-                      onValueChange={(value) => field.onChange(parseInt(value))}
-                      defaultValue={field.value.toString()}
-                    >
-                      <FormControl>
-                        <SelectTrigger data-testid="select-hour">
-                          <SelectValue />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {Array.from({ length: 24 }, (_, i) => i).map((hour) => (
-                          <SelectItem 
-                            key={hour} 
-                            value={hour.toString()}
-                            data-testid={`select-hour-${hour}`}
-                          >
-                            {hour.toString().padStart(2, "0")}h
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="minute"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Minuto</FormLabel>
-                    <Select
-                      onValueChange={(value) => field.onChange(parseInt(value))}
-                      defaultValue={field.value.toString()}
-                    >
-                      <FormControl>
-                        <SelectTrigger data-testid="select-minute">
-                          <SelectValue />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {[0, 15, 30, 45].map((minute) => (
-                          <SelectItem 
-                            key={minute} 
-                            value={minute.toString()}
-                            data-testid={`select-minute-${minute}`}
-                          >
-                            {minute.toString().padStart(2, "0")}min
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            <FormField
+              control={form.control}
+              name="time"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Horário de Envio</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="time"
+                      className="w-full"
+                      data-testid="input-time"
+                    />
+                  </FormControl>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Horário de Brasília (GMT-3)
+                  </p>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <DialogFooter>
               <Button
