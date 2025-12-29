@@ -87,18 +87,13 @@ const DAYS_OF_MONTH = Array.from({ length: 31 }, (_, i) => ({
   label: String(i + 1),
 }));
 
-const HOURS = Array.from({ length: 24 }, (_, i) => ({
-  value: String(i),
-  label: i.toString().padStart(2, "0") + ":00",
-}));
-
 const scheduleFormSchema = z.object({
   name: z.string().min(3, "Nome deve ter no mínimo 3 caracteres"),
   companyId: z.string().min(1, "Selecione um cliente"),
   frequency: z.enum(["daily", "weekly", "monthly"]),
   dayOfWeek: z.string().optional(),
   dayOfMonth: z.string().optional(),
-  hour: z.string(),
+  time: z.string().regex(/^([01]?[0-9]|2[0-3]):([0-5][0-9])$/, "Digite um horário válido (HH:MM)"),
   recipients: z.string().min(1, "Adicione pelo menos um destinatário"),
 });
 
@@ -137,7 +132,7 @@ export default function Schedules() {
       frequency: "weekly",
       dayOfWeek: "1",
       dayOfMonth: "1",
-      hour: "8",
+      time: "08:00",
       recipients: "",
     },
   });
@@ -152,7 +147,7 @@ export default function Schedules() {
         frequency: editingSchedule.frequency as "daily" | "weekly" | "monthly",
         dayOfWeek: editingSchedule.dayOfWeek?.toString() || "1",
         dayOfMonth: editingSchedule.dayOfMonth?.toString() || "1",
-        hour: editingSchedule.hour.toString(),
+        time: `${String(editingSchedule.hour).padStart(2, "0")}:${String(editingSchedule.minute).padStart(2, "0")}`,
         recipients: editingSchedule.recipients.map(r => r.email).join(", "),
       });
     }
@@ -167,6 +162,10 @@ export default function Schedules() {
 
       const company = companies?.find((c) => c.instanceUid === data.companyId);
 
+      const [hourStr, minuteStr] = data.time.split(":");
+      const hour = parseInt(hourStr, 10);
+      const minute = parseInt(minuteStr, 10);
+
       return apiRequest("POST", "/api/report-schedules", {
         name: data.name,
         companyId: data.companyId,
@@ -174,8 +173,8 @@ export default function Schedules() {
         frequency: data.frequency,
         dayOfWeek: data.frequency === "weekly" ? parseInt(data.dayOfWeek || "1") : null,
         dayOfMonth: data.frequency === "monthly" ? parseInt(data.dayOfMonth || "1") : null,
-        hour: parseInt(data.hour),
-        minute: 0,
+        hour,
+        minute,
         recipients: emails,
       });
     },
@@ -206,6 +205,10 @@ export default function Schedules() {
 
       const company = companies?.find((c) => c.instanceUid === data.companyId);
 
+      const [hourStr, minuteStr] = data.time.split(":");
+      const hour = parseInt(hourStr, 10);
+      const minute = parseInt(minuteStr, 10);
+
       return apiRequest("PATCH", `/api/report-schedules/${data.id}`, {
         name: data.name,
         companyId: data.companyId,
@@ -213,8 +216,8 @@ export default function Schedules() {
         frequency: data.frequency,
         dayOfWeek: data.frequency === "weekly" ? parseInt(data.dayOfWeek || "1") : null,
         dayOfMonth: data.frequency === "monthly" ? parseInt(data.dayOfMonth || "1") : null,
-        hour: parseInt(data.hour),
-        minute: 0,
+        hour,
+        minute,
         recipients: emails,
       });
     },
@@ -314,7 +317,7 @@ export default function Schedules() {
       frequency: "weekly",
       dayOfWeek: "1",
       dayOfMonth: "1",
-      hour: "8",
+      time: "08:00",
       recipients: "",
     });
     setIsFormOpen(true);
@@ -697,27 +700,20 @@ export default function Schedules() {
 
               <FormField
                 control={form.control}
-                name="hour"
+                name="time"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Horário</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      value={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger data-testid="select-hour">
-                          <SelectValue />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {HOURS.map((hour) => (
-                          <SelectItem key={hour.value} value={hour.value}>
-                            {hour.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <FormControl>
+                      <Input
+                        type="time"
+                        data-testid="input-time"
+                        {...field}
+                      />
+                    </FormControl>
+                    <p className="text-xs text-muted-foreground">
+                      Horário de Brasília (GMT-3)
+                    </p>
                     <FormMessage />
                   </FormItem>
                 )}
