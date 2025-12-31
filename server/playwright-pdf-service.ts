@@ -1,4 +1,5 @@
 import { chromium, Browser, BrowserContext, Page } from "playwright";
+import { getServiceCredentials } from "./routes";
 
 class PlaywrightPdfService {
   private browser: Browser | null = null;
@@ -30,9 +31,15 @@ class PlaywrightPdfService {
   private async authenticateAndNavigate(page: Page, baseUrl: string, targetUrl: string): Promise<void> {
     console.log("[PlaywrightPDF] Authenticating...");
     
-    const reportUser = process.env.REPORT_SERVICE_USER || 'login@sistema.com';
-    const reportPass = process.env.REPORT_SERVICE_PASSWORD || 'admin';
-    console.log(`[PlaywrightPDF] Using credentials: ${reportUser}`);
+    // Get service credentials from routes module
+    const serviceCredentials = getServiceCredentials();
+    if (!serviceCredentials) {
+      throw new Error("Service credentials not initialized - server may still be starting");
+    }
+    
+    const reportUser = serviceCredentials.username;
+    const reportPass = serviceCredentials.password;
+    console.log(`[PlaywrightPDF] Using service account: ${reportUser}`);
     
     await page.goto(`${baseUrl}/`, {
       waitUntil: "networkidle",

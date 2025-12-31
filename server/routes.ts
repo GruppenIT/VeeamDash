@@ -2,11 +2,54 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import session from "express-session";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import { storage } from "./storage";
 import { veeamService } from "./veeam-service";
 import { insertUserSchema, insertEmailScheduleSchema, insertReportScheduleSchema, insertScheduleRecipientSchema } from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
 import { z } from "zod";
+
+// Service user for automated report generation
+const SERVICE_USER_EMAIL = "report-service@sistema.com";
+let serviceUserPassword: string | null = null;
+
+async function ensureServiceUser(): Promise<string> {
+  // Generate or get password from environment
+  const envPassword = process.env.REPORT_SERVICE_PASSWORD;
+  
+  if (envPassword) {
+    serviceUserPassword = envPassword;
+  } else {
+    // Generate a random password for this session
+    serviceUserPassword = crypto.randomBytes(32).toString('hex');
+  }
+  
+  // Check if service user exists
+  let serviceUser = await storage.getUserByUsername(SERVICE_USER_EMAIL);
+  
+  if (!serviceUser) {
+    // Create service user
+    console.log("[Service] Creating service user for automated reports...");
+    serviceUser = await storage.createUser({
+      username: SERVICE_USER_EMAIL,
+      password: serviceUserPassword,
+      name: "Report Service",
+    });
+    console.log("[Service] Service user created");
+  } else {
+    // Update password to match current session/environment
+    console.log("[Service] Updating service user password...");
+    await storage.updateUserPassword(serviceUser.id, serviceUserPassword);
+  }
+  
+  console.log(`[Service] Service user ready: ${SERVICE_USER_EMAIL}`);
+  return serviceUserPassword;
+}
+
+export function getServiceCredentials(): { username: string; password: string } | null {
+  if (!serviceUserPassword) return null;
+  return { username: SERVICE_USER_EMAIL, password: serviceUserPassword };
+}
 
 declare module "express-session" {
   interface SessionData {
@@ -36,14 +79,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     next();
   };
 
+  // Initialize service user for automated reports
+  await ensureServiceUser();
+
   app.post("/api/auth/login", async (req, res) => {
     try {
       const { username, password } = req.body;
 
-      if (username !== "login@sistema.com") {
+      // Allow both admin and service user
+      const allowedUsers = ["login@sistema.com", SERVICE_USER_EMAIL];
+      if (!allowedUsers.includes(username)) {
         return res.status(401).json({
           success: false,
-          message: "Usuário não autorizado. Use login@sistema.com",
+          message: "Usuário não autorizado",
         });
       }
 
@@ -60,7 +108,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!isPasswordValid) {
         return res.status(401).json({
           success: false,
-          message: "Senha incorreta. Use a senha padrão: admin",
+          message: "Senha incorreta",
         });
       }
 
