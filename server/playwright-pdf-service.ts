@@ -44,7 +44,7 @@ class PlaywrightPdfService {
     await page.fill('[data-testid="input-password"]', reportPass);
     await page.click('[data-testid="button-login"]');
 
-    await page.waitForURL('**/dashboard', { timeout: 15000 });
+    await page.waitForURL('**/dashboard', { timeout: 60000 });
     console.log("[PlaywrightPDF] Authentication successful");
     
     console.log(`[PlaywrightPDF] Navigating to: ${targetUrl}`);

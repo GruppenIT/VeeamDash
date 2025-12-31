@@ -110,6 +110,7 @@ export default function Schedules() {
   const [editingSchedule, setEditingSchedule] = useState<ScheduleWithRecipients | null>(null);
   const [deleteScheduleId, setDeleteScheduleId] = useState<string | null>(null);
   const [historyScheduleId, setHistoryScheduleId] = useState<string | null>(null);
+  const [runningScheduleId, setRunningScheduleId] = useState<string | null>(null);
 
   const { data: companies, isLoading: companiesLoading } = useQuery<VeeamCompany[]>({
     queryKey: ["/api/companies"],
@@ -283,6 +284,7 @@ export default function Schedules() {
 
   const runMutation = useMutation({
     mutationFn: async (id: string) => {
+      setRunningScheduleId(id);
       return apiRequest("POST", `/api/report-schedules/${id}/run`);
     },
     onSuccess: () => {
@@ -298,6 +300,9 @@ export default function Schedules() {
         description: error.message,
         variant: "destructive",
       });
+    },
+    onSettled: () => {
+      setRunningScheduleId(null);
     },
   });
 
@@ -454,12 +459,12 @@ export default function Schedules() {
                             variant="ghost"
                             size="icon"
                             onClick={() => runMutation.mutate(schedule.id)}
-                            disabled={runMutation.isPending}
+                            disabled={runningScheduleId !== null}
                             title="Enviar agora"
                             className="text-primary hover:text-primary"
                             data-testid={`button-run-${schedule.id}`}
                           >
-                            {runMutation.isPending ? (
+                            {runningScheduleId === schedule.id ? (
                               <Loader2 className="w-4 h-4 animate-spin" />
                             ) : (
                               <Send className="w-4 h-4" />
