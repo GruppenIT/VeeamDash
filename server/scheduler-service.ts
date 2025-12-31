@@ -121,14 +121,15 @@ export class SchedulerService {
 
       console.log(`[Scheduler] Generating PDF for ${schedule.companyName}...`);
       const baseUrl = process.env.BASE_URL || "http://localhost:5000";
-      const pdfBuffer = await playwrightPdfService.generatePdf(schedule.companyId, baseUrl);
+      const pdfBuffer = await playwrightPdfService.generatePdf(schedule.companyId, baseUrl, schedule.frequency);
 
       console.log(`[Scheduler] Sending email to ${recipientEmails.length} recipients...`);
       await emailService.sendReportEmail(
         recipientEmails,
         schedule.companyName,
         pdfBuffer,
-        new Date()
+        new Date(),
+        schedule.frequency
       );
 
       await storage.updateScheduleRun(run.id, {

@@ -97,7 +97,7 @@ class PlaywrightPdfService {
     });
   }
 
-  async generatePdf(companyId: string, baseUrl: string): Promise<Buffer> {
+  async generatePdf(companyId: string, baseUrl: string, frequency: string = "weekly"): Promise<Buffer> {
     await this.initialize();
     
     if (!this.browser) {
@@ -108,7 +108,7 @@ class PlaywrightPdfService {
     const page = await context.newPage();
     
     try {
-      const reportUrl = `${baseUrl}/report/print/${companyId}`;
+      const reportUrl = `${baseUrl}/report/print/${companyId}?frequency=${frequency}`;
       await this.authenticateAndNavigate(page, baseUrl, reportUrl);
 
       console.log("[PlaywrightPDF] Waiting for report to be ready...");

@@ -25,10 +25,28 @@ interface ReportData {
   generatedAt: string;
 }
 
+function getFrequencyLabel(frequency: string): string {
+  switch (frequency) {
+    case "daily":
+      return "Diário";
+    case "weekly":
+      return "Semanal";
+    case "monthly":
+      return "Mensal";
+    default:
+      return "Semanal";
+  }
+}
+
 export default function PrintReport() {
   const params = useParams<{ companyId: string }>();
   const companyId = params.companyId;
   const [isReady, setIsReady] = useState(false);
+  
+  // Get frequency from URL search params
+  const searchParams = new URLSearchParams(window.location.search);
+  const frequency = searchParams.get("frequency") || "weekly";
+  const frequencyLabel = getFrequencyLabel(frequency);
 
   const { data: reportData, isLoading, isError, error } = useQuery<ReportData>({
     queryKey: ['/api/report/data', companyId],
@@ -142,7 +160,7 @@ export default function PrintReport() {
           {/* Cabeçalho Formal */}
           <header className="mb-8 text-center">
             <h1 className="text-4xl font-bold text-foreground mb-3">
-              Relatório de Backup as a Service
+              Relatório {frequencyLabel} de Backup
             </h1>
             <h2 className="text-2xl text-primary font-semibold mb-6">
               {companyName}

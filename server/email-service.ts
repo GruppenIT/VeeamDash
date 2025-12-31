@@ -145,16 +145,31 @@ export class EmailService {
     }
   }
 
+  private getFrequencyLabel(frequency: string): string {
+    switch (frequency) {
+      case "daily":
+        return "Diário";
+      case "weekly":
+        return "Semanal";
+      case "monthly":
+        return "Mensal";
+      default:
+        return "";
+    }
+  }
+
   async sendReportEmail(
     recipients: string[],
     companyName: string,
     pdfBuffer: Buffer,
-    reportDate: Date
+    reportDate: Date,
+    frequency: string = "weekly"
   ): Promise<void> {
     const formattedDate = reportDate.toLocaleDateString("pt-BR");
-    const subject = `Relatorio de Backup - ${companyName} - ${formattedDate}`;
+    const frequencyLabel = this.getFrequencyLabel(frequency);
+    const subject = `Relatório ${frequencyLabel} de Backup - ${companyName}`;
 
-    const htmlBody = this.generateEmailBody(companyName, formattedDate);
+    const htmlBody = this.generateEmailBody(companyName, formattedDate, frequencyLabel);
 
     const attachments: EmailAttachment[] = [
       {
@@ -186,7 +201,7 @@ export class EmailService {
     });
   }
 
-  private generateEmailBody(companyName: string, date: string): string {
+  private generateEmailBody(companyName: string, date: string, frequencyLabel: string): string {
     return `
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -220,7 +235,7 @@ export class EmailService {
         </p>
         
         <p style="color: #444444; font-size: 15px; line-height: 1.7; margin: 0 0 20px 0;">
-          É com grande satisfação que apresentamos o <strong>Relatório de Backup</strong> da sua empresa <strong>${companyName}</strong>, referente à data <strong>${date}</strong>.
+          É com grande satisfação que apresentamos o <strong>Relatório ${frequencyLabel} de Backup</strong> da sua empresa <strong>${companyName}</strong>, gerado em <strong>${date}</strong>.
         </p>
 
         <p style="color: #444444; font-size: 15px; line-height: 1.7; margin: 0 0 20px 0;">
