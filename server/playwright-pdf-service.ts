@@ -32,25 +32,61 @@ class PlaywrightPdfService {
     
     const reportUser = process.env.REPORT_SERVICE_USER || 'login@sistema.com';
     const reportPass = process.env.REPORT_SERVICE_PASSWORD || 'admin';
+    console.log(`[PlaywrightPDF] Using credentials: ${reportUser}`);
     
     await page.goto(`${baseUrl}/`, {
       waitUntil: "networkidle",
-      timeout: 30000,
+      timeout: 60000,
     });
 
-    await page.waitForSelector('[data-testid="input-email"]', { timeout: 10000 });
+    // Check if already logged in (redirected to dashboard)
+    const currentUrl = page.url();
+    console.log(`[PlaywrightPDF] Current URL after load: ${currentUrl}`);
     
-    await page.fill('[data-testid="input-email"]', reportUser);
-    await page.fill('[data-testid="input-password"]', reportPass);
-    await page.click('[data-testid="button-login"]');
+    if (currentUrl.includes('/dashboard')) {
+      console.log("[PlaywrightPDF] Already authenticated, skipping login");
+    } else {
+      // Wait for login form
+      try {
+        await page.waitForSelector('[data-testid="input-email"]', { timeout: 15000 });
+      } catch (e) {
+        console.log(`[PlaywrightPDF] Login form not found. Current URL: ${page.url()}`);
+        const content = await page.content();
+        console.log(`[PlaywrightPDF] Page content preview: ${content.substring(0, 500)}`);
+        throw new Error("Login form not found - check if the app is running correctly");
+      }
+      
+      await page.fill('[data-testid="input-email"]', reportUser);
+      await page.fill('[data-testid="input-password"]', reportPass);
+      
+      console.log("[PlaywrightPDF] Submitting login form...");
+      await page.click('[data-testid="button-login"]');
 
-    await page.waitForURL('**/dashboard', { timeout: 60000 });
-    console.log("[PlaywrightPDF] Authentication successful");
+      // Wait for either dashboard URL or an error message
+      try {
+        await Promise.race([
+          page.waitForURL('**/dashboard', { timeout: 120000 }),
+          page.waitForSelector('[data-testid="error-message"]', { timeout: 120000 }).then(() => {
+            throw new Error("Login failed - check credentials");
+          })
+        ]);
+      } catch (e: any) {
+        const finalUrl = page.url();
+        console.log(`[PlaywrightPDF] Login timeout. Final URL: ${finalUrl}`);
+        if (!finalUrl.includes('/dashboard')) {
+          const content = await page.content();
+          console.log(`[PlaywrightPDF] Page content: ${content.substring(0, 1000)}`);
+          throw new Error(`Login failed - stuck at ${finalUrl}`);
+        }
+      }
+      
+      console.log("[PlaywrightPDF] Authentication successful");
+    }
     
     console.log(`[PlaywrightPDF] Navigating to: ${targetUrl}`);
     await page.goto(targetUrl, {
       waitUntil: "networkidle",
-      timeout: 60000,
+      timeout: 120000,
     });
   }
 
